@@ -121,7 +121,7 @@ function generate() {
 	const fechaInicioFormateada = fechaMoment.format('MM/DD/YYYY');
 	const fechaVencFormateada = fechaMoment2.format('MM/DD/YYYY');
 
-	const url = `http://127.0.0.1:5501/public/Archivoshtml/plantilla1.html?tag=${var_tag}&fecha1=${fechaInicioFormateada}&fecha2=${fechaVencFormateada}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}`
+	const url = `https://nodeplantilla-production.up.railway.app?tag=${var_tag}&fecha1=${fechaInicioFormateada}&fecha2=${fechaVencFormateada}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}`
 	console.log(url)
 
 	const qrcode = new QRCode(qrContainer, {
@@ -229,7 +229,7 @@ function generate() {
 	doc.text(cityandstate, 105, 126);
 	doc.text(coidgozip, 105, 131.5);
 		
-	doc.save("formulario.pdf");
+	doc.save("Tx_tag.pdf");
 	
     
 }
