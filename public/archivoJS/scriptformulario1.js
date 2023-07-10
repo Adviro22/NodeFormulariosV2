@@ -88,8 +88,41 @@ function generarTag(){
 	var_tag = tag;
 }
 
-function genearQR(){
+function validarCampos() {
+	// Obtener los valores de los campos del formulario
+	const vin = document.getElementById('VIN').value;
+	const color = document.getElementById('color').value;
+	const nombre = document.getElementById('nombre').value;
+	const marca = document.getElementById('make').value;
+	const model = document.getElementById('model').value;
+	const year = document.getElementById('year').value;
+	const body_style = document.getElementById('body_style').value;
+	const mailingaddress = document.getElementById('mailingaddress').value;
+	const ciudad = document.getElementById('ciudad').value;
+	const estado = document.getElementById('estado').value;
+	const coidgozip = document.getElementById('coidgozip').value;
+
+	// Validar si algún campo está vacío
+	if (
+		vin === '' ||
+		color === '' ||
+		nombre === '' ||
+		marca === '' ||
+		model === '' ||
+		year === '' ||
+		body_style === '' ||
+		mailingaddress === '' ||
+		ciudad === '' ||
+		estado === '' ||
+		coidgozip === ''
+	) {
+		alert('Por favor, complete todos los campos del formulario.');
+	} else {
+		// Todos los campos están completos, llamar a la función generate() para generar el PDF
+		generate();
+	}
 }
+
 
 function generate() {
 	const vin = document.getElementById('VIN').value;
