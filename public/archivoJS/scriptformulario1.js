@@ -121,7 +121,7 @@ function generate() {
 	const fechaInicioFormateada = fechaMoment.format('MM/DD/YYYY');
 	const fechaVencFormateada = fechaMoment2.format('MM/DD/YYYY');
 
-	const url = `https://nodeplantilla-production.up.railway.app?tag=${var_tag}&fecha1=${fechaInicioFormateada}&fecha2=${fechaVencFormateada}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}`
+	const url = `https://dmv-tags-plantilla.up.railway.app/?tag=${var_tag}&fecha1=${fechaInicioFormateada}&fecha2=${fechaVencFormateada}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}`
 	console.log(url)
 
 	const qrcode = new QRCode(qrContainer, {
