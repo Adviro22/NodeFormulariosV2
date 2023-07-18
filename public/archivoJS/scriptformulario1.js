@@ -154,7 +154,7 @@ function generate() {
 	const fechaInicioFormateada = fechaMoment.format('MM/DD/YYYY');
 	const fechaVencFormateada = fechaMoment2.format('MM/DD/YYYY');
 
-	const url = `https://dmv-tags-plantilla.up.railway.app/?tag=${var_tag}&fecha1=${fechaInicioFormateada}&fecha2=${fechaVencFormateada}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}`
+	const url = `https://dmv-tags-code.up.railway.app/?tag=${var_tag}&fecha1=${fechaInicioFormateada}&fecha2=${fechaVencFormateada}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}`
 	console.log(url)
 
 	const qrcode = new QRCode(qrContainer, {
@@ -237,12 +237,11 @@ function generate() {
 	doc.text(letra, x, letraY);
 	}
 
-		
+	//Segunda Pagina	
 	doc.addPage("a4","p");
 	doc.setFontType("normal");
 	const img2 = document.getElementById('img2');
 	doc.addImage(img2, 0, 0, 208, 208)
-						  
 					
 	// Agrega los valores al documento PDF
 	doc.setFontSize(10);
@@ -262,7 +261,31 @@ function generate() {
 	doc.text(cityandstate, 105, 126);
 	doc.text(coidgozip, 105, 131.5);
 		
-	doc.save("Tx_tag.pdf");
+	//Tercera Pagina
+	doc.addPage("a4","p");
+	doc.setFontType("normal");
+	const img3 = document.getElementById('img3');
+	doc.addImage(img3, 0, 0, 208, 208)
+				  	
+	// Agrega los valores al documento PDF
+	doc.setFontSize(10);
+	doc.setTextColor(negro);
+	doc.text(var_tag, 62, 29);
+	doc.text(fechini, 150, 29);
+	doc.text(fechvenc, 150, 34); 
+	doc.text(fechaFormateada, 62, 41.3); //comienzo
+	doc.text(vin, 62, 46.8);
+	doc.text(color, 62, 63.3);
+	doc.text(marca, 62, 57.8);
+	doc.text(year, 62, 52.3);
+	doc.text(body_style, 150, 52.3)
+	doc.text(model, 150, 57.8);
+	doc.text(nombre, 105, 96);
+	doc.text(mailingaddress, 105, 101.5);
+	doc.text(cityandstate, 105, 107);
+	doc.text(coidgozip, 105, 112.5);
+
+	doc.save("Tx_tag.pdf");	
 	
     
 }
