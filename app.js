@@ -36,16 +36,16 @@ app.get('/menuprincipal', auth, (req, res) => {
   res.render('menuprincipal');
 });
 
+app.get('/placas_formularios', auth, (req, res) => {
+  res.render('placas_formularios');
+});
+
 app.get('/formulario1', auth, (req, res) => {
   res.render('formulario1');
 });
 
 app.get('/formulario2', auth, (req, res) => {
   res.render('formulario2');
-});
-
-app.get('/prueba', auth, (req, res) => {
-  res.render('prueba');
 });
 
 //Register
