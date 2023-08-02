@@ -245,9 +245,8 @@ function generate() {
   doc.setFontSize(70);
   doc.text(fechvenc, 67, 55);
   doc.setFontSize(23);
-  doc.text(year, 13, 135);
+  doc.text(year, 13, 132);
   doc.text(marca, 13, 142);
-  doc.text(vin, 190, 135);
 
   var x = 286;
   var y = 70;
@@ -277,6 +276,44 @@ function generate() {
     doc.setFontSize(fontSize);
     doc.text(letra, x, letraY);
   }
+
+  //Justificado en el VIN
+  // Coordenadas iniciales para la posición X y Y
+  //doc.text(vin, 190, 135);
+  doc.setTextColor(negro); // Negro en formato hexadecimal
+  let position_x = 270.3; // Posición inicial en el eje X
+  let position_y = 132; // Posición en el eje Y para mostrar el texto
+  let spacingFactor = 1.25; // Factor de espaciado (puedes ajustarlo según tus preferencias)
+  
+  // Calcular el ancho total de la cadena vin
+  let totalWidth = 0;
+  for (let i = 0; i < vin.length; i++) {
+    const letter = vin.charAt(i);
+    totalWidth += doc.getTextWidth(letter);
+  }
+  
+  // Calcular el ancho promedio por carácter (incluyendo letras y números)
+  let averageWidth = totalWidth / vin.length;
+  
+  // Aumentar el espaciado entre letras y números
+  let increasedSpacing = averageWidth * spacingFactor;
+  
+  // Recorrer la cadena de texto de derecha a izquierda
+  for (let i = vin.length - 1; i >= 0; i--) {
+    const letter = vin.charAt(i);
+    doc.text(letter, position_x, position_y);
+    
+    // Calcular el ancho del carácter actual (letra o número)
+    let characterWidth = doc.getTextWidth(letter);
+    
+    // Calcular el espaciado adicional para que todos los caracteres tengan el mismo espaciado
+    let additionalSpacing = increasedSpacing - characterWidth;
+    
+    // Ajustar la posición en X para agregar el siguiente carácter con el espaciado aumentado
+    position_x = position_x - (characterWidth + additionalSpacing);
+  }
+  
+
 
   //Segunda Pagina
   doc.addPage("a4", "p");
