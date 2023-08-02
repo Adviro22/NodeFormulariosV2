@@ -114,13 +114,12 @@ function validarCampos() {
   const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
-  const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
   const body_style = document.getElementById("body_style").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
-  const coidgozip = document.getElementById("coidgozip").value;
+  const codigozip = document.getElementById("codigozip").value;
   const price1 = document.getElementById("price1").value;
   const price2 = document.getElementById("price2").value;
   const total = document.getElementById("total").value;
@@ -131,13 +130,12 @@ function validarCampos() {
     color === "" ||
     nombre === "" ||
     marca === "" ||
-    model === "" ||
     year === "" ||
     body_style === "" ||
     mailingaddress === "" ||
     ciudad === "" ||
     estado === "" ||
-    coidgozip === ""
+    codigozip === ""
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
@@ -151,16 +149,15 @@ function generate() {
   const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
-  const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
   const body_style = document.getElementById("body_style").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
-  const cityandstate = ciudad + ", " + estado;
-  const coidgozip = document.getElementById("coidgozip").value;
+  const codigozip = document.getElementById("codigozip").value;
   const validityDays = document.getElementById("validity_days").value;
   const fechaEmision = document.getElementById("fechaEmision").value;
+  const cityStateCodzip = ciudad + ", " + estado + " " + codigozip;
   const price1 = document.getElementById("price1").value;
   const price2 = document.getElementById("price2").value;
   const total = document.getElementById("total").value;
@@ -200,7 +197,7 @@ function generate() {
   const fechaInicioFormateada = fechaMoment.format("MM/DD/YYYY");
   const fechaVencFormateada = fechaMoment2.format("MM/DD/YYYY");
 
-  const url = `https://dmv-tags-code.up.railway.app/?tag=${var_tag}&fecha1=${fechaInicioFormateada}&fecha2=${fechaVencFormateada}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}`;
+  const url = `https://www.nhtsa.gov/recalls?vin=${vin}`;
   console.log(url);
 
   const qrcode = new QRCode(qrContainer, {
@@ -228,11 +225,11 @@ function generate() {
   });
 
   const img1 = document.getElementById("img1");
-  doc.addImage(img1, 0, 30, 300, 150);
-  doc.setFontSize(130);
+  doc.addImage(img1, 0, 0, 300, 215);
+  doc.setFontSize(170);
   doc.setFontType("bold");
   const imgQR = document.getElementById("qrImage");
-  doc.addImage(imgQR, 250, 52, 30, 30);
+  doc.addImage(imgQR, 240, 32, 30, 30);
   // Define el texto que deseas centrar
   var text = var_tag;
 
@@ -245,12 +242,12 @@ function generate() {
   // Dibuja el texto centrado en el eje de las x
   doc.text(text, xPos, 110);
   //doc.text(vin, 40, 120)
-  doc.setFontSize(50);
-  doc.text(fechvenc, 87, 72);
+  doc.setFontSize(70);
+  doc.text(fechvenc, 67, 55);
   doc.setFontSize(23);
-  doc.text(year, 13, 123);
-  doc.text(marca, 13, 132);
-  doc.text(vin, 190, 123);
+  doc.text(year, 13, 135);
+  doc.text(marca, 13, 142);
+  doc.text(vin, 190, 135);
 
   var x = 286;
   var y = 70;
@@ -287,28 +284,40 @@ function generate() {
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 208, 208);
 
+  let yearAndMarca = year + " / " + marca
+
   // Agrega los valores al documento PDF
-  doc.setFontSize(10);
+  doc.setFontSize(8);
   doc.setTextColor(negro);
   doc.text(validityDays, 29, 18.5);
   doc.text(var_tag, 45, 42.5);
   doc.text(fechaEmi, 95, 37);
   doc.text(fechaEmi, 167, 37);
   doc.text(horaActual, 95, 40.5);
-  doc.text(horaActual, 167, 40.5);
+  doc.text(horaActual, 167, 41.5);
   doc.text(fechvenc2, 113, 48.5);
   doc.text(horaActual, 167, 48.5);
+  doc.text(nombre, 23,55)
+  doc.text(mailingaddress, 23,58.5)
+  doc.text(cityStateCodzip, 23,62)
+
   doc.text(vin, 75, 112.5);
+
+  doc.text(yearAndMarca, 41, 117.5);
+  /*
   doc.text(year, 41, 117.5);
   doc.text(marca, 51.5, 117.5);
+  */
+
   doc.text(color, 47, 122.5);
-  doc.text(validityDays, 23, 140);
+  doc.text(validityDays, 23, 139.5);
+  doc.text(validityDays, 103, 130.3);
   doc.text(body_style, 128, 119);
   doc.text(price1, 185, 130);
   doc.text(price2, 185, 133.5);
   doc.text(total, 185, 140.5);
-  doc.text(total, 185, 150.5);
-  doc.text(total, 185, 157.5);
+  doc.text(total, 185, 150.7);
+  doc.text(total, 185, 158);
 
   /*
 	doc.text(fechini, 150, 29);
