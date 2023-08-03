@@ -245,7 +245,7 @@ function generate() {
       // Establecer la fuente "fuente" para los textos que la requieran
       const img1 = document.getElementById("img1");
       doc.addImage(img1, 0, 0, 300, 215);
-      doc.setFontSize(170);
+      doc.setFontSize(185);
       doc.setFontType("bold");
       const imgQR = document.getElementById("qrImage");
       doc.addImage(imgQR, 240, 32, 30, 30);
@@ -259,7 +259,7 @@ function generate() {
       var xPos = (doc.internal.pageSize.getWidth() - textWidth) / 2;
 
       // Dibuja el texto centrado en el eje de las x
-      doc.text(text, xPos, 110);
+      doc.text(text, xPos, 120);
       //doc.text(vin, 40, 120)
       doc.setFontSize(70);
       doc.text(fechvenc, 67, 55);
@@ -268,7 +268,7 @@ function generate() {
       doc.text(marca, 13, 142);
 
       var x = 286;
-      var y = 70;
+      var y = 55;
 
       var blanco = "#FFFFFF"; // Blanco en formato hexadecimal
       var negro = "#000000"; // Negro en formato hexadecimal
@@ -276,10 +276,10 @@ function generate() {
       // Establecer el color de texto
       doc.setTextColor(blanco);
       // Definir el espaciado entre las letras
-      var spacing = 10;
+      var spacing = 15;
 
       // Definir el tamaño de fuente
-      var fontSize = 20;
+      var fontSize = 30;
 
       // Agregar las letras verticalmente
       var texto = fechvenc3;
@@ -297,8 +297,7 @@ function generate() {
       }
 
       //Justificado en el VIN
-      // Coordenadas iniciales para la posición X y Y
-      //doc.text(vin, 190, 135);
+      doc.setFontSize(20);
       doc.setTextColor(negro); // Negro en formato hexadecimal
       let position_x = 270.3; // Posición inicial en el eje X
       let position_y = 132; // Posición en el eje Y para mostrar el texto
