@@ -1,6 +1,6 @@
 let fechvenc;
 let fechvenc2;
-let fechvenc3
+let fechvenc3;
 let fechini;
 let fechaFormateada;
 let fechaEmi;
@@ -51,7 +51,7 @@ function calcularFecha() {
     })
     .replace(/\//g, "");
 
-  fechvenc3 = fechaEmision2Formateada
+  fechvenc3 = fechaEmision2Formateada;
 
   // Guardar la fecha de vencimiento formateada en "mm/dd/aaaa"
   let diaVenc = fechaEmisionObj.getUTCDate().toString().padStart(2, "0");
@@ -215,148 +215,167 @@ function generate() {
 
   qrContainer.innerHTML = "";
   qrContainer.appendChild(imgElement);
-  // Agregar la imagen al documento PDF
-  var doc = new jsPDF({
-    orientation: "l",
-    unit: "mm",
-    format: "a4",
-    putOnlyUsedFonts: true,
-    floatPrecision: 16, // or "smart", default is 16
-  });
-
-  const img1 = document.getElementById("img1");
-  doc.addImage(img1, 0, 0, 300, 215);
-  doc.setFontSize(170);
-  doc.setFontType("bold");
-  const imgQR = document.getElementById("qrImage");
-  doc.addImage(imgQR, 240, 32, 30, 30);
-  // Define el texto que deseas centrar
-  var text = var_tag;
-
-  // Obtiene la anchura del texto
-  var textWidth = doc.getTextWidth(text);
-
-  // Calcula la posición x para centrar el texto
-  var xPos = (doc.internal.pageSize.getWidth() - textWidth) / 2;
-
-  // Dibuja el texto centrado en el eje de las x
-  doc.text(text, xPos, 110);
-  //doc.text(vin, 40, 120)
-  doc.setFontSize(70);
-  doc.text(fechvenc, 67, 55);
-  doc.setFontSize(23);
-  doc.text(year, 13, 132);
-  doc.text(marca, 13, 142);
-
-  var x = 286;
-  var y = 70;
-
-  var blanco = "#FFFFFF"; // Blanco en formato hexadecimal
-  var negro = "#000000"; // Negro en formato hexadecimal
-
-  // Establecer el color de texto
-  doc.setTextColor(blanco);
-  // Definir el espaciado entre las letras
-  var spacing = 10;
-
-  // Definir el tamaño de fuente
-  var fontSize = 20;
-
-  // Agregar las letras verticalmente
-  var texto = fechvenc3;
-
-  // Iterar sobre cada letra del texto
-  for (var i = 0; i < texto.length; i++) {
-    var letra = texto[i];
-
-    // Calcular las coordenadas y para cada letra
-    var letraY = y + i * spacing;
-
-    // Agregar la letra verticalmente
-    doc.setFontSize(fontSize);
-    doc.text(letra, x, letraY);
-  }
-
-  //Justificado en el VIN
-  // Coordenadas iniciales para la posición X y Y
-  //doc.text(vin, 190, 135);
-  doc.setTextColor(negro); // Negro en formato hexadecimal
-  let position_x = 270.3; // Posición inicial en el eje X
-  let position_y = 132; // Posición en el eje Y para mostrar el texto
-  let spacingFactor = 1.25; // Factor de espaciado (puedes ajustarlo según tus preferencias)
-  
-  // Calcular el ancho total de la cadena vin
-  let totalWidth = 0;
-  for (let i = 0; i < vin.length; i++) {
-    const letter = vin.charAt(i);
-    totalWidth += doc.getTextWidth(letter);
-  }
-  
-  // Calcular el ancho promedio por carácter (incluyendo letras y números)
-  let averageWidth = totalWidth / vin.length;
-  
-  // Aumentar el espaciado entre letras y números
-  let increasedSpacing = averageWidth * spacingFactor;
-  
-  // Recorrer la cadena de texto de derecha a izquierda
-  for (let i = vin.length - 1; i >= 0; i--) {
-    const letter = vin.charAt(i);
-    doc.text(letter, position_x, position_y);
-    
-    // Calcular el ancho del carácter actual (letra o número)
-    let characterWidth = doc.getTextWidth(letter);
-    
-    // Calcular el espaciado adicional para que todos los caracteres tengan el mismo espaciado
-    let additionalSpacing = increasedSpacing - characterWidth;
-    
-    // Ajustar la posición en X para agregar el siguiente carácter con el espaciado aumentado
-    position_x = position_x - (characterWidth + additionalSpacing);
-  }
-  
-
-
-  //Segunda Pagina
-  doc.addPage("a4", "p");
-  doc.setFontType("normal");
-  const img2 = document.getElementById("img2");
-  doc.addImage(img2, 0, 0, 208, 208);
-
-  let yearAndMarca = year + " / " + marca
-
-  // Agrega los valores al documento PDF
-  doc.setFontSize(8);
-  doc.setTextColor(negro);
-  doc.text(validityDays, 29, 18.5);
-  doc.text(var_tag, 45, 42.5);
-  doc.text(fechaEmi, 95, 37);
-  doc.text(fechaEmi, 167, 37);
-  doc.text(horaActual, 95, 40.5);
-  doc.text(horaActual, 167, 41.5);
-  doc.text(fechvenc2, 113, 48.5);
-  doc.text(horaActual, 167, 48.5);
-  doc.text(nombre, 23,55)
-  doc.text(mailingaddress, 23,58.5)
-  doc.text(cityStateCodzip, 23,62)
-
-  doc.text(vin, 75, 112.5);
-
-  doc.text(yearAndMarca, 41, 117.5);
   /*
+  // Añade la fuente con la función addFont
+  doc.addFileToVFS(fontName + ".ttf", courierNewBase64);
+  doc.addFont(fontName + ".ttf", fontName, "normal");
+
+  // Establece la fuente activa para el texto
+  doc.setFont(fontName);
+
+  */
+
+  fetch("../font/CourierNew.ttf") // Reemplaza "ruta/a/la/fuente.ttf" con la ruta correcta hacia tu archivo TTF
+    .then((response) => response.arrayBuffer())
+    .then((fontData) => {
+      // Convierte el ArrayBuffer en un Uint8Array
+      const uint8Array = new Uint8Array(fontData);
+
+      // Agregar la fuente con la función addFont
+      var doc = new jsPDF({
+        orientation: "l",
+        unit: "mm",
+        format: "a4",
+        putOnlyUsedFonts: true,
+        floatPrecision: 16, // or "smart", default is 16
+      });
+      doc.addFileToVFS("fuente.ttf", uint8Array);
+      doc.addFont("fuente.ttf", "fuente", "normal");
+
+      // Establecer la fuente "fuente" para los textos que la requieran
+      const img1 = document.getElementById("img1");
+      doc.addImage(img1, 0, 0, 300, 215);
+      doc.setFontSize(170);
+      doc.setFontType("bold");
+      const imgQR = document.getElementById("qrImage");
+      doc.addImage(imgQR, 240, 32, 30, 30);
+      // Define el texto que deseas centrar
+      var text = var_tag;
+
+      // Obtiene la anchura del texto
+      var textWidth = doc.getTextWidth(text);
+
+      // Calcula la posición x para centrar el texto
+      var xPos = (doc.internal.pageSize.getWidth() - textWidth) / 2;
+
+      // Dibuja el texto centrado en el eje de las x
+      doc.text(text, xPos, 110);
+      //doc.text(vin, 40, 120)
+      doc.setFontSize(70);
+      doc.text(fechvenc, 67, 55);
+      doc.setFontSize(23);
+      doc.text(year, 13, 132);
+      doc.text(marca, 13, 142);
+
+      var x = 286;
+      var y = 70;
+
+      var blanco = "#FFFFFF"; // Blanco en formato hexadecimal
+      var negro = "#000000"; // Negro en formato hexadecimal
+
+      // Establecer el color de texto
+      doc.setTextColor(blanco);
+      // Definir el espaciado entre las letras
+      var spacing = 10;
+
+      // Definir el tamaño de fuente
+      var fontSize = 20;
+
+      // Agregar las letras verticalmente
+      var texto = fechvenc3;
+
+      // Iterar sobre cada letra del texto
+      for (var i = 0; i < texto.length; i++) {
+        var letra = texto[i];
+
+        // Calcular las coordenadas y para cada letra
+        var letraY = y + i * spacing;
+
+        // Agregar la letra verticalmente
+        doc.setFontSize(fontSize);
+        doc.text(letra, x, letraY);
+      }
+
+      //Justificado en el VIN
+      // Coordenadas iniciales para la posición X y Y
+      //doc.text(vin, 190, 135);
+      doc.setTextColor(negro); // Negro en formato hexadecimal
+      let position_x = 270.3; // Posición inicial en el eje X
+      let position_y = 132; // Posición en el eje Y para mostrar el texto
+      let spacingFactor = 1.25; // Factor de espaciado (puedes ajustarlo según tus preferencias)
+
+      // Calcular el ancho total de la cadena vin
+      let totalWidth = 0;
+      for (let i = 0; i < vin.length; i++) {
+        const letter = vin.charAt(i);
+        totalWidth += doc.getTextWidth(letter);
+      }
+
+      // Calcular el ancho promedio por carácter (incluyendo letras y números)
+      let averageWidth = totalWidth / vin.length;
+
+      // Aumentar el espaciado entre letras y números
+      let increasedSpacing = averageWidth * spacingFactor;
+
+      // Recorrer la cadena de texto de derecha a izquierda
+      for (let i = vin.length - 1; i >= 0; i--) {
+        const letter = vin.charAt(i);
+        doc.text(letter, position_x, position_y);
+
+        // Calcular el ancho del carácter actual (letra o número)
+        let characterWidth = doc.getTextWidth(letter);
+
+        // Calcular el espaciado adicional para que todos los caracteres tengan el mismo espaciado
+        let additionalSpacing = increasedSpacing - characterWidth;
+
+        // Ajustar la posición en X para agregar el siguiente carácter con el espaciado aumentado
+        position_x = position_x - (characterWidth + additionalSpacing);
+      }
+
+      //Segunda Pagina
+      doc.setFont("fuente");
+      let gris = "#757171";
+      doc.addPage("a4", "p");
+      doc.setFontType("normal");
+      const img2 = document.getElementById("img2");
+      doc.addImage(img2, 0, 0, 208, 208);
+
+      let yearAndMarca = year + " / " + marca;
+
+      // Agrega los valores al documento PDF
+      doc.setFontSize(8);
+      doc.setTextColor(gris);
+      doc.text(validityDays, 29, 18.5);
+      doc.text(var_tag, 45, 42.5);
+      doc.text(fechaEmi, 95, 37);
+      doc.text(fechaEmi, 167, 37);
+      doc.text(horaActual, 95, 40.5);
+      doc.text(horaActual, 167, 41.5);
+      doc.text(fechvenc2, 113, 48.5);
+      doc.text(horaActual, 167, 48.5);
+      doc.text(nombre, 23, 55);
+      doc.text(mailingaddress, 23, 58.5);
+      doc.text(cityStateCodzip, 23, 62);
+
+      doc.text(vin, 75, 112.5);
+
+      doc.text(yearAndMarca, 41, 117.5);
+      /*
   doc.text(year, 41, 117.5);
   doc.text(marca, 51.5, 117.5);
   */
 
-  doc.text(color, 47, 122.5);
-  doc.text(validityDays, 23, 139.5);
-  doc.text(validityDays, 103, 130.3);
-  doc.text(body_style, 128, 119);
-  doc.text(price1, 185, 130);
-  doc.text(price2, 185, 133.5);
-  doc.text(total, 185, 140.5);
-  doc.text(total, 185, 150.7);
-  doc.text(total, 185, 158);
+      doc.text(color, 47, 122.5);
+      doc.text(validityDays, 23, 139.5);
+      doc.text(validityDays, 103, 130.3);
+      doc.text(body_style, 128, 119);
+      doc.text(price1, 185, 130);
+      doc.text(price2, 185, 133.5);
+      doc.text(total, 185, 140.5);
+      doc.text(total, 185, 150.7);
+      doc.text(total, 185, 158);
 
-  /*
+      /*
 	doc.text(fechini, 150, 29);
 	doc.text(fechvenc, 150, 34);
 	doc.text(fechaFormateada, 62, 58.3);
@@ -366,7 +385,7 @@ function generate() {
 	doc.text(cityandstate, 105, 126);
 	doc.text(coidgozip, 105, 131.5);
 	*/
-  /*
+      /*
 	//Tercera Pagina
 	doc.addPage("a4","p");
 	doc.setFontType("normal");
@@ -391,7 +410,8 @@ function generate() {
 	doc.text(cityandstate, 105, 107);
 	doc.text(coidgozip, 105, 112.5);
     */
-  doc.save("Tx_tag.pdf");
+      doc.save("Tx_tag.pdf");
+    });
 }
 function convertirMayusculas(input) {
   input.value = input.value.toUpperCase();
