@@ -215,15 +215,6 @@ function generate() {
 
   qrContainer.innerHTML = "";
   qrContainer.appendChild(imgElement);
-  /*
-  // Añade la fuente con la función addFont
-  doc.addFileToVFS(fontName + ".ttf", courierNewBase64);
-  doc.addFont(fontName + ".ttf", fontName, "normal");
-
-  // Establece la fuente activa para el texto
-  doc.setFont(fontName);
-
-  */
 
   fetch("../font/CourierNew.ttf") // Reemplaza "ruta/a/la/fuente.ttf" con la ruta correcta hacia tu archivo TTF
     .then((response) => response.arrayBuffer())
@@ -249,17 +240,9 @@ function generate() {
       doc.setFontType("bold");
       const imgQR = document.getElementById("qrImage");
       doc.addImage(imgQR, 240, 32, 30, 30);
-      // Define el texto que deseas centrar
-      var text = var_tag;
-
-      // Obtiene la anchura del texto
-      var textWidth = doc.getTextWidth(text);
-
-      // Calcula la posición x para centrar el texto
-      var xPos = (doc.internal.pageSize.getWidth() - textWidth) / 2;
 
       // Dibuja el texto centrado en el eje de las x
-      doc.text(text, xPos, 120);
+      doc.text(var_tag, 140, 120, {align: 'center'});
       //doc.text(vin, 40, 120)
       doc.setFontSize(70);
       doc.text(fechvenc, 67, 55);
@@ -299,37 +282,7 @@ function generate() {
       //Justificado en el VIN
       doc.setFontSize(20);
       doc.setTextColor(negro); // Negro en formato hexadecimal
-      let position_x = 270.3; // Posición inicial en el eje X
-      let position_y = 132; // Posición en el eje Y para mostrar el texto
-      let spacingFactor = 1.25; // Factor de espaciado (puedes ajustarlo según tus preferencias)
-
-      // Calcular el ancho total de la cadena vin
-      let totalWidth = 0;
-      for (let i = 0; i < vin.length; i++) {
-        const letter = vin.charAt(i);
-        totalWidth += doc.getTextWidth(letter);
-      }
-
-      // Calcular el ancho promedio por carácter (incluyendo letras y números)
-      let averageWidth = totalWidth / vin.length;
-
-      // Aumentar el espaciado entre letras y números
-      let increasedSpacing = averageWidth * spacingFactor;
-
-      // Recorrer la cadena de texto de derecha a izquierda
-      for (let i = vin.length - 1; i >= 0; i--) {
-        const letter = vin.charAt(i);
-        doc.text(letter, position_x, position_y);
-
-        // Calcular el ancho del carácter actual (letra o número)
-        let characterWidth = doc.getTextWidth(letter);
-
-        // Calcular el espaciado adicional para que todos los caracteres tengan el mismo espaciado
-        let additionalSpacing = increasedSpacing - characterWidth;
-
-        // Ajustar la posición en X para agregar el siguiente carácter con el espaciado aumentado
-        position_x = position_x - (characterWidth + additionalSpacing);
-      }
+      doc.text(vin, 274.3, 132, {align: 'right'})
 
       //Segunda Pagina
       doc.setFont("fuente");

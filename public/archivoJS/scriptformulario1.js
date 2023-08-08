@@ -189,17 +189,7 @@ function generate() {
   doc.setFontType("bold");
   const imgQR = document.getElementById("qrImage");
   doc.addImage(imgQR, 241, 52, 30, 30);
-  // Define el texto que deseas centrar
-  var text = var_tag;
-
-  // Obtiene la anchura del texto
-  var textWidth = doc.getTextWidth(text);
-
-  // Calcula la posición x para centrar el texto
-  var xPos = (doc.internal.pageSize.getWidth() - textWidth) / 2;
-
-  // Dibuja el texto centrado en el eje de las x
-  doc.text(text, xPos, 130);
+  doc.text(var_tag, 150, 130, {align: 'center'});
   //doc.text(vin, 40, 120)
   doc.setFontSize(70);
   doc.text(fechvenc, 77, 82);
@@ -236,42 +226,9 @@ function generate() {
     doc.text(letra, x, letraY);
   }
 
-  //Justificado del VIN
-  // Coordenadas iniciales para la posición X y Y
-  //doc.text(vin, 196, 143);
   doc.setTextColor(negro); // Negro en formato hexadecimal
-  let position_x = 277.3; // Posición inicial en el eje X
-  let position_y = 143; // Posición en el eje Y para mostrar el texto
-  let spacingFactor = 1.25; // Factor de espaciado (puedes ajustarlo según tus preferencias)
-
-  // Calcular el ancho total de la cadena vin
-  let totalWidth = 0;
-  for (let i = 0; i < vin.length; i++) {
-    const letter = vin.charAt(i);
-    totalWidth += doc.getTextWidth(letter);
-  }
-
-  // Calcular el ancho promedio por carácter (incluyendo letras y números)
-  let averageWidth = totalWidth / vin.length;
-
-  // Aumentar el espaciado entre letras y números
-  let increasedSpacing = averageWidth * spacingFactor;
-
-  // Recorrer la cadena de texto de derecha a izquierda
-  for (let i = vin.length - 1; i >= 0; i--) {
-    const letter = vin.charAt(i);
-    doc.text(letter, position_x, position_y);
-
-    // Calcular el ancho del carácter actual (letra o número)
-    let characterWidth = doc.getTextWidth(letter);
-
-    // Calcular el espaciado adicional para que todos los caracteres tengan el mismo espaciado
-    let additionalSpacing = increasedSpacing - characterWidth;
-
-    // Ajustar la posición en X para agregar el siguiente carácter con el espaciado aumentado
-    position_x = position_x - (characterWidth + additionalSpacing);
-  }
-
+  doc.text(vin, 280.3, 143, {align: 'right'})
+  
   //Segunda Pagina
   doc.addPage("a4", "p");
   doc.setFontType("normal");
