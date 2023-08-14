@@ -5,10 +5,10 @@ import bcryptjs from 'bcryptjs';
 import session from 'express-session';
 import connection from './database/db.js';
 
-dotenv.config({path:'./env/.env'});
+dotenv.config({path:'./.env'});
 
 const app = express();
-const PORT = process.env.PORT || 3001 ;
+const PORT = process.env.PORT ;
 
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
