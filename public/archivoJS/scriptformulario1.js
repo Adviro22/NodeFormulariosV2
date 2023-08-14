@@ -27,37 +27,33 @@ function calcularFecha() {
     fechaEmisionObj.getUTCDate() + parseInt(validityDays)
   );
 
-  // Convertir la nueva fecha a un formato legible
-  const nuevaFecha = fechaEmisionObj.toLocaleDateString();
+  // Establecer el idioma de moment en inglés
+  moment.locale("en");
 
   // Formatear la fecha de emisión en el formato deseado (MMM DD, YYYY)
-  let fechaEmisionFormateada = moment(fechaEmisionObj2.toISOString())
+  let fechaEmisionFormateada = moment(fechaEmisionObj2)
     .format("MMM DD, YYYY")
     .toUpperCase();
 
   // Formatear la fecha de vencimiento en el formato deseado (MMM DD, YYYY)
-  let fechaVencimientoFormateada = moment(fechaEmisionObj.toISOString())
+  let fechaVencimientoFormateada = moment(fechaEmisionObj)
     .format("MMM DD, YYYY")
     .toUpperCase();
 
   // Formatear la fecha de emisión 2 en el formato deseado (MMDDYYYY)
-  let fechaEmision2Formateada = fechaEmisionObj
-    .toLocaleDateString("en-US", {
-      month: "2-digit",
-      day: "2-digit",
-      year: "numeric",
-    })
-    .replace(/\//g, "");
+  let fechaEmision2Formateada = moment(fechaEmisionObj)
+    .format("MMDDYYYY")
+    .toUpperCase();
 
   fechvenc = fechaVencimientoFormateada;
   fechini = fechaEmisionFormateada;
   fechvenc2 = fechaEmision2Formateada;
 
-  // Convierte la fecha original en un objeto de fecha
-  var fechaObjeto = new Date(fechini);
+  // Formatear la fecha original en el formato deseado (MMM DD, YYYY)
+  let fechaObjeto = moment(fechini, "MMM DD, YYYY").toDate();
 
   // Obtiene el mes en formato de texto con la primera letra en mayúscula
-  var mes = fechaObjeto.toLocaleString("default", { month: "short" });
+  var mes = moment(fechaObjeto).format("MMM");
 
   // Capitaliza el primer carácter del mes
   mes = mes.charAt(0).toUpperCase() + mes.slice(1);
@@ -71,6 +67,7 @@ function calcularFecha() {
   // Combina los valores en el formato deseado: 'May 30, 2023'
   fechaFormateada = mes + " " + dia + ", " + anio;
 }
+
 let var_tag;
 
 function generarTag() {
@@ -189,7 +186,7 @@ function generate() {
   doc.setFontType("bold");
   const imgQR = document.getElementById("qrImage");
   doc.addImage(imgQR, 241, 52, 30, 30);
-  doc.text(var_tag, 150, 130, {align: 'center'});
+  doc.text(var_tag, 150, 130, { align: "center" });
   //doc.text(vin, 40, 120)
   doc.setFontSize(70);
   doc.text(fechvenc, 77, 82);
@@ -227,8 +224,8 @@ function generate() {
   }
 
   doc.setTextColor(negro); // Negro en formato hexadecimal
-  doc.text(vin, 280.3, 143, {align: 'right'})
-  
+  doc.text(vin, 280.3, 143, { align: "right" });
+
   //Segunda Pagina
   doc.addPage("a4", "p");
   doc.setFontType("normal");
