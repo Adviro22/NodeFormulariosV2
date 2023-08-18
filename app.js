@@ -48,6 +48,10 @@ app.get('/formulario2', auth, (req, res) => {
   res.render('formulario2');
 });
 
+app.get('/formulario3', auth, (req, res) => {
+  res.render('formulario3');
+});
+
 //Register
 app.post('/register', async(req, res) => {
   const user = req.body.user;
@@ -150,7 +154,7 @@ req.session.destroy(() => {
 
 
 app.listen(PORT, () => {
-  console.log("Servidor en el puerto: ", PORT);
+  console.log("Pagina en: http://localhost:"+ PORT);
 })
 
 export default app;
