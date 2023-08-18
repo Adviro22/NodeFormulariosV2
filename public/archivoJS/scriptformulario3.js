@@ -150,8 +150,8 @@ function generate() {
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
-  const cityandstate = ciudad + ", " + estado;
-  const coidgozip = document.getElementById("coidgozip").value;
+  const codigozip = document.getElementById("coidgozip").value;
+  const cityStateCodzip = mailingaddress + " " + ciudad + ", " + estado + " " + codigozip;
 
   //QR codigo
   const qrContainer = document.getElementById("qrContainer");
@@ -178,6 +178,7 @@ function generate() {
 
   var blanco = "#FFFFFF"; // Blanco en formato hexadecimal
   var negro = "#000000"; // Negro en formato hexadecimal
+  var rojo = "#FF0000" // Rojo en formato hexadecimal
 
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 0, 300, 210);
@@ -190,37 +191,26 @@ function generate() {
   doc.text(fechvenc2, 131, 54.5);
   doc.setTextColor(negro);
   doc.setFontSize(15);
+  doc.text(vin, 35, 14.5);
   doc.text(marca, 110, 14.5);
   doc.text(color, 150, 14.5);
   doc.text(year, 250, 14.5);
-
-  var x = 288;
-  var y = 70;
-
-  // Establecer el color de texto
+  doc.setFontSize(12)
   doc.setTextColor(blanco);
-  // Definir el espaciado entre las letras
-  var spacing = 10;
-
-  // Definir el tamaño de fuente
-
-  // Agregar las letras verticalmente
-  var texto = fechvenc2;
-
-  // Iterar sobre cada letra del texto
-  for (var i = 0; i < texto.length; i++) {
-    var letra = texto[i];
-
-    // Calcular las coordenadas y para cada letra
-    var letraY = y + i * spacing;
-
-    // Agregar la letra verticalmente
-    doc.setFontSize(15);
-    doc.text(letra, x, letraY);
-  }
-
-  doc.setTextColor(negro); // Negro en formato hexadecimal
-  doc.text(vin, 35, 14.5);
+  doc.setFontType("bold");
+  doc.text(var_tag, 44.5, 138.3);
+  doc.text(fechvenc2, 44.5, 143.5);
+  doc.setFontType("normal");
+  doc.setFontSize(9)
+  doc.setTextColor(negro);
+  doc.text(year, 35, 151.4);
+  doc.text(vin, 35, 155.4);
+  doc.text(nombre, 35, 159.2);
+  doc.text(cityStateCodzip, 61, 166.2)
+  doc.text(marca, 100, 151.4);
+  doc.text(model, 166, 151.4);
+  doc.text(color, 232, 151.4);
+  doc.text(fechaEmi, 193, 196.2);
 
   doc.save("Tx_tag.pdf");
 }
