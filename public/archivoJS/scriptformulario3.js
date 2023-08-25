@@ -143,7 +143,9 @@ function generate() {
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
+  const validityDays = document.getElementById("validity_days").value;
   const year = document.getElementById("year").value;
+  const millas = document.getElementById("millas").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
@@ -182,10 +184,10 @@ function generate() {
   doc.setFontSize(150);
   doc.setFontType("bold");
   doc.text(var_placa, 150, 110, { align: "center" });
-  doc.setFontType("normal");
   doc.setFontSize(35);
   doc.setTextColor(blanco);
   doc.text(fechvenc2, 131, 54.5);
+  doc.setFontType("normal");
   doc.setTextColor(negro);
   doc.setFontSize(15);
   doc.text(vin, 35, 14.5);
@@ -200,8 +202,10 @@ function generate() {
   doc.setFontType("normal");
   doc.setFontSize(9)
   doc.setTextColor(negro);
+  doc.text(validityDays, 151.5, 140.5)
   doc.text(year, 35, 151.4);
   doc.text(vin, 35, 155.4);
+  doc.text(millas, 102, 155.4) //Millas
   doc.text(nombre, 35, 159.2);
   doc.text(cityStateCodzip, 61, 166.2)
   doc.text(marca, 100, 151.4);
