@@ -87,25 +87,22 @@ function calcularFecha() {
   // Combina los valores en el formato deseado: 'May 30, 2023'
   fechaFormateada = mes + " " + dia + ", " + anio;
 }
-let var_tag;
+let var_placa;
 
-function generarTag() {
-  let tag = "";
+function generarPlaca() {
+  let placa = "";
 
-  // generar los cuatro números del tag
-  for (let i = 0; i < 4; i++) {
-    tag += Math.floor(Math.random() * 10);
+  // Generar la letra para la placa
+  placa += String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar una letra mayúscula
+
+  // Generar los siete números de la placa
+  for (let i = 0; i < 7; i++) {
+    placa += Math.floor(Math.random() * 10);
   }
 
-  // agregar una letra al tag
-  tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
-
-  // agregar los dos últimos números del tag
-  for (let i = 0; i < 2; i++) {
-    tag += Math.floor(Math.random() * 10);
-  }
-  var_tag = tag;
+  var_placa = placa;
 }
+
 
 function validarCampos() {
   // Obtener los valores de los campos del formulario
@@ -184,7 +181,7 @@ function generate() {
   doc.addImage(img1, 0, 0, 300, 210);
   doc.setFontSize(150);
   doc.setFontType("bold");
-  doc.text(var_tag, 150, 110, { align: "center" });
+  doc.text(var_placa, 150, 110, { align: "center" });
   doc.setFontType("normal");
   doc.setFontSize(35);
   doc.setTextColor(blanco);
@@ -198,7 +195,7 @@ function generate() {
   doc.setFontSize(12)
   doc.setTextColor(blanco);
   doc.setFontType("bold");
-  doc.text(var_tag, 44.5, 138.3);
+  doc.text(var_placa, 44.5, 138.3);
   doc.text(fechvenc2, 44.5, 143.5);
   doc.setFontType("normal");
   doc.setFontSize(9)
