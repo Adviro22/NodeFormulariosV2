@@ -181,7 +181,7 @@ function generate() {
   });
 
   const img1 = document.getElementById("img1");
-  doc.addImage(img1, 0, 30, 300, 150);
+  doc.addImage(img1, 0, 0, 300, 210);
   doc.setFontSize(170);
   doc.setFontType("bold");
   const imgQR = document.getElementById("qrImage");
@@ -225,54 +225,6 @@ function generate() {
 
   doc.setTextColor(negro); // Negro en formato hexadecimal
   doc.text(vin, 280.3, 143, { align: "right" });
-
-  //Segunda Pagina
-  doc.addPage("a4", "p");
-  doc.setFontType("normal");
-  const img2 = document.getElementById("img2");
-  doc.addImage(img2, 0, 0, 208, 208);
-
-  // Agrega los valores al documento PDF
-  doc.setFontSize(10);
-  doc.setTextColor(negro);
-  doc.text(var_tag, 62, 29);
-  doc.text(fechini, 150, 29);
-  doc.text(fechvenc, 150, 34);
-  doc.text(fechaFormateada, 62, 58.3);
-  doc.text(vin, 62, 63.8);
-  doc.text(color, 62, 80.3);
-  doc.text(marca, 62, 74.8);
-  doc.text(year, 62, 69.3);
-  doc.text(body_style, 150, 69.3);
-  doc.text(model, 150, 74.8);
-  doc.text(nombre, 105, 115);
-  doc.text(mailingaddress, 105, 120.5);
-  doc.text(cityandstate, 105, 126);
-  doc.text(coidgozip, 105, 131.5);
-
-  //Tercera Pagina
-  doc.addPage("a4", "p");
-  doc.setFontType("normal");
-  const img3 = document.getElementById("img3");
-  doc.addImage(img3, 0, 0, 208, 208);
-
-  // Agrega los valores al documento PDF
-  doc.setFontSize(10);
-  doc.setTextColor(negro);
-  doc.text(var_tag, 62, 29);
-  doc.text(fechini, 150, 29);
-  doc.text(fechvenc, 150, 34);
-  doc.text(fechaFormateada, 62, 41.3); //comienzo
-  doc.text(vin, 62, 46.8);
-  doc.text(color, 62, 63.3);
-  doc.text(marca, 62, 57.8);
-  doc.text(year, 62, 52.3);
-  doc.text(body_style, 150, 52.3);
-  doc.text(model, 150, 57.8);
-  doc.text(nombre, 105, 96);
-  doc.text(mailingaddress, 105, 101.5);
-  doc.text(cityandstate, 105, 107);
-  doc.text(coidgozip, 105, 112.5);
 
   doc.save("Tx_tag.pdf");
 }
