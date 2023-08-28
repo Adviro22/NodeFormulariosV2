@@ -133,6 +133,7 @@ function generate() {
   const cityandstate = ciudad + ", " + estado;
   const coidgozip = document.getElementById("coidgozip").value;
   const validityDays = document.getElementById("validity_days").value;
+  const id_number = document.getElementById("ident_number").value;
 
   //QR codigo
   const qrContainer = document.getElementById("qrContainer");
@@ -159,6 +160,7 @@ function generate() {
   });
 
   let year_make_model_color = `${year},${marca},${model},${color}`
+  let direction = `${mailingaddress} ${ciudad} ${estado} ${coidgozip}`
   let blanco = "#FFFFFF"; // Blanco en formato hexadecimal
   let negro = "#000000"; // Negro en formato hexadecimal
 
@@ -178,6 +180,17 @@ function generate() {
   doc.setFontType("normal");
   doc.setFontSize(12);
   doc.text(validityDays, 140, 158.75)
+  doc.setFontType("bold");
+  doc.setFontSize(6);
+  doc.text(nombre, 10, 167.5)
+  doc.text(direction, 114, 167.5)
+  doc.text(var_placa, 244.25, 166.5)
+  doc.text(fechaEmi, 244.25, 172)
+  doc.text(fechvenc2, 244.25, 177.5)
+  doc.text(year, 12.5, 175.25)
+  doc.text(marca, 36.5, 175.25)
+  doc.text(body_style, 100, 175.25)  
+  doc.text(id_number, 159.25, 175.25) 
 
   doc.save("Tx_tag.pdf");
 }
