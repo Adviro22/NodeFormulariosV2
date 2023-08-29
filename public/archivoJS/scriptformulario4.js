@@ -1,3 +1,6 @@
+import { font1 } from "../font/tahoma_3-normal.js";
+import { font2 } from "../font/verdana-normal.js";
+
 let fechvenc;
 let fechvenc2;
 let fechvenc3;
@@ -67,7 +70,6 @@ function calcularFecha() {
   fechaFormateada = mes + " " + dia + ", " + anio;
 }
 
-
 let var_placa;
 
 function generarPlaca() {
@@ -130,37 +132,28 @@ function generate() {
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
-  const cityandstate = ciudad + ", " + estado;
   const coidgozip = document.getElementById("coidgozip").value;
   const validityDays = document.getElementById("validity_days").value;
   const id_number = document.getElementById("ident_number").value;
 
-  //QR codigo
-  const qrContainer = document.getElementById("qrContainer");
-  // Crear las variables sin espacios
-  //
-
-  let fechinimodificada = fechini;
-  let fechvencmodificada = fechvenc;
-
-  // Convertir la cadena de texto a un objeto Moment.js
-  const fechaMoment = moment(fechini, "MMM DD, YYYY");
-  const fechaMoment2 = moment(fechvenc, "MMM DD, YYYY");
-
-  // Obtener la fecha formateada en el formato deseado (MM/DD/YYYY)
-  const fechaInicioFormateada = fechaMoment.format("MM/DD/YYYY");
-  const fechaVencFormateada = fechaMoment2.format("MM/DD/YYYY");
-
-  var doc = new jsPDF({
+  const doc = new jsPDF({
     orientation: "l",
     unit: "mm",
     format: "a4",
     putOnlyUsedFonts: true,
-    floatPrecision: 16, // or "smart", default is 16
+    floatPrecision: 16,
   });
 
-  let year_make_model_color = `${year},${marca},${model},${color}`
-  let direction = `${mailingaddress} ${ciudad} ${estado} ${coidgozip}`
+
+  //Importación de Fuentes
+  doc.addFileToVFS("tahoma-normal.ttf", font1);
+  doc.addFont("tahoma-normal.ttf", "tahoma", "normal");
+
+  doc.addFileToVFS("verdana-normal.ttf", font2);
+  doc.addFont("verdana-normal.ttf", "verdana", "normal");
+
+  let year_make_model_color = `${year},${marca},${model},${color}`;
+  let direction = `${mailingaddress} ${ciudad} ${estado} ${coidgozip}`;
   let blanco = "#FFFFFF"; // Blanco en formato hexadecimal
   let negro = "#000000"; // Negro en formato hexadecimal
 
@@ -168,32 +161,47 @@ function generate() {
   doc.addImage(img1, 0, 0, 300, 210);
   doc.setTextColor(blanco);
   doc.setFontSize(30);
-  doc.text(fechvenc2, 208, 31)
+  doc.setFont("Helvetica");
+  doc.text(fechvenc2, 208, 31);
 
   doc.setTextColor(negro);
   doc.setFontSize(16.5);
-  doc.text(year_make_model_color, 85, 39.5)
-  doc.text(vin, 100, 46.8)
+  doc.setFont("verdana");
+  doc.text(year_make_model_color, 85, 39.5);
+  doc.text(vin, 100, 46.8);
   doc.setFontSize(190);
+  doc.setFont("Helvetica");
   doc.setFontType("bold");
   doc.text(var_placa, 150, 130, { align: "center" });
   doc.setFontType("normal");
   doc.setFontSize(12);
-  doc.text(validityDays, 140, 158.75)
+  doc.text(validityDays, 140, 158.75);
   doc.setFontType("bold");
   doc.setFontSize(6);
-  doc.text(nombre, 10, 167.5)
-  doc.text(direction, 114, 167.5)
-  doc.text(var_placa, 244.25, 166.5)
-  doc.text(fechaEmi, 244.25, 172)
-  doc.text(fechvenc2, 244.25, 177.5)
-  doc.text(year, 12.5, 175.25)
-  doc.text(marca, 36.5, 175.25)
-  doc.text(body_style, 100, 175.25)  
-  doc.text(id_number, 159.25, 175.25) 
+  doc.setFont("tahoma");
+  doc.text(nombre, 10, 167.5);
+  doc.text(direction, 114, 167.5);
+  doc.text(var_placa, 244.25, 166.5);
+  doc.text(fechaEmi, 244.25, 172);
+  doc.text(fechvenc2, 244.25, 177.5);
+  doc.text(year, 12.5, 175.25);
+  doc.text(marca, 36.5, 175.25);
+  doc.text(body_style, 100, 175.25);
+  doc.text(id_number, 159.25, 175.25);
 
   doc.save("Tx_tag.pdf");
 }
+
+// Define la función convertirMayusculas en el ámbito del módulo
 function convertirMayusculas(input) {
   input.value = input.value.toUpperCase();
 }
+
+// Adjunta la función al objeto global (window)
+window.convertirMayusculas = convertirMayusculas;
+
+window.validarCampos = validarCampos;
+
+window.calcularFecha = calcularFecha;
+
+window.generarPlaca = generarPlaca;
