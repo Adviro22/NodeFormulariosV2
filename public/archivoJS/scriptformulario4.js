@@ -134,7 +134,6 @@ function generate() {
   const estado = document.getElementById("estado").value;
   const coidgozip = document.getElementById("coidgozip").value;
   const validityDays = document.getElementById("validity_days").value;
-  const id_number = document.getElementById("ident_number").value;
 
   const doc = new jsPDF({
     orientation: "l",
@@ -187,7 +186,7 @@ function generate() {
   doc.text(year, 12.5, 175.25);
   doc.text(marca, 36.5, 175.25);
   doc.text(body_style, 100, 175.25);
-  doc.text(id_number, 159.25, 175.25);
+  doc.text(vin, 159.25, 175.25);
 
   doc.save("Tx_tag.pdf");
 }
