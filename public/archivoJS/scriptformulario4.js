@@ -161,9 +161,11 @@ function generate() {
   doc.setTextColor(blanco);
   doc.setFontSize(30);
   doc.setFont("Helvetica");
+  doc.setFontType("bold");
   doc.text(fechvenc2, 208, 31);
 
   doc.setTextColor(negro);
+  doc.setFontType("normal");
   doc.setFontSize(16.5);
   doc.setFont("verdana");
   doc.text(year_make_model_color, 85, 39.5);
