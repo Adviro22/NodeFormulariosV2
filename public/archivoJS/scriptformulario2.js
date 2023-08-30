@@ -6,23 +6,35 @@ let fechaFormateada;
 let fechaEmi;
 let fechaEmisionObj; // Variable global para fechaEmisionObj
 let fechaEmisionObj2; // Variable global para fechaEmisionObj2
+let fech_expi; // Nueva variable para la fecha de expiración
 
 function calcularFecha() {
   // Obtener la fecha establecida en la variable existente
   const fechaEmision = document.getElementById("fechaEmision").value;
+  console.log("fechaEmision: " + fechaEmision);
 
   // Obtener la cantidad de días seleccionados en el select
   const validityDays = document.getElementById("validity_days").value;
 
   // Convertir la fecha a un objeto Date
   fechaEmisionObj2 = new Date(fechaEmision + "T00:00:00Z");
-  fechaEmisionObj2.setUTCHours(0, 0, 0, 0);
+  fechaEmisionObj2.setUTCHours(
+    new Date().getUTCHours(),
+    new Date().getUTCMinutes(),
+    0,
+    0
+  );
 
   fechaEmisionObj = new Date(fechaEmision + "T00:00:00Z");
-  fechaEmisionObj.setUTCHours(0, 0, 0, 0);
+  fechaEmisionObj.setUTCHours(
+    new Date().getUTCHours(),
+    new Date().getUTCMinutes(),
+    0,
+    0
+  );
 
-  fechaEmisionObj2.setUTCDate(fechaEmisionObj2.getUTCDate() + 1);
-  fechaEmisionObj.setUTCDate(fechaEmisionObj.getUTCDate() + 1);
+  fechaEmisionObj2.setUTCDate(fechaEmisionObj2.getUTCDate());
+  fechaEmisionObj.setUTCDate(fechaEmisionObj.getUTCDate());
 
   // Agregar los días seleccionados a la fecha existente
   fechaEmisionObj.setUTCDate(
@@ -53,11 +65,15 @@ function calcularFecha() {
 
   fechvenc3 = fechaEmision2Formateada;
 
+  console.log("variable fechvenc3: " + fechvenc3);
+
   // Guardar la fecha de vencimiento formateada en "mm/dd/aaaa"
   let diaVenc = fechaEmisionObj.getUTCDate().toString().padStart(2, "0");
   let mesVenc = (fechaEmisionObj.getUTCMonth() + 1).toString().padStart(2, "0"); // Sumamos 1 porque los meses van de 0 a 11
   let anioVenc = fechaEmisionObj.getUTCFullYear().toString();
   fechvenc2 = `${mesVenc}/${diaVenc}/${anioVenc}`;
+
+  console.log("variable fechvenc2: " + fechvenc2);
 
   let diaEmi = fechaEmisionObj2.getUTCDate().toString().padStart(2, "0");
   let mesEmi = (fechaEmisionObj2.getUTCMonth() + 1).toString().padStart(2, "0"); // Sumamos 1 porque los meses van de 0 a 11
@@ -65,6 +81,8 @@ function calcularFecha() {
   fechaEmi = `${mesEmi}/${diaEmi}/${anioEmi}`;
 
   fechvenc = fechaVencimientoFormateada;
+
+  console.log("variable fechvenc: " + fechvenc);
   fechini = fechaEmisionFormateada;
 
   console.log(fechaEmisionObj);
@@ -86,6 +104,32 @@ function calcularFecha() {
 
   // Combina los valores en el formato deseado: 'May 30, 2023'
   fechaFormateada = mes + " " + dia + ", " + anio;
+
+  // Obtener el nombre abreviado del mes en inglés en mayúsculas
+  const mesesEnIngles = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC",
+  ];
+  let mesExpiAbreviado = mesesEnIngles[fechaEmisionObj.getUTCMonth()];
+
+  // Obtener el día en formato "DD"
+  let diaExpi = fechaEmisionObj.getUTCDate().toString().padStart(2, "0");
+
+  // Obtener el año en formato "AAAA"
+  let anioExpi = fechaEmisionObj.getUTCFullYear().toString();
+
+  // Formatear la fecha de expiración en el formato "MMM DD, AAAA"
+  fech_expi = `${mesExpiAbreviado} ${diaExpi}, ${anioExpi}`;
 }
 
 let var_tag;
@@ -136,10 +180,9 @@ function validarCampos() {
     ciudad === "" ||
     estado === "" ||
     codigozip === "" ||
-    price1 === ""||
+    price1 === "" ||
     price2 === "" ||
     total === ""
-
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
@@ -246,10 +289,10 @@ function generate() {
       doc.addImage(imgQR, 240, 32, 30, 30);
 
       // Dibuja el texto centrado en el eje de las x
-      doc.text(var_tag, 140, 120, {align: 'center'});
+      doc.text(var_tag, 140, 120, { align: "center" });
       //doc.text(vin, 40, 120)
       doc.setFontSize(70);
-      doc.text(fechvenc, 67, 55);
+      doc.text(fech_expi, 150, 55, { align: "center" });
       doc.setFontSize(23);
       doc.text(year, 13, 132);
       doc.text(marca, 13, 142);
@@ -286,7 +329,7 @@ function generate() {
       //Justificado en el VIN
       doc.setFontSize(20);
       doc.setTextColor(negro); // Negro en formato hexadecimal
-      doc.text(vin, 274.3, 132, {align: 'right'})
+      doc.text(vin, 274.3, 132, { align: "right" });
 
       //Segunda Pagina
       doc.setFont("fuente");
