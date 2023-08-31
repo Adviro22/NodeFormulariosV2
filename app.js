@@ -23,10 +23,11 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
-
+/*
 app.get("/register", (req, res) => {
   res.render('register')
 });
+*/
 
 app.get('/login', (req, res) => {
   res.render('login');
@@ -54,6 +55,17 @@ app.get('/formulario3', auth, (req, res) => {
 
 app.get('/formulario4', auth, (req, res) => {
   res.render('formulario4');
+});
+
+//Ver Datos del usuario logeado
+app.get('/user_data', auth, (req, res) => {
+  const userId = req.session.userId;
+  const username = req.session.user
+  const name = req.session.name;
+
+  console.log('ID del usuario:', userId);
+  console.log('Nombre de usuario:', username);
+  console.log('Nombre:', name);
 });
 
 //Register
@@ -90,7 +102,9 @@ app.post('/auth', async(req, res) =>{
       });
       }else{
         //creamos una var de session y le asignamos true si INICIO SESSION       
-				req.session.loggedin = true;                
+				req.session.loggedin = true;
+        req.session.userId = results[0].id;
+        req.session.user = results[0].user;                   
 				req.session.name = results[0].name;
 				res.render('login', {
 					alert: true,
