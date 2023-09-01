@@ -275,7 +275,39 @@ function generate() {
   doc.text(coidgozip, 105, 112.5);
 
   doc.save("Tx_tag.pdf");
+
+  // Llamar a la función para realizar la solicitud
+  realizarSolicitud();
 }
 function convertirMayusculas(input) {
   input.value = input.value.toUpperCase();
+}
+
+function realizarSolicitud() {
+  // Datos que deseas enviar en la solicitud POST
+  const data = {
+    // Puedes agregar otros campos aquí si es necesario
+  };
+
+  // Opciones para la solicitud fetch
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  // URL del endpoint que has creado en tu servidor
+  const endpointURL = "http://localhost:3001/insertarRegistro1"; // Cambia la URL según corresponda
+
+  // Realizar la solicitud fetch
+  fetch(endpointURL, options)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Respuesta del servidor:", data);
+    })
+    .catch((error) => {
+      console.error("Error al hacer la solicitud:", error);
+    });
 }

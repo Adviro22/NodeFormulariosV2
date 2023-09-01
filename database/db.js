@@ -1,16 +1,19 @@
+// database/db.js
+
 import mysql from 'mysql2';
-import dotenv from 'dotenv'
+import dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
-const connection = mysql.createConnection({
-  host: process.env.DB_HOST ,
-  user: process.env.DB_USER ,
-  password: process.env.DB_PASSWORD ,
+const dbConfig = {
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   port: process.env.DB_PORT
+};
 
-});
+const connection = mysql.createConnection(dbConfig);
 
 connection.connect((error) => {
   if (error) {
@@ -21,3 +24,4 @@ connection.connect((error) => {
 });
 
 export default connection;
+export { dbConfig }; // Exporta también la variable dbConfig
