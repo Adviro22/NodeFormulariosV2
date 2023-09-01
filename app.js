@@ -2,9 +2,9 @@ import express from "express";
 import { auth } from "./auth.js";
 import dotenv from "dotenv";
 import bcryptjs from "bcryptjs";
-import session from "express-session";
-import mysql from "mysql2"
-import connection, {dbConfig} from "./database/db.js";
+import mysql from "mysql2";
+import connection, { dbConfig } from "./database/db.js";
+import cookieSession from "cookie-session";
 
 dotenv.config({ path: "./.env" });
 
@@ -25,22 +25,17 @@ app.use("/resources", express.static(import.meta.url + "/public"));
 app.set("view engine", "ejs");
 
 app.use(
-  session({
-    secret: "my-secret-key",
-    resave: false,
-    saveUninitialized: false,
+  cookieSession({
+    name: "session",
+    keys: ["key1", "key2"], // Claves de cifrado, cámbialas por valores secretos
+    maxAge: 24 * 60 * 60 * 1000, // Tiempo de vida de la cookie en milisegundos (1 día)
   })
 );
-/*
-app.get("/register", (req, res) => {
-  res.render('register')
-});
-*/
 
-app.post('/insertarRegistro1', async (req, res) => {
+app.post("/insertarRegistro1", async (req, res) => {
   try {
     // Obtener el id_usuario y id_tipo de variables
-    const id_usuario = user_id; 
+    const id_usuario = user_id;
     const id_tipo_registro = 1;
 
     // Obtener la fecha y hora actual
@@ -53,17 +48,25 @@ app.post('/insertarRegistro1', async (req, res) => {
     `;
 
     // Ejecutar la consulta
-    await connection.execute(insertQuery, [id_usuario, fecha_creacion, id_tipo_registro]);
+    await connection.execute(insertQuery, [
+      id_usuario,
+      fecha_creacion,
+      id_tipo_registro,
+    ]);
 
-    res.status(201).json({ message: 'Registro insertado correctamente' });
+    res.status(201).json({ message: "Registro insertado correctamente" });
   } catch (error) {
-    console.error('Error al insertar el registro:', error);
-    res.status(500).json({ error: 'Error al insertar el registro' });
+    console.error("Error al insertar el registro:", error);
+    res.status(500).json({ error: "Error al insertar el registro" });
   }
 });
 
 app.get("/login", (req, res) => {
   res.render("login");
+});
+
+app.get("/index", auth, (req, res) => {
+  res.render("index");
 });
 
 app.get("/menuprincipal", auth, (req, res) => {
@@ -120,11 +123,11 @@ app.post("/register", async (req, res) => {
   );
 });
 
-//Autentication
+// Dentro de tu ruta de autenticación ("/auth")
 app.post("/auth", async (req, res) => {
   const user = req.body.user;
   const pass = req.body.pass;
-  let passwordHaash = await bcryptjs.hash(pass, 8);
+  let passwordHash = await bcryptjs.hash(pass, 8);
   if (user && pass) {
     connection.query(
       "SELECT * FROM users WHERE user = ?",
@@ -144,23 +147,21 @@ app.post("/auth", async (req, res) => {
             ruta: "login",
           });
         } else {
-          //creamos una var de session y le asignamos true si INICIO SESSION
+          // Crear un objeto de usuario
+          const userInfo = {
+            id: results[0].id,
+            user: results[0].user,
+            name: results[0].name,
+          };
+
+          // Almacena el objeto de usuario en la sesión de la cookie
+          req.session.user = userInfo;
+
+          // Establece una cookie para indicar que el usuario está autenticado
           req.session.loggedin = true;
-          req.session.userId = results[0].id;
-          req.session.user = results[0].user;
-          req.session.name = results[0].name;
-          user_id = req.session.userId;
-          user_name = req.session.name;
-          loggedInUser = req.session.user;
-          res.render("login", {
-            alert: true,
-            alertTitle: "Conexión exitosa",
-            alertMessage: "¡LOGIN CORRECTO!",
-            alertIcon: "success",
-            showConfirmButton: false,
-            timer: 1500,
-            ruta: "",
-          });
+
+          // Redirige al usuario a la página principal después del inicio de sesión
+          res.redirect("/");
         }
       }
     );
@@ -169,31 +170,17 @@ app.post("/auth", async (req, res) => {
   }
 });
 
-//12 - Método para controlar que está auth en todas las páginas
-/*
-app.get('/', (req, res)=> {
-	if (req.session.loggedin) {
-		res.render('index',{
-			login: true,
-			name: req.session.name			
-		});		
-	} else {
-		res.render('index',{
-			login:false,
-			name:'Debe iniciar sesión',			
-		});				
-	}
-	res.end();
-});
-*/
 
-app.get("/", auth, (req, res) => {
+// La ruta "/" ahora se encarga de la redirección después del inicio de sesión
+app.get("/", (req, res) => {
   if (req.session.loggedin) {
+    // El usuario está autenticado, puedes redirigirlo a la página deseada, por ejemplo, "/menuprincipal"
     res.render("index", {
       login: true,
-      name: req.session.name,
+      name: req.session.user.name,
     });
   } else {
+    // El usuario no está autenticado, muéstrale la página de inicio de sesión
     res.render("index", {
       login: false,
       name: "Debe iniciar sesión",
@@ -201,19 +188,10 @@ app.get("/", auth, (req, res) => {
   }
 });
 
-//función para limpiar la caché luego del logout
-app.use(function (req, res, next) {
-  if (!req.user)
-    res.header("Cache-Control", "private, no-cache, no-store, must-revalidate");
-  next();
-});
-
-//Logout
-//Destruye la sesión.
+// La ruta de cierre de sesión
 app.get("/logout", function (req, res) {
-  req.session.destroy(() => {
-    res.redirect("/"); // siempre se ejecutará después de que se destruya la sesión
-  });
+  req.session = null; // Destruye la sesión eliminándola
+  res.redirect("/"); // Redirige al inicio u otra página después de cerrar sesión
 });
 
 app.listen(PORT, () => {
