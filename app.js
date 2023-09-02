@@ -11,10 +11,6 @@ dotenv.config({ path: "./.env" });
 const app = express();
 const PORT = process.env.PORT;
 
-export let user_id;
-export let user_name;
-export let loggedInUser;
-
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static("public"));
@@ -34,9 +30,8 @@ app.use(
 
 app.post("/insertarRegistro1", async (req, res) => {
   try {
-    // Obtener el id_usuario y id_tipo de variables
-    const id_usuario = user_id;
-    const id_tipo_registro = 1;
+    // Obtener el id_usuario de la cookie de sesión
+    const id_usuario = req.session.user.id; // Suponiendo que el ID de usuario se almacena en req.session.user
 
     // Obtener la fecha y hora actual
     const fecha_creacion = new Date();
@@ -51,7 +46,7 @@ app.post("/insertarRegistro1", async (req, res) => {
     await connection.execute(insertQuery, [
       id_usuario,
       fecha_creacion,
-      id_tipo_registro,
+      1, // Asignar el valor de id_tipo_registro según sea necesario
     ]);
 
     res.status(201).json({ message: "Registro insertado correctamente" });
