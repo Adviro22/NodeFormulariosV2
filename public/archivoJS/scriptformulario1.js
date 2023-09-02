@@ -279,6 +279,7 @@ function generate() {
   // Llamar a la función para realizar la solicitud
   realizarSolicitud();
 }
+
 function convertirMayusculas(input) {
   input.value = input.value.toUpperCase();
 }
