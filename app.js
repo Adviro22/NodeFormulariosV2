@@ -5,6 +5,7 @@ import bcryptjs from "bcryptjs";
 import mysql from "mysql2";
 import connection, { dbConfig } from "./database/db.js";
 import cookieSession from "cookie-session";
+import { DateTime } from "luxon";
 
 dotenv.config({ path: "./.env" });
 
@@ -33,8 +34,8 @@ app.post("/insertarRegistro1", async (req, res) => {
     // Obtener el id_usuario de la cookie de sesión
     const id_usuario = req.session.user.id; // Suponiendo que el ID de usuario se almacena en req.session.user
 
-    // Obtener la fecha y hora actual
-    const fecha_creacion = new Date();
+    // Obtener la fecha y hora actual de Ecuador
+    const fecha_creacion = DateTime.now().setZone("America/Guayaquil").toISO();
 
     // Consulta SQL para insertar un nuevo registro
     const insertQuery = `
