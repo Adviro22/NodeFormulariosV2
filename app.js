@@ -35,7 +35,8 @@ app.post("/insertarRegistro1", async (req, res) => {
     const id_usuario = req.session.user.id; // Suponiendo que el ID de usuario se almacena en req.session.user
 
     // Obtener la fecha y hora actual de Ecuador
-    const fecha_creacion = DateTime.now().setZone("America/Guayaquil").toISO();
+    const fecha_creacion = DateTime.now().setZone("America/Guayaquil");
+    console.log("Fecha y hora actual en Ecuador:", fecha_creacion.toISO());
 
     // Consulta SQL para insertar un nuevo registro
     const insertQuery = `
@@ -46,7 +47,7 @@ app.post("/insertarRegistro1", async (req, res) => {
     // Ejecutar la consulta
     await connection.execute(insertQuery, [
       id_usuario,
-      fecha_creacion,
+      fecha_creacion.toISO(), // Convertir la fecha y hora a ISO antes de insertarla
       1, // Asignar el valor de id_tipo_registro según sea necesario
     ]);
 
@@ -56,6 +57,7 @@ app.post("/insertarRegistro1", async (req, res) => {
     res.status(500).json({ error: "Error al insertar el registro" });
   }
 });
+
 
 app.get("/login", (req, res) => {
   res.render("login");
