@@ -91,6 +91,10 @@ app.get("/formulario4", auth, (req, res) => {
   res.render("formulario4");
 });
 
+app.get("/formulario5", auth, (req, res) => {
+  res.render("formulario5");
+});
+
 //Ver Datos del usuario logeado
 app.get("/user_data", auth, (req, res) => {
   const userId = req.session.userId;
