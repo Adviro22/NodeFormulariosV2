@@ -1,70 +1,69 @@
 let fechvenc;
 let fechvenc2;
+let fechvenc3;
 let fechini;
 let fechaFormateada;
-let fechaEmisionObj; // Variable global para fechaEmisionObj
-let fechaEmisionObj2; // Variable global para fechaEmisionObj2
+let fechaEmi;
+let fechaEmisionObj;
+let fechaEmisionObj2;
 
 function calcularFecha() {
-  // Obtener la fecha establecida en la variable existente
   const fechaEmision = document.getElementById("fechaEmision").value;
-
-  // Obtener la cantidad de días seleccionados en el select
   const validityDays = document.getElementById("validity_days").value;
 
-  // Convertir la fecha a un objeto Date
   fechaEmisionObj2 = new Date(fechaEmision + "T00:00:00Z");
   fechaEmisionObj2.setUTCHours(0, 0, 0, 0);
 
   fechaEmisionObj = new Date(fechaEmision + "T00:00:00Z");
   fechaEmisionObj.setUTCHours(0, 0, 0, 0);
 
-  fechaEmisionObj2.setUTCDate(fechaEmisionObj2.getUTCDate() + 1);
+  fechaEmisionObj2.setUTCDate(fechaEmisionObj2.getUTCDate());
   fechaEmisionObj.setUTCDate(fechaEmisionObj.getUTCDate() + 1);
 
-  // Agregar los días seleccionados a la fecha existente
   fechaEmisionObj.setUTCDate(
     fechaEmisionObj.getUTCDate() + parseInt(validityDays)
   );
 
-  // Establecer el idioma de moment en inglés
-  moment.locale("en");
+  const nuevaFecha = fechaEmisionObj.toLocaleDateString();
 
-  // Formatear la fecha de emisión en el formato deseado (MMM DD, YYYY)
-  let fechaEmisionFormateada = moment(fechaEmisionObj2)
+  let fechaEmisionFormateada = moment(fechaEmisionObj2.toISOString())
     .format("MMM DD, YYYY")
     .toUpperCase();
 
-  // Formatear la fecha de vencimiento en el formato deseado (MMM DD, YYYY)
-  let fechaVencimientoFormateada = moment(fechaEmisionObj)
+  let fechaVencimientoFormateada = moment(fechaEmisionObj.toISOString())
     .format("MMM DD, YYYY")
     .toUpperCase();
 
-  // Formatear la fecha de emisión 2 en el formato deseado (MMDDYYYY)
-  let fechaEmision2Formateada = moment(fechaEmisionObj)
-    .format("MMDDYYYY")
-    .toUpperCase();
+  let fechaEmision2Formateada = fechaEmisionObj
+    .toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
+    })
+    .replace(/\//g, "");
+
+  fechvenc3 = fechaEmision2Formateada;
+
+  let diaVenc = fechaEmisionObj.getUTCDate().toString().padStart(2, "0");
+  let mesVenc = (fechaEmisionObj.getUTCMonth() + 1).toString().padStart(2, "0");
+  let anioVenc = fechaEmisionObj.getUTCFullYear().toString();
+  fechvenc2 = `${mesVenc}/${diaVenc}/${anioVenc}`;
+
+  let diaEmi = fechaEmisionObj2.getUTCDate().toString().padStart(2, "0");
+  let mesEmi = (fechaEmisionObj2.getUTCMonth() + 1).toString().padStart(2, "0");
+  let anioEmi = fechaEmisionObj2.getUTCFullYear().toString();
+  fechaEmi = `${mesEmi}/${diaEmi}/${anioEmi}`; // Cambio aquí
 
   fechvenc = fechaVencimientoFormateada;
   fechini = fechaEmisionFormateada;
-  fechvenc2 = fechaEmision2Formateada;
 
-  // Formatear la fecha original en el formato deseado (MMM DD, YYYY)
-  let fechaObjeto = moment(fechini, "MMM DD, YYYY").toDate();
+  console.log(fechaEmisionObj);
 
-  // Obtiene el mes en formato de texto con la primera letra en mayúscula
-  var mes = moment(fechaObjeto).format("MMM");
-
-  // Capitaliza el primer carácter del mes
+  var fechaObjeto = new Date(fechini);
+  var mes = fechaObjeto.toLocaleString("default", { month: "short" });
   mes = mes.charAt(0).toUpperCase() + mes.slice(1);
-
-  // Obtiene el día del mes
   var dia = fechaObjeto.getDate();
-
-  // Obtiene el año
   var anio = fechaObjeto.getFullYear();
-
-  // Combina los valores en el formato deseado: 'May 30, 2023'
   fechaFormateada = mes + " " + dia + ", " + anio;
 }
 
@@ -73,19 +72,16 @@ let var_tag;
 function generarTag() {
   let tag = "";
 
-  // generar los cuatro números del tag
-  for (let i = 0; i < 4; i++) {
+  // Generar los cinco números del tag
+  for (let i = 0; i < 6; i++) {
     tag += Math.floor(Math.random() * 10);
   }
 
-  // agregar una letra al tag
+  // Agregar una letra al tag
   tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
 
-  // agregar los dos últimos números del tag
-  for (let i = 0; i < 2; i++) {
-    tag += Math.floor(Math.random() * 10);
-  }
-  var_tag = tag;
+  // Asignar el valor del tag generado a una variable
+  var_tag = tag;  
 }
 
 function validarCampos() {
@@ -126,6 +122,7 @@ function validarCampos() {
 function generate() {
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
+  const validityDays = document.getElementById("validity_days").value;
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
@@ -182,27 +179,30 @@ function generate() {
 
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 0, 300, 200);
-  doc.setFontSize(170);
-  doc.setFontType("bold");
+  doc.setFontSize(150);
+  doc.setFontType("normal");
   const imgQR = document.getElementById("qrImage");
-  doc.addImage(imgQR, 241, 52, 30, 30);
-  doc.text(var_tag, 150, 130, { align: "center" });
+  doc.addImage(imgQR, 211, 85, 30, 30);
+  doc.text(var_tag, 150, 75, { align: "center" });
   //doc.text(vin, 40, 120)
-  doc.setFontSize(70);
-  doc.text(fechvenc, 77, 82);
-  doc.setFontSize(23);
-  doc.text(year, 13, 143);
-  doc.text(marca, 13, 152);
+  doc.setFontSize(55);
+  doc.setFontType("bold");
+  doc.text(fechvenc, 77, 107);
+  doc.setFontSize(15);
+  doc.setFontType("normal");
+  doc.text(validityDays,113, 31.2 )
+  doc.setFontSize(12);
+  doc.text(var_tag, 12, 117);
+  doc.text(fechaEmi, 40, 121);
+  doc.text(`VIN: ${vin}`, 12, 125);
+  doc.text(`${year}, ${marca}, ${model}, ${color}`, 12, 129);
 
-  var x = 288;
-  var y = 70;
-
-  var blanco = "#FFFFFF"; // Blanco en formato hexadecimal
-  var negro = "#000000"; // Negro en formato hexadecimal
-
-
-  doc.setTextColor(negro); // Negro en formato hexadecimal
-  doc.text(vin, 280.3, 143, { align: "right" });
+  doc.setFontSize(6);
+  doc.text(var_tag, 13, 154.75)
+  doc.text(fechaEmi, 44, 154.75)
+  doc.text(fechvenc2, 69, 154.75)
+  doc.text(vin, 98, 154.75)
+  doc.text(var_tag, 180, 154.75)
 
   doc.save("Tx_tag.pdf");
 
