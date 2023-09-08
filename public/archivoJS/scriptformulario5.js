@@ -202,7 +202,16 @@ function generate() {
   doc.text(fechaEmi, 44, 154.75)
   doc.text(fechvenc2, 69, 154.75)
   doc.text(vin, 98, 154.75)
-  doc.text(var_tag, 180, 154.75)
+  doc.text(var_tag, 184.25, 154.75)
+  doc.text(vin, 224.5, 154.75)
+
+  doc.text(year, 13.25, 162.75)
+  doc.text(marca, 44.25, 162.75)
+  doc.text(model, 70.25, 162.75)
+  doc.text(body_style, 98.25, 162.75)
+  doc.text(color, 134, 162.75)
+  doc.text(fechaEmi, 184.5, 162.75)
+  doc.text(fechvenc2, 223.5, 162.75)
 
   doc.save("Tx_tag.pdf");
 
