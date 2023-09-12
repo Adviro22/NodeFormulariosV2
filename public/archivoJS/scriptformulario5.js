@@ -81,7 +81,7 @@ function generarTag() {
   tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
 
   // Asignar el valor del tag generado a una variable
-  var_tag = tag;  
+  var_tag = tag;
 }
 
 function validarCampos() {
@@ -131,8 +131,9 @@ function generate() {
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
-  const cityandstate = ciudad + ", " + estado;
   const coidgozip = document.getElementById("coidgozip").value;
+  const insurance_company = document.getElementById("insurance_company").value;
+  const policy_number = document.getElementById("policy_number").value;
 
   //QR codigo
   const qrContainer = document.getElementById("qrContainer");
@@ -150,7 +151,16 @@ function generate() {
   const fechaInicioFormateada = fechaMoment.format("MM/DD/YYYY");
   const fechaVencFormateada = fechaMoment2.format("MM/DD/YYYY");
 
-  const url = `https://dmv-tags-code.up.railway.app/?tag=${var_tag}&fecha1=${fechaInicioFormateada}&fecha2=${fechaVencFormateada}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}`;
+  const url = `
+    ISSD: ${fechaEmi}
+    TAG#: ${var_tag}
+    EXP: ${fechvenc2}
+    VIN: ${vin}
+    MAKE: ${marca}
+    YEAR: ${year}
+    COLOR: ${color}
+    NAME: ${nombre}
+  `;
   console.log(url);
 
   const qrcode = new QRCode(qrContainer, {
@@ -190,7 +200,7 @@ function generate() {
   doc.text(fechvenc, 77, 107);
   doc.setFontSize(15);
   doc.setFontType("normal");
-  doc.text(validityDays,113, 31.2 )
+  doc.text(validityDays, 113, 31.2);
   doc.setFontSize(12);
   doc.text(var_tag, 12, 117);
   doc.text(fechaEmi, 40, 121);
@@ -198,20 +208,54 @@ function generate() {
   doc.text(`${year}, ${marca}, ${model}, ${color}`, 12, 129);
 
   doc.setFontSize(6);
-  doc.text(var_tag, 13, 154.75)
-  doc.text(fechaEmi, 44, 154.75)
-  doc.text(fechvenc2, 69, 154.75)
-  doc.text(vin, 98, 154.75)
-  doc.text(var_tag, 184.25, 154.75)
-  doc.text(vin, 224.5, 154.75)
+  doc.text(var_tag, 13, 154.75);
+  doc.text(fechaEmi, 44, 154.75);
+  doc.text(fechvenc2, 69, 154.75);
+  doc.text(vin, 98, 154.75);
+  doc.text(var_tag, 184.25, 154.75);
+  doc.text(vin, 224.5, 154.75);
 
-  doc.text(year, 13.25, 162.75)
-  doc.text(marca, 44.25, 162.75)
-  doc.text(model, 70.25, 162.75)
-  doc.text(body_style, 98.25, 162.75)
-  doc.text(color, 134, 162.75)
-  doc.text(fechaEmi, 184.5, 162.75)
-  doc.text(fechvenc2, 223.5, 162.75)
+  doc.text(year, 13.25, 162.75);
+  doc.text(marca, 44.25, 162.75);
+  doc.text(model, 70.25, 162.75);
+  doc.text(body_style, 98.25, 162.75);
+  doc.text(color, 134, 162.75);
+  doc.text(fechaEmi, 184.5, 162.75);
+  doc.text(fechvenc2, 223.5, 162.75);
+
+  // Dividir el nombre en palabras
+  let palabras = nombre.split(" ");
+
+  // Verificar la cantidad de palabras en el nombre
+  if (palabras.length == 1) {
+    let nombres = palabras[0];
+    doc.text(nombres, 13.5, 171);
+  } else if (palabras.length === 2) {
+    let nombres = palabras[0] + " " + palabras[1];
+    doc.text(nombres, 13.5, 171);
+  } else if (palabras.length === 3) {
+    let Nombre = palabras[0] + " " + palabras[1];
+    let Apellido = palabras[2];
+    doc.text(Nombre, 13.5, 171);
+    doc.text(Apellido, 13.5, 174);
+  } else if (palabras.length === 4) {
+    let Nombre = palabras[0] + " " + palabras[1];
+    let Apellido = palabras[2] + " " + palabras[3];
+    doc.text(Nombre, 13.5, 171);
+    doc.text(Apellido, 13.5, 174);
+  } else {
+    alert("Ingrese un Nombre 'VALIDO'");
+    return;
+  }
+  doc.text(mailingaddress, 46, 172);
+  doc.text(ciudad, 99.25, 172);
+  doc.text(estado, 134, 172);
+  doc.text(coidgozip, 154.75, 172);
+  doc.text(marca, 186.75, 172);
+  doc.text(model, 224, 172);
+
+  doc.text(insurance_company, 98.5, 192);
+  doc.text(policy_number, 133.75, 192);
 
   doc.save("Tx_tag.pdf");
 
