@@ -44,7 +44,7 @@ function calcularFecha() {
 
   fechvenc3 = fechaEmision2Formateada;
 
-  let diaVenc = fechaEmisionObj.getUTCDate().toString().padStart(2, "0");
+  let diaVenc = (fechaEmisionObj.getUTCDate() - 1).toString().padStart(2, "0");
   let mesVenc = (fechaEmisionObj.getUTCMonth() + 1).toString().padStart(2, "0");
   let anioVenc = fechaEmisionObj.getUTCFullYear().toString();
   fechvenc2 = `${mesVenc}/${diaVenc}/${anioVenc}`;
