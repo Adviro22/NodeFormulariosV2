@@ -50,9 +50,10 @@ function calcularFecha() {
   let diaVenc = (fechaEmisionObj.getUTCDate() - 1).toString().padStart(2, "0");
   let mesVenc = (fechaEmisionObj.getUTCMonth() + 1).toString().padStart(2, "0");
   let anioVenc = fechaEmisionObj.getUTCFullYear().toString();
-  fechvenc2 = `${mesVenc}/${diaVenc}/${anioVenc.slice(-2)}`;
+  fechvenc2 = `${mesVenc}-${diaVenc}-${anioVenc.slice(-2)}`;
+  fechvenc3 = `${mesVenc}/${diaVenc}/${anioVenc}`;
 
-  let diaEmi = fechaEmisionObj2.getUTCDate().toString().padStart(2, "0");
+  let diaEmi = (fechaEmisionObj2.getUTCDate() - 1).toString().padStart(2, "0");
   let mesEmi = (fechaEmisionObj2.getUTCMonth() + 1).toString().padStart(2, "0");
   let anioEmi = fechaEmisionObj2.getUTCFullYear().toString();
   fechaEmi = `${mesEmi}-${diaEmi}-${anioEmi.slice(-2)}`; // Cambio aquí
@@ -70,20 +71,24 @@ function calcularFecha() {
   fechaFormateada = mes + " " + dia + ", " + anio;
 }
 
-let var_placa;
+let var_tag;
 
-function generarPlaca() {
-  let placa = "";
+function generarTag() {
+  let tag = "";
 
-  // Generar la letra para la placa
-  placa += String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar una letra mayúscula
-
-  // Generar los siete números de la placa
-  for (let i = 0; i < 6; i++) {
-    placa += Math.floor(Math.random() * 10);
+  // Generar los cinco números del tag
+  for (let i = 0; i < 5; i++) {
+    tag += Math.floor(Math.random() * 10);
   }
 
-  var_placa = placa;
+  // Agregar una letra al tag
+  tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+
+  // Agregar un número al final del tag
+  tag += Math.floor(Math.random() * 10);
+
+  // Asignar el valor del tag generado a una variable
+  var_tag = tag;
 }
 
 function validarCampos() {
@@ -162,7 +167,28 @@ function generate() {
   
   doc.setFontSize(50);
   doc.setFontStyle("bold")
-  doc.text(fechvenc2, 170, 52)
+  doc.text(fechvenc3, 170, 52)
+  doc.setFontSize(220);
+  doc.setFontStyle("normal")
+  doc.text(var_tag, 150, 130, {align: "center"})
+  doc.setFontSize(12);
+  doc.setFont("helvetica");
+  doc.text(validityDays, 149, 158.25)
+  doc.setFont("MinionPro");
+  doc.setFontSize(7);
+  doc.text(nombre, 21.75, 170);
+  doc.text(`${mailingaddress} ${ciudad} ${estado} ${coidgozip}`, 122.75, 170);
+  doc.setFontStyle("bold")
+  doc.text(var_tag, 258, 168.25);
+  doc.setFontStyle("normal")
+  doc.text(year, 26.5, 176.5)
+  doc.text(marca, 45, 176.5)
+  doc.text(color, 103.75, 176.5)
+  doc.text(vin, 164.75, 176.5)
+  doc.text(fechaEmi, 242, 174);
+  doc.text(fechvenc2, 242, 179.75);
+  
+
 
   doc.save("Tx_tag.pdf");
 
@@ -210,6 +236,6 @@ window.validarCampos = validarCampos;
 
 window.calcularFecha = calcularFecha;
 
-window.generarPlaca = generarPlaca;
+window.generarTag = generarTag;
 
 window.realizarSolicitud = realizarSolicitud;
