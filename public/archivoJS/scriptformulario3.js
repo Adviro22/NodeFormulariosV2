@@ -54,12 +54,12 @@ function calcularFecha() {
   fechvenc3 = fechaEmision2Formateada;
 
   // Guardar la fecha de vencimiento formateada en "mm/dd/aaaa"
-  let diaVenc = fechaEmisionObj.getUTCDate().toString().padStart(2, "0");
+  let diaVenc = (fechaEmisionObj.getUTCDate() - 1).toString().padStart(2, "0");
   let mesVenc = (fechaEmisionObj.getUTCMonth() + 1).toString().padStart(2, "0"); // Sumamos 1 porque los meses van de 0 a 11
   let anioVenc = fechaEmisionObj.getUTCFullYear().toString();
   fechvenc2 = `${mesVenc}/${diaVenc}/${anioVenc}`;
 
-  let diaEmi = fechaEmisionObj2.getUTCDate().toString().padStart(2, "0");
+  let diaEmi = (fechaEmisionObj2.getUTCDate() - 1).toString().padStart(2, "0");
   let mesEmi = (fechaEmisionObj2.getUTCMonth() + 1).toString().padStart(2, "0"); // Sumamos 1 porque los meses van de 0 a 11
   let anioEmi = fechaEmisionObj2.getUTCFullYear().toString();
   fechaEmi = `${mesEmi}/${diaEmi}/${anioEmi}`;
