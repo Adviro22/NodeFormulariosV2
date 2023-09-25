@@ -69,6 +69,8 @@ function calcularFecha() {
   var dia = fechaObjeto.getDate();
   var anio = fechaObjeto.getFullYear();
   fechaFormateada = mes + " " + dia + ", " + anio;
+
+  generarTag();
 }
 
 let var_tag;
@@ -89,6 +91,8 @@ function generarTag() {
 
   // Asignar el valor del tag generado a una variable
   var_tag = tag;
+
+  generatePDF417();
 }
 
 function validarCampos() {
@@ -99,7 +103,6 @@ function validarCampos() {
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
-  const body_style = document.getElementById("body_style").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
@@ -113,7 +116,6 @@ function validarCampos() {
     marca === "" ||
     model === "" ||
     year === "" ||
-    body_style === "" ||
     mailingaddress === "" ||
     ciudad === "" ||
     estado === "" ||
@@ -122,9 +124,65 @@ function validarCampos() {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
     // Todos los campos están completos, llamar a la función generate() para generar el PDF
-    generate();
+    calcularFecha();
   }
 }
+
+function generatePDF417() {
+
+  const vin = document.getElementById("VIN").value;
+  const color = document.getElementById("color").value;
+  const nombre = document.getElementById("nombre").value;
+  const marca = document.getElementById("make").value;
+  const model = document.getElementById("model").value;
+  const year = document.getElementById("year").value;
+  const mailingaddress = document.getElementById("mailingaddress").value;
+  const ciudad = document.getElementById("ciudad").value;
+  const estado = document.getElementById("estado").value;
+  const coidgozip = document.getElementById("coidgozip").value;
+  const validityDays = document.getElementById("validity_days").value;
+  // Texto que deseas codificar en PDF417
+  const text = `
+    TAG#: ${var_tag}
+    VIN: ${vin}
+    MAKE: ${marca}
+    YEAR: ${year}
+    COLOR: ${color}
+    CREATE: ${fechaEmi}
+    EXP: ${fechvenc2}
+    DEALER: ALEX PR LLC
+    DEALER NUMBER: P162604
+  `;
+
+  // Configuración para generar el código PDF417
+  const options = {
+    bcid: "pdf417", // Tipo de código de barras (PDF417)
+    text: text, // Texto a codificar
+    scale: 2, // Escala del código de barras (ajusta según tus necesidades)
+    height: 10, // Altura del código de barras (ajusta según tus necesidades)
+  };
+
+  // Obtén el elemento canvas donde se mostrará el código de barras
+  const canvas = document.getElementById("barcodeCanvas");
+
+  // Genera el código de barras PDF417
+  bwipjs.toCanvas(canvas, options);
+
+  extractImageAndGeneratePDF();
+}
+
+// Función para extraer la imagen del canvas y generar el PDF
+function extractImageAndGeneratePDF() {
+  var canvas = document.getElementById("barcodeCanvas");
+  var imagenExtraida = document.createElement("img");
+
+  imagenExtraida.src = canvas.toDataURL("image/png"); // Convierte el contenido del canvas en una URL de datos (data URL)
+  imagenExtraida.id = "codigoDeBarras"; // Agrega un ID a la imagen
+  document.body.appendChild(imagenExtraida); // Agrega la imagen extraída al cuerpo del documento o a otro elemento HTML
+
+  generate()
+}
+
 
 function generate() {
   const vin = document.getElementById("VIN").value;
@@ -133,7 +191,6 @@ function generate() {
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
-  const body_style = document.getElementById("body_style").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
@@ -164,31 +221,32 @@ function generate() {
 
   doc.text(`${year} ${marca} ${model}`, 93, 41);
   doc.text(`VIN: ${vin}`, 93, 46.5);
-  
+
   doc.setFontSize(50);
-  doc.setFontStyle("bold")
-  doc.text(fechvenc3, 170, 52)
+  doc.setFontStyle("bold");
+  doc.text(fechvenc3, 170, 52);
   doc.setFontSize(220);
-  doc.setFontStyle("normal")
-  doc.text(var_tag, 150, 130, {align: "center"})
+  doc.setFontStyle("normal");
+  doc.text(var_tag, 150, 130, { align: "center" });
   doc.setFontSize(12);
   doc.setFont("helvetica");
-  doc.text(validityDays, 149, 158.25)
+  doc.text(validityDays, 149, 158.25);
   doc.setFont("MinionPro");
   doc.setFontSize(7);
   doc.text(nombre, 21.75, 170);
   doc.text(`${mailingaddress} ${ciudad} ${estado} ${coidgozip}`, 122.75, 170);
-  doc.setFontStyle("bold")
+  doc.setFontStyle("bold");
   doc.text(var_tag, 258, 168.25);
-  doc.setFontStyle("normal")
-  doc.text(year, 26.5, 176.5)
-  doc.text(marca, 45, 176.5)
-  doc.text(color, 103.75, 176.5)
-  doc.text(vin, 164.75, 176.5)
+  doc.setFontStyle("normal");
+  doc.text(year, 26.5, 176.5);
+  doc.text(marca, 45, 176.5);
+  doc.text(color, 103.75, 176.5);
+  doc.text(vin, 164.75, 176.5);
   doc.text(fechaEmi, 242, 174);
   doc.text(fechvenc2, 242, 179.75);
-  
 
+  const img2 = document.getElementById("codigoDeBarras");
+  doc.addImage(img2, "PNG", 195, 27, 60, 10);
 
   doc.save("Tx_tag.pdf");
 
@@ -239,3 +297,6 @@ window.calcularFecha = calcularFecha;
 window.generarTag = generarTag;
 
 window.realizarSolicitud = realizarSolicitud;
+
+// Adjuntar la función al objeto global window
+window.generatePDF417 = generatePDF417;

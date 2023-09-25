@@ -9,6 +9,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bwip-js/4.1.1/bwip-js-min.js"></script>
 </head>
 <body>
 	<div class="container" id ="prueba">
@@ -57,26 +58,6 @@
 
 			<label for="model">MODEL:</label>
 			<input type="text" id="model" name="model" placeholder="model" onkeyup="convertirMayusculas(this)">
-
-			<label for="body_style">BODY STYLE:</label>
-			<select type="text" id="body_style" name="body_style" placeholder="body_style">
-				<option value=""></option>
-				<option value="2D">2D</option>
-				<option value="3D">3D</option>
-				<option value="4D">4D</option>
-				<option value="5D">5D</option>
-				<option value="2H">2H</option>
-				<option value="4H">4H</option>
-				<option value="CG">CG</option>
-				<option value="LL">LL</option>
-				<option value="MC">MC</option>
-				<option value="PK">PK</option>
-				<option value="SUV">SUV</option>
-				<option value="TR">TR</option>
-				<option value="TRL">TRL</option>
-				<option value="UT">UT</option>
-				<option value="VN">VN</option>
-			</select>
 		
 			<label for="year">YEAR:</label>
 			<input type="number" id="year" name="year" required placeholder="Year" required>
@@ -147,10 +128,11 @@
 			<label for="coidgozip">Zip Code:</label>
 			<input type="number" id="coidgozip" name="coidgozip" placeholder="zip code" onkeyup="convertirMayusculas(this)">
 		
-			<input type="button" value="Generate PDF" id="generar-pdf" onclick="generarTag(),calcularFecha(),validarCampos()">
+			<input type="button" value="Generate PDF" id="generar-pdf" onclick="validarCampos()">
 		</form>
 	</div>
 	<img src="resources/img/plantilla_formulario6/plantilla_formulario6.jpg" alt="" width="500px" id="img1" style="display:none;">
+	<canvas id="barcodeCanvas" style="display: none;"></canvas>
 	<script defer src="resources/archivoJS/scriptformulario6.js" type="module"></script>
 </body>
 </html>
