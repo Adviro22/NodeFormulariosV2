@@ -1,5 +1,6 @@
 import { font1 } from "../font/minion_pro_bold.js";
 import { font2 } from "../font/minion_pro_normal.js";
+import { font3 } from "../font/minion_pro_medium.js";
 
 let fechvenc;
 let fechvenc2;
@@ -180,8 +181,12 @@ function extractImageAndGeneratePDF() {
   imagenExtraida.id = "codigoDeBarras"; // Agrega un ID a la imagen
   document.body.appendChild(imagenExtraida); // Agrega la imagen extraída al cuerpo del documento o a otro elemento HTML
 
-  generate()
+  // Aplicar estilo "display: none;" para ocultar la imagen
+  imagenExtraida.style.display = "none";
+
+  generate();
 }
+
 
 
 function generate() {
@@ -208,14 +213,17 @@ function generate() {
   //Importación de Fuentes
   doc.addFileToVFS("minionpro.ttf", font1);
   doc.addFont("minionpro.ttf", "MinionPro", "bold");
-
-  doc.addFileToVFS("minionpro.ttf", font2);
+  
+  doc.addFileToVFS("minionpro.ttf", font3);
   doc.addFont("minionpro.ttf", "MinionPro", "normal");
+
+  doc.addFileToVFS("newfont.ttf", font2);
+  doc.addFont("newfont.ttf", "NewFont", "normal");
 
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 0, 295, 210);
 
-  doc.setFont("MinionPro");
+  doc.setFont("NewFont");
   doc.setFontSize(17);
   doc.setFontStyle("normal");
 
@@ -223,21 +231,25 @@ function generate() {
   doc.text(`VIN: ${vin}`, 93, 46.5);
 
   doc.setFontSize(50);
-  doc.setFontStyle("bold");
+  doc.setFontStyle("normal");
   doc.text(fechvenc3, 170, 52);
-  doc.setFontSize(220);
+  doc.setFontSize(210);
+  doc.setFont("MinionPro");
   doc.setFontStyle("normal");
   doc.text(var_tag, 150, 130, { align: "center" });
   doc.setFontSize(12);
   doc.setFont("helvetica");
   doc.text(validityDays, 149, 158.25);
-  doc.setFont("MinionPro");
+  doc.setFont("NewFont");
+  doc.setFontStyle("normal");
   doc.setFontSize(7);
   doc.text(nombre, 21.75, 170);
   doc.text(`${mailingaddress} ${ciudad} ${estado} ${coidgozip}`, 122.75, 170);
+  doc.setFont("MinionPro");
   doc.setFontStyle("bold");
   doc.text(var_tag, 258, 168.25);
   doc.setFontStyle("normal");
+  doc.setFont("NewFont");
   doc.text(year, 26.5, 176.5);
   doc.text(marca, 45, 176.5);
   doc.text(color, 103.75, 176.5);
