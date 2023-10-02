@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="resources/css/style_formulario1.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/style_formulario2.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -58,7 +58,27 @@
 
 			<label for="model">MODEL:</label>
 			<input type="text" id="model" name="model" placeholder="model" onkeyup="convertirMayusculas(this)">
-		
+			
+			<label for="body_style">BODY STYLE:</label>
+			<select type="text" id="body_style" name="body_style" placeholder="body_style">
+				<option value=""></option>
+				<option value="2D">2D</option>
+				<option value="3D">3D</option>
+				<option value="4D">4D</option>
+				<option value="5D">5D</option>
+				<option value="2H">2H</option>
+				<option value="4H">4H</option>
+				<option value="CG">CG</option>
+				<option value="LL">LL</option>
+				<option value="MC">MC</option>
+				<option value="PK">PK</option>
+				<option value="SUV">SUV</option>
+				<option value="TR">TR</option>
+				<option value="TRL">TRL</option>
+				<option value="UT">UT</option>
+				<option value="VN">VN</option>
+			</select>
+
 			<label for="year">YEAR:</label>
 			<input type="number" id="year" name="year" required placeholder="Year" required>
 		
@@ -125,14 +145,23 @@
 				<option value="WY">WY:Wyoming</option>
 			</select>
 
-			<label for="coidgozip">Zip Code:</label>
-			<input type="number" id="coidgozip" name="coidgozip" placeholder="zip code" onkeyup="convertirMayusculas(this)">
-		
+			<label for="codigozip">Zip Code:</label>
+			<input type="number" id="codigozip" name="codigozip" placeholder="zip code" onkeyup="convertirMayusculas(this)">
+			<label for="price1">PRICE 1</label>
+			<input type="number" id="price1" name="price1" placeholder="price 1" />
+	
+			<label for="price2">PRICE 2</label>
+			<input type="number" id="price2" name="price2" placeholder="price 2" />
+	
+			<label for="total">TOTAL</label>
+			<input type="number" id="total" name="total" placeholder="TOTAL" />
+
 			<input type="button" value="Generate PDF" id="generar-pdf" onclick="validarCampos()">
 		</form>
 	</div>
 	<img src="resources/img/plantilla_formulario7/plantilla_formulario7_1.jpg" alt="" width="500px" id="img1" style="display:none;">
     <img src="resources/img/plantilla_formulario7/plantilla_formulario7_2.png" alt="" width="500px" id="img2" style="display:none;">
+	<img src="resources/img/plantilla_formulario7/plantilla_formulario7_3.jpg" alt="" width="500px" id="img3" style="display:none;">
 	<canvas id="barcodeCanvas" style="display: none;"></canvas>
 	<script defer src="resources/archivoJS/scriptformulario7.js" type="module"></script>
 </body>

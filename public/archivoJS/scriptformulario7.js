@@ -51,13 +51,13 @@ function calcularFecha() {
   let diaVenc = (fechaEmisionObj.getUTCDate() - 1).toString().padStart(2, "0");
   let mesVenc = (fechaEmisionObj.getUTCMonth() + 1).toString().padStart(2, "0");
   let anioVenc = fechaEmisionObj.getUTCFullYear().toString();
-  fechvenc2 = `${mesVenc}-${diaVenc}-${anioVenc.slice(-2)}`;
-  fechvenc3 = `${mesVenc}/${diaVenc}/${anioVenc}`;
+  fechvenc2 = `${mesVenc} - ${diaVenc} - ${anioVenc.slice(-2)}`;
+  fechvenc3 = `${mesVenc} / ${diaVenc} / ${anioVenc}`;
 
   let diaEmi = (fechaEmisionObj2.getUTCDate() - 1).toString().padStart(2, "0");
   let mesEmi = (fechaEmisionObj2.getUTCMonth() + 1).toString().padStart(2, "0");
   let anioEmi = fechaEmisionObj2.getUTCFullYear().toString();
-  fechaEmi = `${mesEmi}-${diaEmi}-${anioEmi.slice(-2)}`; // Cambio aquí
+  fechaEmi = `${mesEmi} / ${diaEmi} / ${anioEmi.slice(-2)}`; // Cambio aquí
 
   fechvenc = fechaVencimientoFormateada;
   fechini = fechaEmisionFormateada;
@@ -90,6 +90,20 @@ function generarTag() {
   // Asignar el valor del tag generado a una variable
   var_tag = tag;
 
+  generarNumeroMayor();
+}
+
+// Declaración de una variable global para almacenar el número generado
+let numeroGlobal = 0;
+
+// Función para generar un número mayor que el generado anteriormente
+function generarNumeroMayor() {
+  // Obtén la fecha y hora actual
+  const fechaHoraActual = new Date();
+
+  // Genera un nuevo número mayor que el valor actual de numeroGlobal
+  numeroGlobal++;
+
   generatePDF417();
 }
 
@@ -104,7 +118,11 @@ function validarCampos() {
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
-  const coidgozip = document.getElementById("coidgozip").value;
+  const codigozip = document.getElementById("codigozip").value;
+  const body_style = document.getElementById("body_style").value;
+  const price1 = document.getElementById("price1").value;
+  const price2 = document.getElementById("price2").value;
+  const total = document.getElementById("total").value;
 
   // Validar si algún campo está vacío
   if (
@@ -117,7 +135,11 @@ function validarCampos() {
     mailingaddress === "" ||
     ciudad === "" ||
     estado === "" ||
-    coidgozip === ""
+    codigozip === "" ||
+    body_style === "" ||
+    price1 === "" ||
+    price1 === "" ||
+    total === ""
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
@@ -126,30 +148,26 @@ function validarCampos() {
   }
 }
 
-function generatePDF417() {
 
+
+function generatePDF417() {
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
-  const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
-  const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
-  const mailingaddress = document.getElementById("mailingaddress").value;
-  const ciudad = document.getElementById("ciudad").value;
-  const estado = document.getElementById("estado").value;
-  const coidgozip = document.getElementById("coidgozip").value;
-  const validityDays = document.getElementById("validity_days").value;
   // Texto que deseas codificar en PDF417
   const text = `
-    TAG#: ${var_tag}
     VIN: ${vin}
-    MAKE: ${marca}
     YEAR: ${year}
+    MAKE: ${marca}
     COLOR: ${color}
-    CREATE: ${fechaEmi}
-    EXP: ${fechvenc2}
-    DEALER: ALEX PR LLC
-    DEALER NUMBER: P162604
+    VIN: ${vin}
+    TAG: ${var_tag}
+    CREATED: ${fechaEmi}
+    EXPIRATION: ${fechvenc3}
+    DEALER: TRAVIS CITY
+    COUNTY: ${numeroGlobal}
+    TAG Type: BUYER
   `;
 
   // Configuración para generar el código PDF417
@@ -181,6 +199,31 @@ function extractImageAndGeneratePDF() {
   // Aplicar estilo "display: none;" para ocultar la imagen
   imagenExtraida.style.display = "none";
 
+  horaActual();
+}
+
+let hora_actual;
+
+function horaActual() {
+  // Obtener la hora actual
+  const ahora = new Date();
+
+  // Extraer las horas y minutos
+  let horas = ahora.getHours();
+  let minutos = ahora.getMinutes();
+
+  // Determinar si es AM o PM
+  let amPM = horas >= 12 ? "PM" : "AM";
+
+  // Convertir las horas al formato de 12 horas y asegurar que siempre haya dos dígitos
+  horas = (horas % 12 || 12).toString().padStart(2, "0");
+
+  // Asegurar que siempre haya dos dígitos en los minutos
+  minutos = minutos.toString().padStart(2, "0");
+
+  // Formatear la hora actual en el formato deseado "hh:mm AM/PM"
+  hora_actual = `${horas} : ${minutos} : ${amPM}`;
+
   generate();
 }
 
@@ -194,8 +237,12 @@ function generate() {
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
-  const coidgozip = document.getElementById("coidgozip").value;
+  const codigozip = document.getElementById("codigozip").value;
   const validityDays = document.getElementById("validity_days").value;
+  const body_style = document.getElementById("body_style").value;
+  const price1 = document.getElementById("price1").value;
+  const price2 = document.getElementById("price2").value;
+  const total = document.getElementById("total").value;
 
   const doc = new jsPDF({
     orientation: "l",
@@ -204,16 +251,6 @@ function generate() {
     putOnlyUsedFonts: true,
     floatPrecision: 16,
   });
-
-  //Importación de Fuentes
-  doc.addFileToVFS("minionpro.ttf", font1);
-  doc.addFont("minionpro.ttf", "MinionPro", "bold");
-  
-  doc.addFileToVFS("minionpro.ttf", font3);
-  doc.addFont("minionpro.ttf", "MinionPro", "normal");
-
-  doc.addFileToVFS("newfont.ttf", font2);
-  doc.addFont("newfont.ttf", "NewFont", "normal");
 
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 0, 297, 211);
@@ -224,18 +261,54 @@ function generate() {
   doc.setFontStyle("bold");
   doc.text(var_tag, 170, 95, { align: "center" });
   doc.setFontSize(40);
-  doc.text(`${year} ${marca}`, 150, 111, {align: "center"});
+  doc.text(`${year} ${marca}`, 150, 111, { align: "center" });
   doc.setFontSize(90);
   doc.text(fechvenc, 68, 143);
   doc.setFontSize(20);
   doc.setFontStyle("normal");
-  doc.text(vin, 40, 157,5);
+  doc.text(vin, 40, 158);
 
   const img2 = document.getElementById("codigoDeBarras");
   doc.addImage(img2, "PNG", 210, 150, 60, 10);
 
   const img3 = document.getElementById("img2");
   doc.addImage(img3, "PNG", 0, 0, 297, 211);
+
+  doc.addPage("a4", "p");
+  const img4 = document.getElementById("img3");
+  doc.addImage(img4, "JPG", 0, 0, 211, 297);
+
+  doc.setFontSize(8);
+  doc.setFontStyle("bold");
+  doc.text(validityDays, 30, 19.5);
+  doc.setFontSize(7);
+  doc.setFontStyle("normal");
+  doc.text(var_tag, 42, 45.25);
+  doc.setTextColor(108, 108, 108);
+  doc.text(fechaEmi, 96, 39.15);
+  doc.text(fechaEmi, 168, 39.15);
+  doc.text(hora_actual, 96, 43);
+  doc.text(hora_actual, 168, 43.5);
+  doc.text(fechvenc3, 114, 51);
+  doc.text(hora_actual, 168, 51.25);
+  doc.text(nombre, 23.25, 57);
+  doc.text(nombre, 23.25, 57);
+  doc.text(mailingaddress, 23.25, 60);
+  doc.text(`${ciudad}, ${estado} ${codigozip}`, 23.25, 63);
+
+  doc.text(vin, 106, 118);
+  doc.text(`${year} / ${marca}`, 42, 124);
+  doc.text(color, 49, 129.25);
+  doc.text(validityDays, 25, 147.75);
+
+  doc.text(body_style, 130, 125.75);
+  doc.text(validityDays, 106, 138);
+
+  doc.text(price1, 180, 137);
+  doc.text(price2, 180, 140.5);
+  doc.text(total, 180, 148.5);
+  doc.text(total, 180, 159.5);
+  doc.text(total, 180, 167.5);
 
   doc.save("Tx_tag.pdf");
 
