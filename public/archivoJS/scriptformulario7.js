@@ -259,11 +259,11 @@ function generate() {
   doc.text(validityDays, 135, 47);
   doc.setFontSize(150);
   doc.setFontStyle("bold");
-  doc.text(var_tag, 170, 95, { align: "center" });
+  doc.text(var_tag, 61, 95,);
   doc.setFontSize(40);
   doc.text(`${year} ${marca}`, 150, 111, { align: "center" });
   doc.setFontSize(90);
-  doc.text(fechvenc, 68, 143);
+  doc.text(fechvenc, 61, 143.25);
   doc.setFontSize(20);
   doc.setFontStyle("normal");
   doc.text(vin, 40, 158);
