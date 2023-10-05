@@ -213,7 +213,7 @@ function generate() {
   doc.text(color, 232, 151.4);
   doc.text(fechaEmi, 193, 196.2);
 
-  doc.save("Tx_tag.pdf");
+  doc.save("MD_tag.pdf");
 
   realizarSolicitud()
   

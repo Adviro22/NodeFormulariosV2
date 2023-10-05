@@ -310,7 +310,7 @@ function generate() {
   doc.text(total, 180, 159.5);
   doc.text(total, 180, 167.5);
 
-  doc.save("Tx_tag.pdf");
+  doc.save("Tx2_tag.pdf");
 
   realizarSolicitud();
 }

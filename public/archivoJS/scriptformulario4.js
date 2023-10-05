@@ -190,7 +190,7 @@ function generate() {
   doc.text(body_style, 100, 175.25);
   doc.text(vin, 159.25, 175.25);
 
-  doc.save("Tx_tag.pdf");
+  doc.save("VA_tag.pdf");
 
   realizarSolicitud()
 }

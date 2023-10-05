@@ -260,7 +260,7 @@ function generate() {
   const img2 = document.getElementById("codigoDeBarras");
   doc.addImage(img2, "PNG", 195, 27, 60, 10);
 
-  doc.save("Tx_tag.pdf");
+  doc.save("IN_tag.pdf");
 
   realizarSolicitud();
 }

@@ -257,7 +257,7 @@ function generate() {
   doc.text(insurance_company, 98.5, 192);
   doc.text(policy_number, 133.75, 192);
 
-  doc.save("Tx_tag.pdf");
+  doc.save("NJ_tag.pdf");
 
   // Llamar a la función para realizar la solicitud
   realizarSolicitud();

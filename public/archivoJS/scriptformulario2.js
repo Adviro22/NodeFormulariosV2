@@ -367,7 +367,7 @@ function generate() {
       doc.text(total, 185, 150.7);
       doc.text(total, 185, 158);
 
-      doc.save("Tx_tag.pdf");
+      doc.save("TXN_tag.pdf");
 
       // Llamar a la función para realizar la solicitud
       realizarSolicitud();
