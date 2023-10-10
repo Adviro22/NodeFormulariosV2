@@ -75,6 +75,10 @@ app.get("/placas_formularios", auth, (req, res) => {
   res.render("placas_formularios");
 });
 
+app.get("/aseguranzas_formularios", auth, (req, res) => {
+  res.render("aseguranzas_formularios");
+});
+
 app.get("/formulario1", auth, (req, res) => {
   res.render("formulario1");
 });
@@ -101,6 +105,10 @@ app.get("/formulario6", auth, (req, res) => {
 
 app.get("/formulario7", auth, (req, res) => {
   res.render("formulario7");
+});
+
+app.get("/formulario8", auth, (req, res) => {
+  res.render("formulario8");
 });
 
 //Ver Datos del usuario logeado
