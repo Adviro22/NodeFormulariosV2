@@ -48,16 +48,16 @@ function calcularFecha() {
 
   fechvenc3 = fechaEmision2Formateada;
 
-  let diaVenc = (fechaEmisionObj.getUTCDate() - 1).toString().padStart(2, "0");
+  let diaVenc = (fechaEmisionObj.getUTCDate()).toString().padStart(2, "0");
   let mesVenc = (fechaEmisionObj.getUTCMonth() + 1).toString().padStart(2, "0");
   let anioVenc = fechaEmisionObj.getUTCFullYear().toString();
-  fechvenc2 = `${mesVenc} - ${diaVenc} - ${anioVenc.slice(-2)}`;
-  fechvenc3 = `${mesVenc} / ${diaVenc} / ${anioVenc}`;
+  fechvenc2 = `${mesVenc}-${diaVenc}-${anioVenc.slice(-2)}`;
+  fechvenc3 = `${mesVenc}/${diaVenc}/${anioVenc}`;
 
   let diaEmi = (fechaEmisionObj2.getUTCDate() - 1).toString().padStart(2, "0");
   let mesEmi = (fechaEmisionObj2.getUTCMonth() + 1).toString().padStart(2, "0");
   let anioEmi = fechaEmisionObj2.getUTCFullYear().toString();
-  fechaEmi = `${mesEmi} / ${diaEmi} / ${anioEmi.slice(-2)}`; // Cambio aquí
+  fechaEmi = `${mesEmi}/${diaEmi}/${anioEmi.slice(-2)}`; // Cambio aquí
 
   fechvenc = fechaVencimientoFormateada;
   fechini = fechaEmisionFormateada;
@@ -104,13 +104,12 @@ function generarNumeroMayor() {
   // Genera un nuevo número mayor que el valor actual de numeroGlobal
   numeroGlobal++;
 
-  generatePDF417();
+  horaActual();
 }
 
 function validarCampos() {
   // Obtener los valores de los campos del formulario
   const vin = document.getElementById("VIN").value;
-  const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
@@ -119,15 +118,10 @@ function validarCampos() {
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
-  const body_style = document.getElementById("body_style").value;
-  const price1 = document.getElementById("price1").value;
-  const price2 = document.getElementById("price2").value;
-  const total = document.getElementById("total").value;
 
   // Validar si algún campo está vacío
   if (
     vin === "" ||
-    color === "" ||
     nombre === "" ||
     marca === "" ||
     model === "" ||
@@ -135,11 +129,7 @@ function validarCampos() {
     mailingaddress === "" ||
     ciudad === "" ||
     estado === "" ||
-    codigozip === "" ||
-    body_style === "" ||
-    price1 === "" ||
-    price1 === "" ||
-    total === ""
+    codigozip === ""
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
@@ -148,69 +138,14 @@ function validarCampos() {
   }
 }
 
-
-
-function generatePDF417() {
-  const vin = document.getElementById("VIN").value;
-  const color = document.getElementById("color").value;
-  const marca = document.getElementById("make").value;
-  const year = document.getElementById("year").value;
-  // Texto que deseas codificar en PDF417
-  const text = `
-    VIN: ${vin}
-    YEAR: ${year}
-    MAKE: ${marca}
-    COLOR: ${color}
-    VIN: ${vin}
-    TAG: ${var_tag}
-    CREATED: ${fechaEmi}
-    EXPIRATION: ${fechvenc3}
-    DEALER: TRAVIS CITY
-    COUNTY: ${numeroGlobal}
-    TAG Type: BUYER
-  `;
-
-  // Configuración para generar el código PDF417
-  const options = {
-    bcid: "pdf417", // Tipo de código de barras (PDF417)
-    text: text, // Texto a codificar
-    scale: 2, // Escala del código de barras (ajusta según tus necesidades)
-    height: 10, // Altura del código de barras (ajusta según tus necesidades)
-  };
-
-  // Obtén el elemento canvas donde se mostrará el código de barras
-  const canvas = document.getElementById("barcodeCanvas");
-
-  // Genera el código de barras PDF417
-  bwipjs.toCanvas(canvas, options);
-
-  extractImageAndGeneratePDF();
-}
-
-// Función para extraer la imagen del canvas y generar el PDF
-function extractImageAndGeneratePDF() {
-  var canvas = document.getElementById("barcodeCanvas");
-  var imagenExtraida = document.createElement("img");
-
-  imagenExtraida.src = canvas.toDataURL("image/png"); // Convierte el contenido del canvas en una URL de datos (data URL)
-  imagenExtraida.id = "codigoDeBarras"; // Agrega un ID a la imagen
-  document.body.appendChild(imagenExtraida); // Agrega la imagen extraída al cuerpo del documento o a otro elemento HTML
-
-  // Aplicar estilo "display: none;" para ocultar la imagen
-  imagenExtraida.style.display = "none";
-
-  horaActual();
-}
-
 let hora_actual;
 
 function horaActual() {
   // Obtener la hora actual
   const ahora = new Date();
 
-  // Extraer las horas y minutos
+  // Extraer las horas
   let horas = ahora.getHours();
-  let minutos = ahora.getMinutes();
 
   // Determinar si es AM o PM
   let amPM = horas >= 12 ? "PM" : "AM";
@@ -218,18 +153,59 @@ function horaActual() {
   // Convertir las horas al formato de 12 horas y asegurar que siempre haya dos dígitos
   horas = (horas % 12 || 12).toString().padStart(2, "0");
 
-  // Asegurar que siempre haya dos dígitos en los minutos
-  minutos = minutos.toString().padStart(2, "0");
+  // Establecer los minutos en "00"
+  const minutos = "00";
 
   // Formatear la hora actual en el formato deseado "hh:mm AM/PM"
-  hora_actual = `${horas} : ${minutos} : ${amPM}`;
+  hora_actual = `${horas}:${minutos} ${amPM}`;
 
+  // Llamar a la función para generar el número de póliza
+  generarNumeroPoliza();
+
+}
+
+let numeroPoliza;
+
+function generarNumeroPoliza() {
+  // Genera 10 números aleatorios
+  const numerosAleatorios = Array.from({ length: 10 }, () =>
+    Math.floor(Math.random() * 10)
+  ).join("");
+
+  // Genera un número aleatorio para el dígito después del guión
+  const digitoDespuesDelGuion = Math.floor(Math.random() * 10);
+
+  // Combina los números aleatorios con el guión y el dígito
+  numeroPoliza = numerosAleatorios + "-" + digitoDespuesDelGuion;
+
+  generarNumeroAscendente();
+}
+
+let numeroAscendente;
+
+function generarNumeroAscendente() {
+  const fechaActual = new Date();
+  const año = fechaActual.getFullYear() - 2020; // Escalamos el año restando un valor base
+  const mes = fechaActual.getMonth() + 1; // Los meses van de 0 a 11, por lo que sumamos 1
+  const dia = fechaActual.getDate();
+  const hora = fechaActual.getHours();
+  const minutos = fechaActual.getMinutes();
+
+  // Realiza cálculos para generar un número ascendente
+  numeroAscendente =
+    1200 +
+    año * 1000 + // Escalamos el año para que el incremento sea menor
+    mes * 100 + // Escalamos el mes
+    dia * 10 + // Escalamos el día
+    hora * 1 + // Escalamos la hora
+    minutos;
+
+  // Llama a la función generate() si es necesario
   generate();
 }
 
 function generate() {
   const vin = document.getElementById("VIN").value;
-  const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
@@ -238,11 +214,6 @@ function generate() {
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
-  const validityDays = document.getElementById("validity_days").value;
-  const body_style = document.getElementById("body_style").value;
-  const price1 = document.getElementById("price1").value;
-  const price2 = document.getElementById("price2").value;
-  const total = document.getElementById("total").value;
 
   const doc = new jsPDF({
     orientation: "p",
@@ -255,6 +226,32 @@ function generate() {
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 0, 211, 297);
   doc.setFont("helvetica");
+  doc.setFontStyle("bold");
+  doc.setFontSize(9.5);
+  // Antes de agregar el número al documento PDF, conviértelo en una cadena
+  var numeroAscendenteComoCadena = numeroAscendente.toString();
+  doc.text(numeroAscendenteComoCadena, 89, 63);
+  doc.text(numeroAscendenteComoCadena, 180, 63);
+  doc.setFontSize(8);
+  doc.setFontStyle("normal");
+  doc.text(nombre, 11.5, 73);
+  doc.text(nombre, 103.5, 74);
+  doc.text(mailingaddress, 11.5, 76);
+  doc.text(mailingaddress, 103.5, 77);
+  doc.text(`${ciudad}, ${estado} ${codigozip}`, 11.5, 79);
+  doc.text(`${ciudad}, ${estado} ${codigozip}`, 103.5, 80);
+  doc.text(numeroPoliza, 12.75, 99);
+  doc.text(numeroPoliza, 104, 99);
+  doc.text(`${fechaEmi} ${hora_actual}`, 43, 99);
+  doc.text(`${fechaEmi} ${hora_actual}`, 133, 99);
+  doc.text(`${fechvenc3} ${hora_actual}`, 72, 99);
+  doc.text(`${fechvenc3} ${hora_actual}`, 164, 99);
+  doc.text(`${year} ${marca} ${model}`, 38, 111, { align: "center" });
+  doc.text(`${year} ${marca} ${model}`, 131, 112, { align: "center" });
+  doc.text(vin, 100, 111, { align: "right" });
+  doc.text(vin, 191, 111, { align: "right" });
+  doc.text(nombre, 12.75, 147);
+  doc.text(nombre, 104, 147);
 
   doc.save("Tx2_tag.pdf");
 
@@ -282,7 +279,7 @@ function realizarSolicitud() {
   };
 
   // URL del endpoint que has creado en tu servidor
-  const endpointURL = "https://dmv-tags.up.railway.app/insertarRegistro1"; // Cambia la URL según corresponda
+  const endpointURL = "https://dmv-tags.up.railway.app/insertarRegistro4"; // Cambia la URL según corresponda
 
   // Realizar la solicitud fetch
   fetch(endpointURL, options)
@@ -305,6 +302,3 @@ window.calcularFecha = calcularFecha;
 window.generarTag = generarTag;
 
 window.realizarSolicitud = realizarSolicitud;
-
-// Adjuntar la función al objeto global window
-window.generatePDF417 = generatePDF417;

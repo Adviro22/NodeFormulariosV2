@@ -47,37 +47,17 @@
 			<label for="validity_days">VALIDITY DAYS:</label>
 			<select type="text" id="validity_days" name="validity_days" placeholder="validity_days">
 				<option value=""></option>
-				<option value="30">30 días</option>
-				<option value="60">60 días</option>
-				<option value="90">90 días</option>
-				<option value="180">180 días</option>
-				<option value="360">360 días</option>
+				<option value="30">1 mes</option>
+				<option value="60">2 meses</option>
+				<option value="90">3 meses</option>
+				<option value="180">6 meses</option>
+				<option value="360">12 meses</option>
 			</select>
 			<label for="make">MAKE:</label>
 			<input type="text" id="make" name="make" placeholder="make" onkeyup="convertirMayusculas(this)">
 
 			<label for="model">MODEL:</label>
 			<input type="text" id="model" name="model" placeholder="model" onkeyup="convertirMayusculas(this)">
-			
-			<label for="body_style">BODY STYLE:</label>
-			<select type="text" id="body_style" name="body_style" placeholder="body_style">
-				<option value=""></option>
-				<option value="2D">2D</option>
-				<option value="3D">3D</option>
-				<option value="4D">4D</option>
-				<option value="5D">5D</option>
-				<option value="2H">2H</option>
-				<option value="4H">4H</option>
-				<option value="CG">CG</option>
-				<option value="LL">LL</option>
-				<option value="MC">MC</option>
-				<option value="PK">PK</option>
-				<option value="SUV">SUV</option>
-				<option value="TR">TR</option>
-				<option value="TRL">TRL</option>
-				<option value="UT">UT</option>
-				<option value="VN">VN</option>
-			</select>
 
 			<label for="year">YEAR:</label>
 			<input type="number" id="year" name="year" required placeholder="Year" required>
@@ -147,14 +127,6 @@
 
 			<label for="codigozip">Zip Code:</label>
 			<input type="number" id="codigozip" name="codigozip" placeholder="zip code" onkeyup="convertirMayusculas(this)">
-			<label for="price1">PRICE 1</label>
-			<input type="number" id="price1" name="price1" placeholder="price 1" />
-	
-			<label for="price2">PRICE 2</label>
-			<input type="number" id="price2" name="price2" placeholder="price 2" />
-	
-			<label for="total">TOTAL</label>
-			<input type="number" id="total" name="total" placeholder="TOTAL" />
 
 			<input type="button" value="Generate PDF" id="generar-pdf" onclick="validarCampos()">
 		</form>
