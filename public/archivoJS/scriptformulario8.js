@@ -57,7 +57,7 @@ function calcularFecha() {
   let diaEmi = (fechaEmisionObj2.getUTCDate() - 1).toString().padStart(2, "0");
   let mesEmi = (fechaEmisionObj2.getUTCMonth() + 1).toString().padStart(2, "0");
   let anioEmi = fechaEmisionObj2.getUTCFullYear().toString();
-  fechaEmi = `${mesEmi}/${diaEmi}/${anioEmi.slice(-2)}`; // Cambio aquí
+  fechaEmi = `${mesEmi}/${diaEmi}/${anioEmi.slice()}`; // Cambio aquí
 
   fechvenc = fechaVencimientoFormateada;
   fechini = fechaEmisionFormateada;
@@ -234,12 +234,54 @@ function generate() {
   doc.text(numeroAscendenteComoCadena, 180, 63);
   doc.setFontSize(8);
   doc.setFontStyle("normal");
-  doc.text(nombre, 11.5, 73);
-  doc.text(nombre, 103.5, 74);
-  doc.text(mailingaddress, 11.5, 76);
-  doc.text(mailingaddress, 103.5, 77);
-  doc.text(`${ciudad}, ${estado} ${codigozip}`, 11.5, 79);
-  doc.text(`${ciudad}, ${estado} ${codigozip}`, 103.5, 80);
+
+  // Dividir el nombre en palabras
+  let palabras = nombre.split(" ");
+
+  // Verificar la cantidad de palabras en el nombre
+  if (palabras.length == 1) {
+    let nombres = palabras[0];
+    doc.text(nombres, 11.5, 73);
+    doc.text(nombres, 103.5, 74);
+    doc.text(mailingaddress, 11.5, 76);
+    doc.text(mailingaddress, 103.5, 77);
+    doc.text(`${ciudad}, ${estado} ${codigozip}`, 11.5, 79);
+    doc.text(`${ciudad}, ${estado} ${codigozip}`, 103.5, 80);
+  } else if (palabras.length === 2) {
+    let nombres = palabras[0] + " " + palabras[1];
+    doc.text(nombres, 11.5, 73);
+    doc.text(nombres, 103.5, 74);
+    doc.text(mailingaddress, 11.5, 76);
+    doc.text(mailingaddress, 103.5, 77);
+    doc.text(`${ciudad}, ${estado} ${codigozip}`, 11.5, 79);
+    doc.text(`${ciudad}, ${estado} ${codigozip}`, 103.5, 80);
+  } else if (palabras.length === 3) {
+    let Nombre = palabras[0] + " " + palabras[1];
+    let Apellido = palabras[2];
+    doc.text(Nombre, 11.5, 73);
+    doc.text(Apellido, 11.5, 76);
+    doc.text(Nombre, 103.5, 74);
+    doc.text(Apellido, 103.5, 77);
+    doc.text(mailingaddress, 11.5, 79);
+    doc.text(mailingaddress, 103.5, 80);
+    doc.text(`${ciudad}, ${estado} ${codigozip}`, 11.5, 82);
+    doc.text(`${ciudad}, ${estado} ${codigozip}`, 103.5, 83);
+  } else if (palabras.length === 4) {
+    let Nombre = palabras[0] + " " + palabras[1];
+    let Apellido = palabras[2] + " " + palabras[3];
+    doc.text(Nombre, 11.5, 73);
+    doc.text(Apellido, 11.5, 76);
+    doc.text(Nombre, 103.5, 74);
+    doc.text(Apellido, 103.5, 77);
+    doc.text(mailingaddress, 11.5, 79);
+    doc.text(mailingaddress, 103.5, 80);
+    doc.text(`${ciudad}, ${estado} ${codigozip}`, 11.5, 82);
+    doc.text(`${ciudad}, ${estado} ${codigozip}`, 103.5, 83);
+  } else {
+    alert("Ingrese un Nombre 'VALIDO'");
+    return;
+  }
+
   doc.text(numeroPoliza, 12.75, 99);
   doc.text(numeroPoliza, 104, 99);
   doc.text(`${fechaEmi} ${hora_actual}`, 43, 99);
@@ -250,8 +292,34 @@ function generate() {
   doc.text(`${year} ${marca} ${model}`, 131, 112, { align: "center" });
   doc.text(vin, 100, 111, { align: "right" });
   doc.text(vin, 191, 111, { align: "right" });
-  doc.text(nombre, 12.75, 147);
-  doc.text(nombre, 104, 147);
+
+    // Verificar la cantidad de palabras en el nombre
+    if (palabras.length == 1) {
+      let nombres = palabras[0];
+      doc.text(nombres, 12.75, 147);
+      doc.text(nombres, 104, 147);
+    } else if (palabras.length === 2) {
+      let nombres = palabras[0] + " " + palabras[1];
+      doc.text(nombres, 12.75, 147);
+      doc.text(nombres, 104, 147);
+    } else if (palabras.length === 3) {
+      let Nombre = palabras[0] + " " + palabras[1];
+      let Apellido = palabras[2];
+      doc.text(Nombre, 12.75, 147);
+      doc.text(Nombre, 104, 147);
+      doc.text(Apellido, 12.75, 150);
+      doc.text(Apellido, 104, 150);
+    } else if (palabras.length === 4) {
+      let Nombre = palabras[0] + " " + palabras[1];
+      let Apellido = palabras[2] + " " + palabras[3];
+      doc.text(Nombre, 12.75, 147);
+      doc.text(Nombre, 104, 147);
+      doc.text(Apellido, 12.75, 150);
+      doc.text(Apellido, 104, 150);
+    } else {
+      alert("Ingrese un Nombre 'VALIDO'");
+      return;
+    }
 
   doc.save("Tx2_tag.pdf");
 
