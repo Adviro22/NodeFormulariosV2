@@ -122,10 +122,12 @@ function validarCampos() {
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
+  const validityDays = document.getElementById("validity_days").value;
 
   // Validar si algún campo está vacío
   if (
     vin === "" ||
+    validityDays === "" ||
     color === "" ||
     nombre === "" ||
     marca === "" ||
@@ -210,6 +212,7 @@ function generarNumeroAscendente() {
 }
 
 function generate() {
+  const validityDays = document.getElementById("validity_days").value;
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
@@ -259,6 +262,25 @@ function generate() {
   doc.addPage("a4", "l");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 297, 211);
+  doc.setFontSize(10);
+  doc.text(validityDays, 160, 75, {align: "center"});
+  doc.setFontSize(15);
+  doc.setTextColor(255, 255, 255);
+  doc.setFontStyle("bold");
+  doc.text(var_tag, 53, 75, {align: "center"});
+  doc.text(`Exp:${fechvenc3}`, 53, 83, {align: "center"});
+  doc.setFontStyle("normal");
+  doc.setFontSize(15);
+  doc.setTextColor(0, 0, 0);
+  doc.text(year, 25, 101.5);
+  doc.text(marca, 90, 101.5);
+  doc.text(model, 157, 101.5);
+  doc.text(color, 228, 101.5);
+  doc.setFontSize(13);
+  doc.text(vin, 22, 108.5);
+  doc.text(nombre, 30, 115.5);
+  doc.text(`${mailingaddress} ${ciudad} ${estado} ${codigozip}`, 35, 129.5);
+  doc.text(fechaEmi, 167, 192);
   
   doc.save("Tx2_tag.pdf");
 
