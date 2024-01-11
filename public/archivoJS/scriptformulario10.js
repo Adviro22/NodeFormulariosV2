@@ -11,6 +11,7 @@ let fechaEmi;
 let fechaEmisionObj;
 let fechaEmisionObj2;
 let lista_fechvenc;
+let fecha_venc4;
 
 function calcularFecha() {
   const fechaEmision = document.getElementById("fechaEmision").value;
@@ -33,6 +34,10 @@ function calcularFecha() {
 
   let fechaEmisionFormateada = moment(fechaEmisionObj2.toISOString())
     .format("MMM DD, YYYY")
+    .toUpperCase();
+
+  let soloMes = moment(fechaEmisionObj.toISOString())
+    .format("MMM")
     .toUpperCase();
 
   let fechaVencimientoFormateada = moment(fechaEmisionObj.toISOString())
@@ -66,6 +71,7 @@ function calcularFecha() {
 
   fechvenc = fechaVencimientoFormateada;
   fechini = fechaEmisionFormateada;
+  fecha_venc4 = `${diaVenc}-${soloMes}-${anioVenc}`
 
   console.log(fechaEmisionObj);
 
@@ -84,13 +90,13 @@ let var_tag;
 function generarTag() {
   let tag = "";
 
-  // Generar los cinco números del tag
-  for (let i = 0; i < 6; i++) {
+  // Generar la letra del tag
+  tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+
+  // Generar los siete números del tag
+  for (let i = 0; i < 7; i++) {
     tag += Math.floor(Math.random() * 10);
   }
-
-  // Agregar una letra al tag
-  tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
 
   // Asignar el valor del tag generado a una variable
   var_tag = tag;
@@ -225,7 +231,13 @@ function generate() {
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
 
-  const url = `Hola Mundo`;
+  const url = `
+  VIN: ${vin}
+  YEAR: ${year}
+  MAKE/MODEL:  ${marca}/${model}
+  TAG#: ${var_tag}
+  EXPIRE: ${fecha_venc4}
+  Georgia Department of Revenue`;
   console.log(url);
 
   const qrcode = new QRCode(qrContainer, {
@@ -256,17 +268,28 @@ function generate() {
   doc.addImage(img1, 0, 0, 297, 211);
   doc.setFont("helvetica");
   doc.setFontStyle("bold");
-  
+  doc.setFontSize(83);
 
   const imgQR = document.getElementById("qrImage");
-  doc.addImage(imgQR, 241, 52, 30, 30);
+  doc.addImage(imgQR, 40, 95, 30, 30);
+
+  doc.setFontSize(25);
+  doc.setFontStyle("normal");
+  doc.text(vin, 150, 40, { align: "center" });
+  doc.setFontStyle("bold");
+  doc.setFontSize(120);
+  doc.text(var_tag, 150, 80, { align: "center" });
+  doc.setFontStyle("normal");
+  doc.setFontSize(70);
+  doc.text(fecha_venc4, 150, 118, { align: "center" });
+  doc.setFontSize(20);
+  doc.text(`${year} ${marca} ${model} ${color}`, 150, 130, { align: "center" });
 
   //Segunda Página
   doc.addPage("a4", "l");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 297, 211);
   doc.setFontSize(10);
-  
 
   doc.save("Tx2_tag.pdf");
 
