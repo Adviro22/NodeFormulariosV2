@@ -215,7 +215,16 @@ function generarNumeroAscendente() {
     minutos;
 
   // Llama a la función generate() si es necesario
+  generarNumeroAleatorio();
+}
+
+let numeroAleatorio
+
+function generarNumeroAleatorio() {
+  // Obtener la hora actual en milisegundos
+  numeroAleatorio = Math.floor(Math.random() * (9999999 - 1000000 + 1) + 1000000);
   generate();
+
 }
 
 function generate() {
@@ -284,12 +293,26 @@ function generate() {
   doc.text(fecha_venc4, 150, 118, { align: "center" });
   doc.setFontSize(20);
   doc.text(`${year} ${marca} ${model} ${color}`, 150, 130, { align: "center" });
+  doc.setFontSize(15)
+  doc.text(` ${numeroAleatorio} `, 262, 130, {align: 'center'})
 
   //Segunda Página
   doc.addPage("a4", "l");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 297, 211);
-  doc.setFontSize(10);
+  doc.setFontSize(15);
+  doc.text(var_tag, 190, 26.75)
+  doc.setFontSize(12);
+  doc.text(vin, 52, 42.75);
+  doc.text(year, 150, 43.25);
+  doc.text(color, 194, 43.25);
+  doc.text(marca, 150, 54);
+  doc.text(model, 194, 54);
+
+  doc.setFontSize(15)
+  doc.text(nombre, 38, 76);
+  doc.text(mailingaddress, 38, 81.5);
+  doc.text(`${ciudad} ${estado} ${codigozip}`, 38, 86.5);
 
   doc.save("Tx2_tag.pdf");
 
