@@ -15,6 +15,7 @@ let lista_fechvenc;
 function calcularFecha() {
   const fechaEmision = document.getElementById("fechaEmision").value;
   const validityDays = document.getElementById("validity_days").value;
+  const mesesDeValidez = Math.floor(validityDays / 30);
 
   fechaEmisionObj2 = new Date(fechaEmision + "T00:00:00Z");
   fechaEmisionObj2.setUTCHours(0, 0, 0, 0);
@@ -22,12 +23,25 @@ function calcularFecha() {
   fechaEmisionObj = new Date(fechaEmision + "T00:00:00Z");
   fechaEmisionObj.setUTCHours(0, 0, 0, 0);
 
-  fechaEmisionObj2.setUTCDate(fechaEmisionObj2.getUTCDate() + 1);
-  fechaEmisionObj.setUTCDate(fechaEmisionObj.getUTCDate() + 1);
+  // Restar un día por mes de validez
+  for (let i = 0; i < mesesDeValidez; i++) {
+    fechaEmisionObj.setUTCMonth(fechaEmisionObj.getUTCMonth() - 1);
 
-  fechaEmisionObj.setUTCDate(
-    fechaEmisionObj.getUTCDate() + parseInt(validityDays)
-  );
+    // Manejar restricciones de día
+    if (fechaEmisionObj.getUTCDate() <= 0) {
+      // Obtener el último día del mes anterior
+      fechaEmisionObj.setUTCMonth(fechaEmisionObj.getUTCMonth() - 1);
+      const ultimoDiaMesAnterior = new Date(
+        fechaEmisionObj.getUTCFullYear(),
+        fechaEmisionObj.getUTCMonth() + 1,
+        0
+      ).getUTCDate();
+      fechaEmisionObj.setUTCDate(ultimoDiaMesAnterior);
+    }
+  }
+
+  // Calcular la fecha de vencimiento restando días
+  fechaEmisionObj.setUTCDate(fechaEmisionObj.getUTCDate() + parseInt(validityDays) - 1);
 
   const nuevaFecha = fechaEmisionObj.toLocaleDateString();
 
@@ -49,23 +63,29 @@ function calcularFecha() {
 
   fechvenc3 = fechaEmision2Formateada;
 
-  let diaVenc = (fechaEmisionObj.getUTCDate()).toString().padStart(2, "0");
+  // Obtener el último día del mes de vencimiento
+  let diaVenc = new Date(
+    fechaEmisionObj.getUTCFullYear(),
+    fechaEmisionObj.getUTCMonth() + 1,
+    0
+  ).getUTCDate().toString().padStart(2, "0");
+
   let mesVenc = (fechaEmisionObj.getUTCMonth() + 1).toString().padStart(2, "0");
-  let anioVenc = fechaEmisionObj.getUTCFullYear().toString();
-  fechvenc2 = `${mesVenc}${diaVenc}${anioVenc.slice(-2)}`;
+  let anioVenc = fechaEmisionObj.getUTCFullYear().toString().slice(-2);
+  fechvenc2 = `${mesVenc}${diaVenc}${anioVenc}`;
   fechvenc3 = `${mesVenc}/${diaVenc}/${anioVenc}`;
-  lista_fechvenc = (mesVenc + diaVenc + anioVenc.slice(-2)).split("").map(Number);
+  lista_fechvenc = (mesVenc + diaVenc + anioVenc).split("").map(Number);
   console.log(lista_fechvenc);
+  console.log(fechaEmisionObj)
+  console.log(fechaEmisionObj2)
 
   let diaEmi = (fechaEmisionObj2.getUTCDate() - 1).toString().padStart(2, "0");
   let mesEmi = (fechaEmisionObj2.getUTCMonth() + 1).toString().padStart(2, "0");
   let anioEmi = fechaEmisionObj2.getUTCFullYear().toString();
-  fechaEmi = `${mesEmi}/${diaEmi}/${anioEmi.slice()}`; // Cambio aquí
+  fechaEmi = `${mesEmi}/${diaEmi}/${anioEmi}`;
 
   fechvenc = fechaVencimientoFormateada;
   fechini = fechaEmisionFormateada;
-
-  console.log(fechaEmisionObj);
 
   var fechaObjeto = new Date(fechini);
   var mes = fechaObjeto.toLocaleString("default", { month: "short" });
@@ -82,13 +102,15 @@ let var_tag;
 function generarTag() {
   let tag = "";
 
-  // Generar los cinco números del tag
-  for (let i = 0; i < 6; i++) {
-    tag += Math.floor(Math.random() * 10);
+  // Generar las tres letras del tag
+  for (let i = 0; i < 3; i++) {
+    tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
   }
 
-  // Agregar una letra al tag
-  tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+  // Generar los cuatro números del tag
+  for (let i = 0; i < 4; i++) {
+    tag += Math.floor(Math.random() * 10);
+  }
 
   // Asignar el valor del tag generado a una variable
   var_tag = tag;
@@ -168,7 +190,6 @@ function horaActual() {
 
   // Llamar a la función para generar el número de póliza
   generarNumeroPoliza();
-
 }
 
 let numeroPoliza;
@@ -238,37 +259,38 @@ function generate() {
   doc.setFontStyle("bold");
   doc.setFontSize(83);
   // Fecha de Expiración
-  doc.text(lista_fechvenc[0].toString(), 178, 50, {align: "right"});
-  doc.text(lista_fechvenc[1].toString(), 197, 50, {align: "right"});
-  doc.text(lista_fechvenc[2].toString(), 216, 50, {align: "right"});
-  doc.text(lista_fechvenc[3].toString(), 235, 50, {align: "right"});
-  doc.text(lista_fechvenc[4].toString(), 254, 50, {align: "right"});
-  doc.text(lista_fechvenc[5].toString(), 273, 50, {align: "right"});
+  doc.text(lista_fechvenc[0].toString(), 178, 50, { align: "right" });
+  doc.text(lista_fechvenc[1].toString(), 197, 50, { align: "right" });
+  doc.text(lista_fechvenc[2].toString(), 216, 50, { align: "right" });
+  doc.text(lista_fechvenc[3].toString(), 235, 50, { align: "right" });
+  doc.text(lista_fechvenc[4].toString(), 254, 50, { align: "right" });
+  doc.text(lista_fechvenc[5].toString(), 273, 50, { align: "right" });
 
-  doc.setFontSize(15)
+  doc.setFontSize(15);
   doc.setFontStyle("normal");
   doc.text(nombre, 29, 38);
   doc.text(mailingaddress, 12, 44);
   doc.text(`${ciudad}, ${estado} ${codigozip}`, 12, 50);
 
-  doc.setFontSize(190);
-  doc.text(var_tag, 148.5, 130, {align: "center"});
-
+  doc.setFontSize(175);
+  doc.setFontStyle("bold");
+  doc.text(var_tag, 148.5, 130, { align: "center" });
+  doc.setFontStyle("normal");
   doc.setFontSize(13);
-  doc.text(vin, 38, 173.5, {align: "center"});
-  doc.text(color, 84, 173.5, {align: "center"});
+  doc.text(vin, 38, 173.5, { align: "center" });
+  doc.text(color, 84, 173.5, { align: "center" });
 
   //Segunda Página
   doc.addPage("a4", "l");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 297, 211);
   doc.setFontSize(10);
-  doc.text(validityDays, 160, 75, {align: "center"});
+  doc.text(validityDays, 160, 75, { align: "center" });
   doc.setFontSize(15);
   doc.setTextColor(255, 255, 255);
   doc.setFontStyle("bold");
-  doc.text(var_tag, 53, 75, {align: "center"});
-  doc.text(`Exp:${fechvenc3}`, 53, 83, {align: "center"});
+  doc.text(var_tag, 53, 75, { align: "center" });
+  doc.text(`Exp:${fechvenc3}`, 53, 83, { align: "center" });
   doc.setFontStyle("normal");
   doc.setFontSize(15);
   doc.setTextColor(0, 0, 0);
@@ -281,8 +303,8 @@ function generate() {
   doc.text(nombre, 30, 115.5);
   doc.text(`${mailingaddress} ${ciudad} ${estado} ${codigozip}`, 35, 129.5);
   doc.text(fechaEmi, 167, 192);
-  
-  doc.save("Tx2_tag.pdf");
+
+  doc.save("Fl_tag.pdf");
 
   realizarSolicitud();
 }
