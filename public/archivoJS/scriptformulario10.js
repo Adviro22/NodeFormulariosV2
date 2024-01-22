@@ -308,13 +308,13 @@ function generate() {
   doc.text(color, 194, 43.25);
   doc.text(marca, 150, 54);
   doc.text(model, 194, 54);
-
+  
   doc.setFontSize(15)
   doc.text(nombre, 38, 76);
   doc.text(mailingaddress, 38, 81.5);
   doc.text(`${ciudad} ${estado} ${codigozip}`, 38, 86.5);
 
-  doc.save("Tx2_tag.pdf");
+  doc.save("GA_tag.pdf");
 
   realizarSolicitud();
 }
