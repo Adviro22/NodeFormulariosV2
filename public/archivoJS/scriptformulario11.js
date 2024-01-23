@@ -6,6 +6,7 @@ let fechvenc3;
 let fechini;
 let fechaFormateada;
 let fechaEmi;
+let fechaEmi2
 let fechaEmisionObj;
 let fechaEmisionObj2;
 let lista_fechvenc;
@@ -69,6 +70,7 @@ function calcularFecha() {
   let mesEmi = (fechaEmisionObj2.getUTCMonth() + 1).toString().padStart(2, "0");
   let anioEmi = fechaEmisionObj2.getUTCFullYear().toString();
   fechaEmi = `${mesEmi} - ${diaEmi} - ${anioEmi.slice()}`; // Cambio aquí
+  fechaEmi2 = `${mesEmi}/${diaEmi}/${anioEmi.slice()}`;
 
   fechvenc = fechaVencimientoFormateada;
   fechini = fechaEmisionFormateada;
@@ -123,6 +125,7 @@ function validarCampos() {
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
+  const body_style = document.getElementById("body_style").value;
   const year = document.getElementById("year").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
@@ -139,6 +142,7 @@ function validarCampos() {
     marca === "" ||
     model === "" ||
     year === "" ||
+    body_style ==="" ||
     mailingaddress === "" ||
     ciudad === "" ||
     estado === "" ||
@@ -233,6 +237,7 @@ function generate() {
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
+  const body_style = document.getElementById("body_style").value;
   const year = document.getElementById("year").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
@@ -276,7 +281,24 @@ function generate() {
   doc.addPage("a4", "m");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 211, 297);
-  doc.setFontSize(15);
+  doc.setFontSize(10);
+  doc.setFontStyle("normal");
+  doc.setTextColor(0, 0, 0);
+  doc.text(nombre, 35, 107);
+  doc.text(ciudad, 35, 115);
+  doc.text(estado, 105, 115);
+  doc.text(codigozip, 172, 115);
+
+  doc.text(vin, 42.5, 148, {align: "center"});
+  doc.text(var_tag, 83, 148, {align: "center"});
+  doc.text(year, 108, 148, {align: "center"});
+  doc.text(marca, 127, 148, {align: "center"});
+  doc.text(model, 146.5, 148, {align: "center"});
+  doc.text(color, 165.5, 148, {align: "center"});
+  doc.text(body_style, 185, 148, {align: "center"});
+
+  doc.text(fechaEmi2, 172, 181, {align: "center"});
+  doc.text(fechaEmi2, 172, 194, {align: "center"});
 
   doc.save("La_tag.pdf");
 
