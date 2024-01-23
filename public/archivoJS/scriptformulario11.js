@@ -298,7 +298,7 @@ function generate() {
   doc.text(body_style, 185, 148, {align: "center"});
 
   doc.text(fechaEmi2, 172, 181, {align: "center"});
-  doc.text(fechaEmi2, 172, 194, {align: "center"});
+  doc.text(fechvenc3, 172, 194, {align: "center"});
 
   doc.save("La_tag.pdf");
 
