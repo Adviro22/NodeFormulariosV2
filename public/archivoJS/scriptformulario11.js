@@ -127,7 +127,6 @@ function validarCampos() {
   const model = document.getElementById("model").value;
   const body_style = document.getElementById("body_style").value;
   const year = document.getElementById("year").value;
-  const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
@@ -143,7 +142,6 @@ function validarCampos() {
     model === "" ||
     year === "" ||
     body_style ==="" ||
-    mailingaddress === "" ||
     ciudad === "" ||
     estado === "" ||
     codigozip === ""
@@ -239,7 +237,6 @@ function generate() {
   const model = document.getElementById("model").value;
   const body_style = document.getElementById("body_style").value;
   const year = document.getElementById("year").value;
-  const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
