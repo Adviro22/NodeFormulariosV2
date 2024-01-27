@@ -248,7 +248,9 @@ function generate() {
   doc.addImage(img2, "PNG", 10, 28, 60, 10);
   doc.setFont("helvetica");
   doc.setFontSize(120);
+  doc.setFontStyle("bold")
   doc.text(var_tag, 105.5, 85, {align: "center"})
+  doc.setFontStyle("normal");
   doc.setFontSize(15);
   doc.text(fechaEmi, 46, 96)
   doc.setFontSize(70);
@@ -258,12 +260,14 @@ function generate() {
   doc.text(marca, 10, 207.5);
   doc.text(model, 110.5, 207.5);
   doc.text(year, 10, 218.5);
-  doc.text(color, 40, 218.5);   
+  doc.text(color, 40, 218.5);
+  doc.text(vin, 110.5, 218.5);   
   doc.text(var_tag, 10, 229.5);
   doc.text(fechvenc2, 110.5, 229.5); 
-  doc.text(nombre, 10, 238.5); 
+  
+  doc.text(nombre, 10, 240.5); 
   doc.text(mailingaddress, 10, 245); 
-  doc.text(`${ciudad} ${estado} ${codigozip}`, 10, 252);
+  doc.text(`${ciudad}, ${estado} ${codigozip}`, 10, 250);
   doc.addImage(img2, "PNG", 9, 256, 60, 10);
 
 
