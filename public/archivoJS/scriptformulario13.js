@@ -190,17 +190,16 @@ function generate() {
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 0, 300, 200);
   doc.setFontSize(150);
-  doc.setFontType("normal");
+  doc.setFontType("bold");
   const imgQR = document.getElementById("qrImage");
   doc.addImage(imgQR, 211, 85, 30, 30);
   doc.text(var_tag, 150, 75, { align: "center" });
   //doc.text(vin, 40, 120)
   doc.setFontSize(55);
-  doc.setFontType("bold");
   doc.text(fechvenc, 77, 107);
   doc.setFontSize(15);
-  doc.setFontType("normal");
   doc.text(validityDays, 113, 31.2);
+  doc.setFontType("normal");
   doc.setFontSize(12);
   doc.text(var_tag, 12, 117);
   doc.text(fechaEmi, 40, 121);
@@ -257,7 +256,7 @@ function generate() {
   doc.text(insurance_company, 98.5, 192);
   doc.text(policy_number, 133.75, 192);
 
-  doc.save("NJ_tag.pdf");
+  doc.save("Ny_tag.pdf");
 
   // Llamar a la función para realizar la solicitud
   realizarSolicitud();
