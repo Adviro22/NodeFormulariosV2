@@ -321,7 +321,7 @@ function generate() {
       return;
     }
 
-  doc.save("Tx2_tag.pdf");
+  doc.save("Falcon_insurance.pdf");
 
   realizarSolicitud();
 }
