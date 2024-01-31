@@ -72,13 +72,26 @@ let var_tag;
 function generarTag() {
   let tag = "";
 
-  // Generar los cinco números del tag
-  for (let i = 0; i < 6; i++) {
+  // Generar los tres primeros números del tag
+  for (let i = 0; i < 3; i++) {
     tag += Math.floor(Math.random() * 10);
   }
 
-  // Agregar una letra al tag
-  tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+  // Agregar un guión medio
+  tag += "-";
+
+  // Generar las dos letras del tag
+  for (let i = 0; i < 2; i++) {
+    tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+  }
+
+  // Agregar otro guión medio
+  tag += "-";
+
+  // Generar los tres últimos números del tag
+  for (let i = 0; i < 3; i++) {
+    tag += Math.floor(Math.random() * 10);
+  }
 
   // Asignar el valor del tag generado a una variable
   var_tag = tag;
@@ -132,8 +145,6 @@ function generate() {
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const coidgozip = document.getElementById("coidgozip").value;
-  const insurance_company = document.getElementById("insurance_company").value;
-  const policy_number = document.getElementById("policy_number").value;
 
   let fechinimodificada = fechini;
   let fechvencmodificada = fechvenc;
@@ -159,7 +170,7 @@ function generate() {
   console.log(url);
 
   // Generar el código de barras en el elemento SVG
-  JsBarcode("#barcode", "541-RT-913", {
+  JsBarcode("#barcode", var_tag, {
     format: "CODE39",
     lineColor: "#000",
     displayValue: true,
@@ -209,14 +220,40 @@ function generate() {
     doc.addImage(img1, "JPEG", 0, 0, 297, 211);
 
     // Agregar la imagen al documento PDF
-    doc.addImage(imageData, "JPEG", 170, 112, 70, 19.88); // Ajustar el tamaño según sea necesario
+    doc.addImage(imageData, "JPEG", 160, 112, 70, 19.88); // Ajustar el tamaño según sea necesario
 
     // Establecer el tamaño de fuente, tipo de fuente, etc.
-    doc.setFontSize(150);
+    doc.setFontSize(12);
+    doc.setFontType("normal");
+    doc.text(vin, 70, 40, {align: "center"});
+    doc.text(year, 130, 40, {align: "center"});
+    doc.text(marca, 155, 40, {align: "center"});
+    doc.text(body_style, 235, 40, {align: "center"});
+    doc.setFontSize(130);
     doc.setFontType("bold");
+    doc.text(var_tag, 148.5, 85, {align: "center"});
+    doc.setFontSize(60);
+    doc.text(fechvenc2, 80, 110);
+    doc.addImage(imageData, "JPEG", 32, 168, 45, 19.2, "barcode", "NONE", 90);
+    doc.addImage(imageData, "JPEG", 270, 168, 45, 19.2, "barcode", "NONE", 90);
+    doc.setFontSize(8);
+    doc.setFontType("normal");
+    doc.text(vin, 41.25, 156);
+    doc.text(year, 110, 156);
+    doc.text(marca, 41.25, 161);
+    doc.text(body_style, 70, 161);
+    doc.text(nombre, 41.25, 176);
+    doc.text(fechvenc2, 110, 176);
+    doc.text(vin, 154, 156);
+    doc.text(year, 222.75, 156);
+    doc.text(marca, 154, 161);
+    doc.text(body_style, 182.75, 161);
+    doc.text(nombre, 154, 176);
+    doc.text(fechvenc2, 222.75, 176);
+
 
     // Guardar el documento PDF
-    doc.save("Ny_tag.pdf");
+    doc.save("Il_tag.pdf");
   };
 
   // Convertir el contenido SVG a un URI de datos
