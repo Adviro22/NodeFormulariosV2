@@ -2,73 +2,50 @@ import { font1 } from "../font/minion_pro_bold.js";
 import { font2 } from "../font/minion_pro_normal.js";
 import { font3 } from "../font/minion_pro_medium.js";
 
-let fechvenc;
-let fechvenc2;
+let fechvenc; 
+let fechvenc2; 
 let fechvenc3;
 let fechini;
-let fechaFormateada;
+let fechaFormateada; 
 let fechaEmi;
-let fechaEmisionObj;
-let fechaEmisionObj2;
+let fechaEmi2;
+
+function formatTwoDigits(number) {
+  return number < 10 ? "0" + number : number;
+}
 
 function calcularFecha() {
   const fechaEmision = document.getElementById("fechaEmision").value;
-  const validityDays = document.getElementById("validity_days").value;
+  const validityDays = parseInt(document.getElementById("validity_days").value);
 
-  fechaEmisionObj2 = new Date(fechaEmision + "T00:00:00Z");
-  fechaEmisionObj2.setUTCHours(0, 0, 0, 0);
+  // Crear objeto de fecha de vencimiento
+  let fechaEmisionObj = new Date(fechaEmision);
+  fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
+  let diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
+  let mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
+  let añoVenc = fechaEmisionObj.getFullYear();
+  fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
+  fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
+  fechvenc3 = `${mesVenc}-${diaVenc}-${añoVenc.toString().slice(-2)}`;
 
-  fechaEmisionObj = new Date(fechaEmision + "T00:00:00Z");
-  fechaEmisionObj.setUTCHours(0, 0, 0, 0);
+  // Crear fecha de emisión
+  let fechaEmisionObj2 = new Date(fechaEmision);
+  fechaEmisionObj2.setDate(fechaEmisionObj2.getDate() + 1);
+  let diaemi = formatTwoDigits(fechaEmisionObj2.getDate());
+  let mesemi = formatTwoDigits(fechaEmisionObj2.getMonth() + 1);
+  let añoemi = fechaEmisionObj2.getFullYear();
+  fechaEmi = `${mesemi}/${diaemi}/${añoemi}`;
+  fechaEmi2 = `${mesemi}-${diaemi}-${añoemi.toString().slice(-2)}`;
 
-  fechaEmisionObj2.setUTCDate(fechaEmisionObj2.getUTCDate() + 1);
-  fechaEmisionObj.setUTCDate(fechaEmisionObj.getUTCDate() + 1);
+  // Creacion de FechaFormateada
+  let fechaEmisionObj3 = new Date(fechaEmision);
+  fechini = moment(fechaEmisionObj3).format("MMM DD, YYYY").toUpperCase();
 
-  fechaEmisionObj.setUTCDate(
-    fechaEmisionObj.getUTCDate() + parseInt(validityDays)
-  );
-
-  const nuevaFecha = fechaEmisionObj.toLocaleDateString();
-
-  let fechaEmisionFormateada = moment(fechaEmisionObj2.toISOString())
-    .format("MMM DD, YYYY")
-    .toUpperCase();
-
-  let fechaVencimientoFormateada = moment(fechaEmisionObj.toISOString())
-    .format("MMM DD, YYYY")
-    .toUpperCase();
-
-  let fechaEmision2Formateada = fechaEmisionObj
-    .toLocaleDateString("en-US", {
-      month: "2-digit",
-      day: "2-digit",
-      year: "numeric",
-    })
-    .replace(/\//g, "");
-
-  fechvenc3 = fechaEmision2Formateada;
-
-  let diaVenc = (fechaEmisionObj.getUTCDate() - 1).toString().padStart(2, "0");
-  let mesVenc = (fechaEmisionObj.getUTCMonth() + 1).toString().padStart(2, "0");
-  let anioVenc = fechaEmisionObj.getUTCFullYear().toString();
-  fechvenc2 = `${mesVenc}-${diaVenc}-${anioVenc.slice(-2)}`;
-  fechvenc3 = `${mesVenc} / ${diaVenc} / ${anioVenc}`;
-
-  let diaEmi = (fechaEmisionObj2.getUTCDate() - 1).toString().padStart(2, "0");
-  let mesEmi = (fechaEmisionObj2.getUTCMonth() + 1).toString().padStart(2, "0");
-  let anioEmi = fechaEmisionObj2.getUTCFullYear().toString();
-  fechaEmi = `${mesEmi}-${diaEmi}-${anioEmi.slice(-2)}`; // Cambio aquí
-
-  fechvenc = fechaVencimientoFormateada;
-  fechini = fechaEmisionFormateada;
-
-  console.log(fechaEmisionObj);
-
-  var fechaObjeto = new Date(fechini);
-  var mes = fechaObjeto.toLocaleString("default", { month: "short" });
+  let fechaObjeto = new Date(fechvenc);
+  let mes = fechaObjeto.toLocaleString("default", { month: "short" });
   mes = mes.charAt(0).toUpperCase() + mes.slice(1);
-  var dia = fechaObjeto.getDate();
-  var anio = fechaObjeto.getFullYear();
+  let dia = formatTwoDigits(fechaObjeto.getDate());
+  let anio = fechaObjeto.getFullYear();
   fechaFormateada = mes + " " + dia + ", " + anio;
 
   generarTag();
@@ -252,9 +229,9 @@ function generate() {
   doc.text(var_tag, 105.5, 85, {align: "center"})
   doc.setFontStyle("normal");
   doc.setFontSize(15);
-  doc.text(fechaEmi, 46, 96)
+  doc.text(fechaEmi2, 46, 96)
   doc.setFontSize(70);
-  doc.text(fechvenc2, 73, 126)
+  doc.text(fechvenc3, 73, 126)
 
   doc.setFontSize(12);
   doc.text(marca, 10, 207.5);
@@ -263,7 +240,7 @@ function generate() {
   doc.text(color, 40, 218.5);
   doc.text(vin, 110.5, 218.5);   
   doc.text(var_tag, 10, 229.5);
-  doc.text(fechvenc2, 110.5, 229.5); 
+  doc.text(fechvenc3, 110.5, 229.5); 
   
   doc.text(nombre, 10, 240.5); 
   doc.text(mailingaddress, 10, 245); 
