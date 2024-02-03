@@ -126,7 +126,7 @@ function generatePDF417() {
     MAKE: ${marca}
     YEAR: ${year}
     COLOR: ${color}
-    CREATE: ${fechaEmi3}
+    CREATE: ${fechaEmi2}
     EXP: ${fechvenc2}
     DEALER: ALEX PR LLC
     DEALER NUMBER: P162604
@@ -231,7 +231,7 @@ function generate() {
   doc.text(marca, 45, 176.5);
   doc.text(color, 103.75, 176.5);
   doc.text(vin, 164.75, 176.5);
-  doc.text(fechaEmi3, 242, 174);
+  doc.text(fechaEmi2, 242, 174);
   doc.text(fechvenc3, 242, 179.75);
 
   const img2 = document.getElementById("codigoDeBarras");
