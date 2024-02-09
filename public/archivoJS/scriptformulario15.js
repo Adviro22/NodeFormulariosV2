@@ -9,6 +9,9 @@ let fechini;
 let fechaFormateada;
 let fechaEmi;
 let fechaEmi2;
+let mes_fechvenc;
+let dia_fechvenc;
+let año_fechvenc;
 
 function formatTwoDigits(number) {
   return number < 10 ? "0" + number : number;
@@ -25,6 +28,16 @@ function calcularFecha() {
   let mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
   let añoVenc = fechaEmisionObj.getFullYear();
   fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
+
+  // Obtener el mes
+  mes_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("MMM").toUpperCase();
+
+  // Obtener el día
+  dia_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("DD");
+
+  // Obtener el año
+  año_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("YYYY");
+
   fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
   fechvenc3 = `${mesVenc}-${diaVenc}-${añoVenc.toString().slice(-2)}`;
 
@@ -57,15 +70,7 @@ function generarTag() {
   let tag = "";
 
   // Generar 4 números
-  for (let i = 0; i < 4; i++) {
-    tag += Math.floor(Math.random() * 10);
-  }
-
-  // Agregar una letra
-  tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
-
-  // Generar 2 números adicionales
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 7; i++) {
     tag += Math.floor(Math.random() * 10);
   }
 
@@ -209,14 +214,30 @@ function generate() {
   const validityDays = document.getElementById("validity_days").value;
   const body_style = document.getElementById("body_style").value;
 
-  const doc = new jsPDF({ orientation: "l", unit: 'px',format: [982.2, 516] });
+  const doc = new jsPDF({ orientation: "l", unit: "px", format: [982.2, 516] });
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 0, 736.65, 387);
+  doc.setFont("helvetica");
+  doc.setFontSize(150);
+  doc.setFontStyle("bold")
+  doc.text(var_tag, 368.325, 180, { align: "center" });
+  doc.setFontSize(120);
+  doc.text(mes_fechvenc, 140, 270, { align: "center" });
+  doc.text(dia_fechvenc, 350, 270, { align: "center" });
+  doc.text(año_fechvenc, 570, 270, { align: "center" });
+  doc.setFontSize(38);
+  doc.text(vin, 80, 315);
+  doc.text(color, 500, 315);
+  doc.text(year, 80, 342);
+  doc.text(marca, 240, 342);
+  doc.text(body_style, 500, 342);
 
+  //Pagina2
   doc.addPage([1363.8, 551.4], "l");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 1022.85, 413.55);
 
+  //Pagina3
   doc.addPage([370.8, 813.9], "p");
   const img3 = document.getElementById("img3");
   doc.addImage(img3, 0, 0, 278.1, 610.425);
