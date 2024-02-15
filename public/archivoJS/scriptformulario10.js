@@ -5,6 +5,7 @@ import { font3 } from "../font/minion_pro_medium.js";
 let fechvenc; 
 let fechvenc2; 
 let fechvenc3;
+let fechvenc4;
 let fechini;
 let fechaFormateada; 
 let fechaEmi;
@@ -27,6 +28,11 @@ function calcularFecha() {
   fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
   fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
   fechvenc3 = `${mesVenc}-${diaVenc}-${añoVenc.toString().slice(-2)}`;
+
+  // Nuevo formato de fecha de vencimiento
+  let mesAbreviado = fechaEmisionObj.toLocaleString('default', { month: 'short' }).toUpperCase();
+  let diaMesAño = `${diaVenc}-${mesAbreviado}-${añoVenc}`;
+  fechvenc4 = diaMesAño;
 
   // Crear fecha de emisión
   let fechaEmisionObj2 = new Date(fechaEmision);
@@ -211,7 +217,7 @@ function generate() {
   YEAR: ${year}
   MAKE/MODEL:  ${marca}/${model}
   TAG#: ${var_tag}
-  EXPIRE: ${fecha_venc3}
+  EXPIRE: ${fechvenc4}
   Georgia Department of Revenue`;
   console.log(url);
 
@@ -256,7 +262,7 @@ function generate() {
   doc.text(var_tag, 150, 80, { align: "center" });
   doc.setFontStyle("normal");
   doc.setFontSize(70);
-  doc.text(fecha_venc3, 150, 118, { align: "center" });
+  doc.text(fechvenc4, 150, 118, { align: "center" });
   doc.setFontSize(20);
   doc.text(`${year} ${marca} ${model} ${color}`, 150, 130, { align: "center" });
   doc.setFontSize(15)

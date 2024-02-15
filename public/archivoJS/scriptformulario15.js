@@ -236,6 +236,14 @@ function generate() {
   doc.addPage([1363.8, 551.4], "l");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 1022.85, 413.55);
+  doc.setFontStyle("normal")
+  doc.setFontSize(20);
+  doc.text(nombre, 60, 315);
+  doc.text(var_tag, 795, 315);
+  doc.text(mailingaddress, 60, 355);
+  doc.text(ciudad, 60, 398);
+  doc.text(estado, 400, 398);
+  doc.text(codigozip, 610, 398);
 
   //Pagina3
   doc.addPage([370.8, 813.9], "p");
