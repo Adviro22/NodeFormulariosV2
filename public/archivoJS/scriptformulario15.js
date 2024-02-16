@@ -5,10 +5,12 @@ import { font3 } from "../font/minion_pro_medium.js";
 let fechvenc;
 let fechvenc2;
 let fechvenc3;
+let fechvenc4;
 let fechini;
 let fechaFormateada;
 let fechaEmi;
 let fechaEmi2;
+let fechaEmi3;
 let mes_fechvenc;
 let dia_fechvenc;
 let año_fechvenc;
@@ -41,6 +43,13 @@ function calcularFecha() {
   fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
   fechvenc3 = `${mesVenc}-${diaVenc}-${añoVenc.toString().slice(-2)}`;
 
+  // Nuevo formato de fecha de vencimiento
+  let mesAbreviado = fechaEmisionObj
+    .toLocaleString("default", { month: "short" })
+    .toUpperCase();
+  let diaMesAño = `${diaVenc}-${mesAbreviado}-${añoVenc}`;
+  fechvenc4 = diaMesAño;
+
   // Crear fecha de emisión
   let fechaEmisionObj2 = new Date(fechaEmision);
   fechaEmisionObj2.setDate(fechaEmisionObj2.getDate() + 1);
@@ -49,6 +58,13 @@ function calcularFecha() {
   let añoemi = fechaEmisionObj2.getFullYear();
   fechaEmi = `${mesemi}/${diaemi}/${añoemi}`;
   fechaEmi2 = `${mesemi}-${diaemi}-${añoemi.toString().slice(-2)}`;
+
+  // Nuevo formato de fecha de vencimiento
+  let mesAbreviado2 = fechaEmisionObj2
+    .toLocaleString("default", { month: "short" })
+    .toUpperCase();
+  let diaMesAño2 = `${diaVenc}-${mesAbreviado2}-${añoVenc}`;
+  fechaEmi3 = diaMesAño2;
 
   // Creacion de FechaFormateada
   let fechaEmisionObj3 = new Date(fechaEmision);
@@ -99,6 +115,8 @@ function validarCampos() {
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
+  const vehiculo = document.getElementById("vehiculo").value;
+  const combustible = document.getElementById("combustible").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
@@ -113,6 +131,8 @@ function validarCampos() {
     vin === "" ||
     color === "" ||
     nombre === "" ||
+    vehiculo === "" ||
+    combustible === "" ||
     marca === "" ||
     model === "" ||
     year === "" ||
@@ -130,17 +150,23 @@ function validarCampos() {
 }
 
 function generatePDF417() {
+  const nombre = document.getElementById("nombre").value;
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
   const marca = document.getElementById("make").value;
+  const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
+  const mailingaddress = document.getElementById("mailingaddress").value;
   // Texto que deseas codificar en PDF417
   const text = `
-    VIN: ${vin}
+    Plate: ${var_tag}
+    NAME: ${nombre} 
     MAKE: ${marca}
+    MODEL: ${model}
     YEAR: ${year}
-    TAG: ${var_tag}
-    TYPE: TENNESSEE
+    COLOR: ${color}
+    VIN: ${vin}
+    ADDRESS: ${mailingaddress}
   `;
 
   // Configuración para generar el código PDF417
@@ -204,6 +230,8 @@ function generate() {
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
+  const vehiculo = document.getElementById("vehiculo").value;
+  const combustible = document.getElementById("combustible").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
@@ -219,7 +247,7 @@ function generate() {
   doc.addImage(img1, 0, 0, 736.65, 387);
   doc.setFont("helvetica");
   doc.setFontSize(150);
-  doc.setFontStyle("bold")
+  doc.setFontStyle("bold");
   doc.text(var_tag, 368.325, 180, { align: "center" });
   doc.setFontSize(120);
   doc.text(mes_fechvenc, 140, 270, { align: "center" });
@@ -236,7 +264,7 @@ function generate() {
   doc.addPage([1363.8, 551.4], "l");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 1022.85, 413.55);
-  doc.setFontStyle("normal")
+  doc.setFontStyle("normal");
   doc.setFontSize(20);
   doc.text(nombre, 60, 315);
   doc.text(var_tag, 795, 315);
@@ -249,6 +277,50 @@ function generate() {
   doc.addPage([370.8, 813.9], "p");
   const img3 = document.getElementById("img3");
   doc.addImage(img3, 0, 0, 278.1, 610.425);
+
+  doc.setFontSize(8);
+  doc.text(fechvenc, 198, 77);
+  doc.text("FRANKLIN NOE CHAPAS", 58, 123);
+  doc.text("2133 SEATON ST DENVER, CO 80227", 58, 130);
+  //TEXTO 1
+  doc.setFontSize(7);
+  doc.text(vehiculo, 23, 202.5);
+  doc.text(vin, 92.5, 202.5);
+  doc.text(var_tag, 162.5, 202.5);
+  doc.text(fechvenc2, 230.5, 202.5);
+  doc.text(year, 23, 220);
+  doc.text(marca, 39, 220);
+  doc.text(model, 58, 220);
+  doc.text(combustible, 162.5, 220);
+  doc.text(body_style, 230.5, 220);
+  doc.text(color, 23, 235);
+  doc.text(fechaEmi, 23, 260);
+
+  doc.setFontSize(8);
+  doc.text("FRANKLIN NOE CHAPAS", 27, 280);
+  doc.text("2133 SEATON ST DENVER, CO 80227", 27, 287);
+  doc.text(fechaEmi3, 107.5, 310);
+  const img4 = document.getElementById("codigoDeBarras");
+  doc.addImage(img4, "PNG", 170.5, 303, 60, 10);
+
+  //TEXTO 2
+  doc.setFontSize(7);
+  doc.text(vehiculo, 14.5, 368);
+  doc.text(vin, 84, 368);
+  doc.text(var_tag, 154, 368);
+  doc.text(fechvenc2, 222, 368);
+  doc.text(year, 14.5, 385.5);
+  doc.text(marca, 30.5, 385.5);
+  doc.text(model, 49.5, 385.5);
+  doc.text(combustible, 154, 385.5);
+  doc.text(body_style, 222, 385.5);
+  doc.text(color, 14.5, 400.5);
+  doc.text(fechaEmi, 14.5, 425.5);
+
+  doc.setFontSize(8);
+  doc.text("FRANKLIN NOE CHAPAS", 18.5, 445.5);
+  doc.text("2133 SEATON ST DENVER, CO 80227", 18.5, 453.5);
+  doc.text(fechaEmi3, 99, 475.5);
 
   doc.save("Colorado.pdf");
 
