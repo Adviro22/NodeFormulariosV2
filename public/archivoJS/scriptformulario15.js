@@ -6,11 +6,13 @@ let fechvenc;
 let fechvenc2;
 let fechvenc3;
 let fechvenc4;
+let fechvenc5;
 let fechini;
 let fechaFormateada;
 let fechaEmi;
 let fechaEmi2;
 let fechaEmi3;
+let fechaEmi4;
 let mes_fechvenc;
 let dia_fechvenc;
 let año_fechvenc;
@@ -26,6 +28,7 @@ function calcularFecha() {
   // Crear objeto de fecha de vencimiento
   let fechaEmisionObj = new Date(fechaEmision);
   fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
+  let fechaVencimientoObj = fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
   let diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
   let mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
   let añoVenc = fechaEmisionObj.getFullYear();
@@ -42,6 +45,15 @@ function calcularFecha() {
 
   fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
   fechvenc3 = `${mesVenc}-${diaVenc}-${añoVenc.toString().slice(-2)}`;
+
+  let fechavencimientoString = moment(fechaVencimientoObj).format("MMM DD, YYYY");
+
+  let partesFecha = fechavencimientoString.split(" "); // Divide la cadena por espacios en blanco
+  let mes1 = partesFecha[0]; // Obtiene el mes
+  let mesMayuscula = mes1.charAt(0).toUpperCase() + mes1.slice(1); // Convierte la primera letra del mes en mayúscula
+
+  fechvenc5 = mesMayuscula + " " + partesFecha[1] + " " + partesFecha[2]; // Asigna el resultado a la variable fechvenc
+
 
   // Nuevo formato de fecha de vencimiento
   let mesAbreviado = fechaEmisionObj
@@ -65,6 +77,13 @@ function calcularFecha() {
     .toUpperCase();
   let diaMesAño2 = `${diaVenc}-${mesAbreviado2}-${añoVenc}`;
   fechaEmi3 = diaMesAño2;
+
+  let partesFechaEmi3 = fechaEmi3.split("-"); // Divide la cadena por el guión
+  let mesEmi3 = partesFechaEmi3[1]; // Obtiene el mes
+  let mesEmi3MayusculaPrimeraLetra = mesEmi3.charAt(0).toUpperCase() + mesEmi3.slice(1).toLowerCase(); // Convierte la primera letra del mes en mayúscula y el resto en minúscula
+
+  fechaEmi4 = partesFechaEmi3[0] + "-" + mesEmi3MayusculaPrimeraLetra + "-" + partesFechaEmi3[2]; // Formatea la fecha con el mes en mayúscula solo en la primera letra
+
 
   // Creacion de FechaFormateada
   let fechaEmisionObj3 = new Date(fechaEmision);
@@ -279,9 +298,9 @@ function generate() {
   doc.addImage(img3, 0, 0, 278.1, 610.425);
 
   doc.setFontSize(8);
-  doc.text(fechvenc, 198, 77);
-  doc.text("FRANKLIN NOE CHAPAS", 58, 123);
-  doc.text("2133 SEATON ST DENVER, CO 80227", 58, 130);
+  doc.text(fechvenc5, 198, 77);
+  doc.text(nombre, 58, 123);
+  doc.text(`${mailingaddress}  ${ciudad}, ${estado} ${codigozip}`, 58, 130);
   //TEXTO 1
   doc.setFontSize(7);
   doc.text(vehiculo, 23, 202.5);
@@ -295,11 +314,12 @@ function generate() {
   doc.text(body_style, 230.5, 220);
   doc.text(color, 23, 235);
   doc.text(fechaEmi, 23, 260);
+  doc.text(fechvenc2, 230.5, 257);
 
   doc.setFontSize(8);
-  doc.text("FRANKLIN NOE CHAPAS", 27, 280);
-  doc.text("2133 SEATON ST DENVER, CO 80227", 27, 287);
-  doc.text(fechaEmi3, 107.5, 310);
+  doc.text(nombre, 27, 280);
+  doc.text(`${mailingaddress}  ${ciudad}, ${estado} ${codigozip}`, 27, 287);
+  doc.text(fechaEmi4, 107.5, 310);
   const img4 = document.getElementById("codigoDeBarras");
   doc.addImage(img4, "PNG", 170.5, 303, 60, 10);
 
@@ -316,11 +336,13 @@ function generate() {
   doc.text(body_style, 222, 385.5);
   doc.text(color, 14.5, 400.5);
   doc.text(fechaEmi, 14.5, 425.5);
+  doc.text(fechvenc2, 222, 422.5);
 
   doc.setFontSize(8);
-  doc.text("FRANKLIN NOE CHAPAS", 18.5, 445.5);
-  doc.text("2133 SEATON ST DENVER, CO 80227", 18.5, 453.5);
-  doc.text(fechaEmi3, 99, 475.5);
+  doc.text(nombre, 18.5, 445.5);
+  doc.text(`${mailingaddress}  ${ciudad}, ${estado} ${codigozip}`, 18.5, 453.5);
+  doc.text(fechaEmi4, 99, 475.5);
+  doc.addImage(img4, "PNG", 162, 468.5, 60, 10);
 
   doc.save("Colorado.pdf");
 
