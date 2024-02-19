@@ -25,14 +25,28 @@ function calcularFecha() {
   const fechaEmision = document.getElementById("fechaEmision").value;
   const validityDays = parseInt(document.getElementById("validity_days").value);
 
-  // Crear objeto de fecha de vencimiento
   let fechaEmisionObj = new Date(fechaEmision);
   fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
-  let fechaVencimientoObj = fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
+  let fechaVencimientoObj = fechaEmisionObj
   let diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
   let mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
   let añoVenc = fechaEmisionObj.getFullYear();
   fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
+
+  /*
+  let fechaEmisionObj = new Date(fechaEmision);
+  fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
+  let diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
+  let mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
+  let añoVenc = fechaEmisionObj.getFullYear();
+  fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
+  */
+
+  console.log(`fechavenc: ${fechvenc}`)
+  console.log(`diaVenc: ${diaVenc}`)
+  console.log(`mesVenc: ${mesVenc}`)
+  console.log(`añoVenc: ${añoVenc}`)
+  console.log(`fechaEmisionObj: ${fechaEmisionObj}`)
 
   // Obtener el mes
   mes_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("MMM").toUpperCase();
