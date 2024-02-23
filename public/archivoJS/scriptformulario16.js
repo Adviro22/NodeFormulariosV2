@@ -116,8 +116,36 @@ function generarTag() {
   // Asignar el valor del tag generado a la variable
   var_tag = tag;
 
+  generarTag2();
+}
+
+let var_tag2;
+
+function generarTag2() {
+  let tag = "";
+
+  // Generar el primer número
+  tag += Math.floor(Math.random() * 10);
+
+  // Generar 5 letras
+  for (let i = 0; i < 5; i++) {
+    tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+  }
+
+  // Generar el segundo número
+  tag += Math.floor(Math.random() * 10);
+
+  // Generar 6 letras
+  for (let i = 0; i < 6; i++) {
+    tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+  }
+
+  // Asignar el valor del tag generado a la variable
+  var_tag2 = tag;
+
   generarNumeroMayor();
 }
+
 
 // Declaración de una variable global para almacenar el número generado
 let numeroGlobal = 0;
@@ -149,6 +177,11 @@ function validarCampos() {
   const codigozip = document.getElementById("codigozip").value;
   const body_style = document.getElementById("body_style").value;
 
+  const transmission = document.getElementById("transmission").value;
+  const cy_capacity = document.getElementById("cy_capacity").value;
+  const cy_number = document.getElementById("cy_number").value;
+  const weight = document.getElementById("weight").value;
+
   // Validar si algún campo está vacío
   if (
     vin === "" ||
@@ -163,7 +196,12 @@ function validarCampos() {
     ciudad === "" ||
     estado === "" ||
     codigozip === "" ||
-    body_style === ""
+    body_style === "" ||
+    transmission ==="" ||
+    cy_capacity === "" ||
+    cy_number === "" ||
+    weight === ""
+
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
@@ -264,6 +302,12 @@ function generate() {
   const codigozip = document.getElementById("codigozip").value;
   const validityDays = document.getElementById("validity_days").value;
   const body_style = document.getElementById("body_style").value;
+  const transmission = document.getElementById("transmission").value;
+  const license = document.getElementById("license").value;
+  const cy_capacity = document.getElementById("cy_capacity").value;
+  const cy_number = document.getElementById("cy_number").value;
+  const weight = document.getElementById("weight").value;
+  const miles = document.getElementById("miles").value;
 
   const doc = new jsPDF();
   const img1 = document.getElementById("img1");
@@ -281,7 +325,20 @@ function generate() {
   doc.text(`${fechvenc2}, `, 48.5, 56.5);
   doc.setFontType("normal")
   doc.text(hora_actual, 67, 56.5);
-  doc.text(`2105/${var_tag}`, 48.5, 70);
+  doc.text(`2105/${var_tag}`, 48.5, 69.5);
+  doc.setFontType("bold")
+  doc.text(license, 48.5, 73.75);
+  doc.text(vin, 48.5, 78.2);
+  doc.setFontType("normal")
+  doc.text(marca, 48.5, 83);
+  doc.text(model, 48.5, 86.25);
+  doc.setFontType("bold")
+  doc.text(year, 48.5, 91.5);
+  doc.setFontType("normal")
+  doc.text(`/${body_style}`, 58.5, 91.25);
+  doc.text(`${cy_capacity} / ${cy_number} / C`, 48.5, 95.5);
+  doc.setFontType("bold")
+  doc.text(var_tag2, 48.5, 99.5);
 
 
   doc.save("Inspeccion.pdf");

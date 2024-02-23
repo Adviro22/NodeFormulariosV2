@@ -70,9 +70,19 @@
 			<label for="combustible">FUEL:</label>
 			<select type="text" id="combustible" name="combustible" placeholder="combustible">
 				<option value=""></option>
-				<option value="Gas">Gas</option>
-				<option value="Diesel">Diesel</option>
+				<option value="GASOLINE">Gasoline</option>
+				<option value="DIESEL">Diesel</option>
 			</select>
+
+			<label for="transmission">TRANSMISSION:</label>
+			<select type="text" id="transmission" name="transmission" placeholder="transmission">
+				<option value=""></option>
+				<option value="MANUAL">MANUAL</option>
+				<option value="AUTOMATIC">AUTOMATIC</option>
+			</select>
+
+			<label for="license">LICENSE NUMBER:</label>
+			<input type="text" id="license" name="license" placeholder="license" onkeyup="convertirMayusculas(this)">
 
 			<label for="make">MAKE:</label>
 			<input type="text" id="make" name="make" placeholder="make" onkeyup="convertirMayusculas(this)">
@@ -81,27 +91,22 @@
 			<input type="text" id="model" name="model" placeholder="model" onkeyup="convertirMayusculas(this)">
 			
 			<label for="body_style">BODY STYLE:</label>
-			<select type="text" id="body_style" name="body_style" placeholder="body_style">
-				<option value=""></option>
-				<option value="2D">2D</option>
-				<option value="3D">3D</option>
-				<option value="4D">4D</option>
-				<option value="5D">5D</option>
-				<option value="2H">2H</option>
-				<option value="4H">4H</option>
-				<option value="CG">CG</option>
-				<option value="LL">LL</option>
-				<option value="MC">MC</option>
-				<option value="PK">PK</option>
-				<option value="SUV">SUV</option>
-				<option value="TR">TR</option>
-				<option value="TRL">TRL</option>
-				<option value="UT">UT</option>
-				<option value="VN">VN</option>
-			</select>
+			<input type="text" id="body_style" name="body_style" placeholder="body_style" onkeyup="convertirMayusculas(this)">
 
 			<label for="year">YEAR:</label>
 			<input type="number" id="year" name="year" required placeholder="Year" required>
+
+			<label for="cy_capacity">CYLINDER CAPACITY:</label>
+			<input type="number" id="cy_capacity" name="cy_capacity" placeholder="cy_capacity">
+
+			<label for="cy_number">CYLINDER NUMBER:</label>
+			<input type="number" id="cy_number" name="cy_number" placeholder="cy_number">
+
+			<label for="weight">WEIGHT:</label>
+			<input type="number" id="weight" name="weight" placeholder="weight">
+
+			<label for="miles">MILES:</label>
+			<input type="number" id="miles" name="miles" placeholder="miles">
 		
 			<label for="address">ADDRESS:</label>
 			<label for="mailingaddress">Mailing Address:</label>
