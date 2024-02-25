@@ -26,17 +26,17 @@ function calcularFecha() {
 
   let fechaEmisionObj = new Date(fechaEmision);
   fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
-  let fechaVencimientoObj = fechaEmisionObj
+  let fechaVencimientoObj = fechaEmisionObj;
   let diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
   let mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
   let añoVenc = fechaEmisionObj.getFullYear();
   fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
 
-  console.log(`fechavenc: ${fechvenc}`)
-  console.log(`diaVenc: ${diaVenc}`)
-  console.log(`mesVenc: ${mesVenc}`)
-  console.log(`añoVenc: ${añoVenc}`)
-  console.log(`fechaEmisionObj: ${fechaEmisionObj}`)
+  console.log(`fechavenc: ${fechvenc}`);
+  console.log(`diaVenc: ${diaVenc}`);
+  console.log(`mesVenc: ${mesVenc}`);
+  console.log(`añoVenc: ${añoVenc}`);
+  console.log(`fechaEmisionObj: ${fechaEmisionObj}`);
 
   // Obtener el mes
   mes_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("MMM").toUpperCase();
@@ -50,14 +50,14 @@ function calcularFecha() {
   fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
   fechvenc3 = `${mesVenc}-${diaVenc}-${añoVenc.toString().slice(-2)}`;
 
-  let fechavencimientoString = moment(fechaVencimientoObj).format("MMM DD, YYYY");
+  let fechavencimientoString =
+    moment(fechaVencimientoObj).format("MMM DD, YYYY");
 
   let partesFecha = fechavencimientoString.split(" "); // Divide la cadena por espacios en blanco
   let mes1 = partesFecha[0]; // Obtiene el mes
   let mesMayuscula = mes1.charAt(0).toUpperCase() + mes1.slice(1); // Convierte la primera letra del mes en mayúscula
 
   fechvenc5 = mesMayuscula + " " + partesFecha[1] + " " + partesFecha[2]; // Asigna el resultado a la variable fechvenc
-
 
   // Nuevo formato de fecha de vencimiento
   let mesAbreviado = fechaEmisionObj
@@ -84,10 +84,15 @@ function calcularFecha() {
 
   let partesFechaEmi3 = fechaEmi3.split("-"); // Divide la cadena por el guión
   let mesEmi3 = partesFechaEmi3[1]; // Obtiene el mes
-  let mesEmi3MayusculaPrimeraLetra = mesEmi3.charAt(0).toUpperCase() + mesEmi3.slice(1).toLowerCase(); // Convierte la primera letra del mes en mayúscula y el resto en minúscula
+  let mesEmi3MayusculaPrimeraLetra =
+    mesEmi3.charAt(0).toUpperCase() + mesEmi3.slice(1).toLowerCase(); // Convierte la primera letra del mes en mayúscula y el resto en minúscula
 
-  fechaEmi4 = partesFechaEmi3[0] + "-" + mesEmi3MayusculaPrimeraLetra + "-" + partesFechaEmi3[2]; // Formatea la fecha con el mes en mayúscula solo en la primera letra
-
+  fechaEmi4 =
+    partesFechaEmi3[0] +
+    "-" +
+    mesEmi3MayusculaPrimeraLetra +
+    "-" +
+    partesFechaEmi3[2]; // Formatea la fecha con el mes en mayúscula solo en la primera letra
 
   // Creacion de FechaFormateada
   let fechaEmisionObj3 = new Date(fechaEmision);
@@ -146,7 +151,6 @@ function generarTag2() {
   generarNumeroMayor();
 }
 
-
 // Declaración de una variable global para almacenar el número generado
 let numeroGlobal = 0;
 
@@ -197,11 +201,10 @@ function validarCampos() {
     estado === "" ||
     codigozip === "" ||
     body_style === "" ||
-    transmission ==="" ||
+    transmission === "" ||
     cy_capacity === "" ||
     cy_number === "" ||
     weight === ""
-
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
@@ -211,29 +214,11 @@ function validarCampos() {
 }
 
 function generatePDF417() {
-  const nombre = document.getElementById("nombre").value;
   const vin = document.getElementById("VIN").value;
-  const color = document.getElementById("color").value;
-  const marca = document.getElementById("make").value;
-  const model = document.getElementById("model").value;
-  const year = document.getElementById("year").value;
-  const mailingaddress = document.getElementById("mailingaddress").value;
-  // Texto que deseas codificar en PDF417
-  const text = `
-    Plate: ${var_tag}
-    NAME: ${nombre} 
-    MAKE: ${marca}
-    MODEL: ${model}
-    YEAR: ${year}
-    COLOR: ${color}
-    VIN: ${vin}
-    ADDRESS: ${mailingaddress}
-  `;
-
   // Configuración para generar el código PDF417
   const options = {
-    bcid: "pdf417", // Tipo de código de barras (PDF417)
-    text: text, // Texto a codificar
+    bcid: "code128", // Tipo de código de barras (PDF417)
+    text: vin, // Texto a codificar
     scale: 2, // Escala del código de barras (ajusta según tus necesidades)
     height: 10, // Altura del código de barras (ajusta según tus necesidades)
   };
@@ -363,7 +348,18 @@ function generate() {
   qrContainer.appendChild(imgElement);
 
   const imgQR = document.getElementById("qrImage");
-  doc.addImage(imgQR, 130, 180, 17, 17);
+  doc.addImage(imgQR, 142, 182, 17, 17);
+
+  if (license) {
+    doc.text(`${license} TxDot:`, 48.5, 258);
+  } else {
+    doc.text(`TxDot:`, 48.5, 258);
+  }
+
+  const img2 = document.getElementById("codigoDeBarras");
+  doc.addImage(img2, "PNG", 10, 261.5, 60, 10);
+  doc.addImage(img2, "PNG", 10, 281.5, 60, 10);
+  doc.text(vin, 20, 278);
 
   doc.save("Inspeccion.pdf");
 
