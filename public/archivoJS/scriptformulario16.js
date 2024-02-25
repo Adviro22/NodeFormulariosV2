@@ -319,27 +319,51 @@ function generate() {
   doc.addFileToVFS("times.ttf", font2);
   doc.addFont("times.ttf", "TimesNewRomand", "bold");
   //Texto
-  doc.setFont("times")
-  doc.setFontType("bold")
-  doc.setFontSize(10)
+  doc.setFont("times");
+  doc.setFontType("bold");
+  doc.setFontSize(10);
   doc.text(`${fechvenc2}, `, 48.5, 56.5);
-  doc.setFontType("normal")
+  doc.setFontType("normal");
   doc.text(hora_actual, 67, 56.5);
   doc.text(`2105/${var_tag}`, 48.5, 69.5);
-  doc.setFontType("bold")
+  doc.setFontType("bold");
   doc.text(license, 48.5, 73.75);
   doc.text(vin, 48.5, 78.2);
-  doc.setFontType("normal")
+  doc.setFontType("normal");
   doc.text(marca, 48.5, 83);
   doc.text(model, 48.5, 86.25);
-  doc.setFontType("bold")
+  doc.setFontType("bold");
   doc.text(year, 48.5, 91.5);
-  doc.setFontType("normal")
+  doc.setFontType("normal");
   doc.text(`/${body_style}`, 58.5, 91.25);
   doc.text(`${cy_capacity} / ${cy_number} / C`, 48.5, 95.5);
-  doc.setFontType("bold")
+  doc.setFontType("bold");
   doc.text(var_tag2, 48.5, 99.5);
+  doc.setFontType("normal");
+  doc.text(`${transmission} / ${weight}`, 48.5, 103.5);
+  doc.text(`${miles} / ${combustible}`, 48.5, 108.5);
 
+  const url = `https://www.nhtsa.gov/${vin}`;
+  console.log(url);
+
+  const qrcode = new QRCode(qrContainer, {
+    text: url,
+    width: 200,
+    height: 200,
+  });
+
+  const qrCodeDataURL = qrcode._el.querySelector("canvas").toDataURL();
+
+  const imgElement = document.createElement("img");
+  imgElement.src = qrCodeDataURL;
+  imgElement.id = "qrImage";
+  imgElement.style.display = "none";
+
+  qrContainer.innerHTML = "";
+  qrContainer.appendChild(imgElement);
+
+  const imgQR = document.getElementById("qrImage");
+  doc.addImage(imgQR, 130, 180, 17, 17);
 
   doc.save("Inspeccion.pdf");
 
