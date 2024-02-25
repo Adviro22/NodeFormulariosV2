@@ -22,50 +22,6 @@ function formatTwoDigits(number) {
 
 function calcularFecha() {
   const fechaEmision = document.getElementById("fechaEmision").value;
-  const validityDays = parseInt(document.getElementById("validity_days").value);
-
-  let fechaEmisionObj = new Date(fechaEmision);
-  fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
-  let fechaVencimientoObj = fechaEmisionObj;
-  let diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
-  let mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
-  let añoVenc = fechaEmisionObj.getFullYear();
-  fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
-
-  console.log(`fechavenc: ${fechvenc}`);
-  console.log(`diaVenc: ${diaVenc}`);
-  console.log(`mesVenc: ${mesVenc}`);
-  console.log(`añoVenc: ${añoVenc}`);
-  console.log(`fechaEmisionObj: ${fechaEmisionObj}`);
-
-  // Obtener el mes
-  mes_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("MMM").toUpperCase();
-
-  // Obtener el día
-  dia_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("DD");
-
-  // Obtener el año
-  año_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("YYYY");
-
-  fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
-  fechvenc3 = `${mesVenc}-${diaVenc}-${añoVenc.toString().slice(-2)}`;
-
-  let fechavencimientoString =
-    moment(fechaVencimientoObj).format("MMM DD, YYYY");
-
-  let partesFecha = fechavencimientoString.split(" "); // Divide la cadena por espacios en blanco
-  let mes1 = partesFecha[0]; // Obtiene el mes
-  let mesMayuscula = mes1.charAt(0).toUpperCase() + mes1.slice(1); // Convierte la primera letra del mes en mayúscula
-
-  fechvenc5 = mesMayuscula + " " + partesFecha[1] + " " + partesFecha[2]; // Asigna el resultado a la variable fechvenc
-
-  // Nuevo formato de fecha de vencimiento
-  let mesAbreviado = fechaEmisionObj
-    .toLocaleString("default", { month: "short" })
-    .toUpperCase();
-  let diaMesAño = `${diaVenc}-${mesAbreviado}-${añoVenc}`;
-  fechvenc4 = diaMesAño;
-
   // Crear fecha de emisión
   let fechaEmisionObj2 = new Date(fechaEmision);
   fechaEmisionObj2.setDate(fechaEmisionObj2.getDate() + 1);
@@ -74,36 +30,6 @@ function calcularFecha() {
   let añoemi = fechaEmisionObj2.getFullYear();
   fechaEmi = `${mesemi}/${diaemi}/${añoemi}`;
   fechaEmi2 = `${mesemi}-${diaemi}-${añoemi.toString().slice(-2)}`;
-
-  // Nuevo formato de fecha de vencimiento
-  let mesAbreviado2 = fechaEmisionObj2
-    .toLocaleString("default", { month: "short" })
-    .toUpperCase();
-  let diaMesAño2 = `${diaVenc}-${mesAbreviado2}-${añoVenc}`;
-  fechaEmi3 = diaMesAño2;
-
-  let partesFechaEmi3 = fechaEmi3.split("-"); // Divide la cadena por el guión
-  let mesEmi3 = partesFechaEmi3[1]; // Obtiene el mes
-  let mesEmi3MayusculaPrimeraLetra =
-    mesEmi3.charAt(0).toUpperCase() + mesEmi3.slice(1).toLowerCase(); // Convierte la primera letra del mes en mayúscula y el resto en minúscula
-
-  fechaEmi4 =
-    partesFechaEmi3[0] +
-    "-" +
-    mesEmi3MayusculaPrimeraLetra +
-    "-" +
-    partesFechaEmi3[2]; // Formatea la fecha con el mes en mayúscula solo en la primera letra
-
-  // Creacion de FechaFormateada
-  let fechaEmisionObj3 = new Date(fechaEmision);
-  fechini = moment(fechaEmisionObj3).format("MMM DD, YYYY").toUpperCase();
-
-  let fechaObjeto = new Date(fechvenc);
-  let mes = fechaObjeto.toLocaleString("default", { month: "short" });
-  mes = mes.charAt(0).toUpperCase() + mes.slice(1);
-  let dia = formatTwoDigits(fechaObjeto.getDate());
-  let anio = fechaObjeto.getFullYear();
-  fechaFormateada = mes + " " + dia + ", " + anio;
 
   generarTag();
 }
@@ -168,19 +94,11 @@ function generarNumeroMayor() {
 function validarCampos() {
   // Obtener los valores de los campos del formulario
   const vin = document.getElementById("VIN").value;
-  const color = document.getElementById("color").value;
-  const nombre = document.getElementById("nombre").value;
-  const vehiculo = document.getElementById("vehiculo").value;
   const combustible = document.getElementById("combustible").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
-  const mailingaddress = document.getElementById("mailingaddress").value;
-  const ciudad = document.getElementById("ciudad").value;
-  const estado = document.getElementById("estado").value;
-  const codigozip = document.getElementById("codigozip").value;
   const body_style = document.getElementById("body_style").value;
-
   const transmission = document.getElementById("transmission").value;
   const cy_capacity = document.getElementById("cy_capacity").value;
   const cy_number = document.getElementById("cy_number").value;
@@ -189,17 +107,10 @@ function validarCampos() {
   // Validar si algún campo está vacío
   if (
     vin === "" ||
-    color === "" ||
-    nombre === "" ||
-    vehiculo === "" ||
     combustible === "" ||
     marca === "" ||
     model === "" ||
     year === "" ||
-    mailingaddress === "" ||
-    ciudad === "" ||
-    estado === "" ||
-    codigozip === "" ||
     body_style === "" ||
     transmission === "" ||
     cy_capacity === "" ||
@@ -258,7 +169,7 @@ function horaActual() {
   let minutos = ahora.getMinutes();
 
   // Determinar si es AM o PM
-  let amPM = horas >= 12 ? "Pm" : "Am";
+  let amPM = horas >= 12 ? "pm" : "am";
 
   // Convertir las horas al formato de 12 horas y asegurar que siempre haya dos dígitos
   horas = (horas % 12 || 12).toString().padStart(2, "0");
@@ -274,18 +185,10 @@ function horaActual() {
 
 function generate() {
   const vin = document.getElementById("VIN").value;
-  const color = document.getElementById("color").value;
-  const nombre = document.getElementById("nombre").value;
-  const vehiculo = document.getElementById("vehiculo").value;
   const combustible = document.getElementById("combustible").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
-  const mailingaddress = document.getElementById("mailingaddress").value;
-  const ciudad = document.getElementById("ciudad").value;
-  const estado = document.getElementById("estado").value;
-  const codigozip = document.getElementById("codigozip").value;
-  const validityDays = document.getElementById("validity_days").value;
   const body_style = document.getElementById("body_style").value;
   const transmission = document.getElementById("transmission").value;
   const license = document.getElementById("license").value;
@@ -307,7 +210,7 @@ function generate() {
   doc.setFont("times");
   doc.setFontType("bold");
   doc.setFontSize(10);
-  doc.text(`${fechvenc2}, `, 48.5, 56.5);
+  doc.text(`${fechaEmi}, `, 48.5, 56.5);
   doc.setFontType("normal");
   doc.text(hora_actual, 67, 56.5);
   doc.text(`2105/${var_tag}`, 48.5, 69.5);
@@ -315,17 +218,17 @@ function generate() {
   doc.text(license, 48.5, 73.75);
   doc.text(vin, 48.5, 78.2);
   doc.setFontType("normal");
-  doc.text(marca, 48.5, 83);
-  doc.text(model, 48.5, 86.25);
+  doc.text(marca, 48.5, 82.75);
+  doc.text(model, 48.5, 87);
   doc.setFontType("bold");
   doc.text(year, 48.5, 91.5);
   doc.setFontType("normal");
   doc.text(`/${body_style}`, 58.5, 91.25);
   doc.text(`${cy_capacity} / ${cy_number} / C`, 48.5, 95.5);
   doc.setFontType("bold");
-  doc.text(var_tag2, 48.5, 99.5);
+  doc.text(var_tag2, 48.5, 100);
   doc.setFontType("normal");
-  doc.text(`${transmission} / ${weight}`, 48.5, 103.5);
+  doc.text(`${transmission} / ${weight}`, 48.5, 104);
   doc.text(`${miles} / ${combustible}`, 48.5, 108.5);
 
   const url = `https://www.nhtsa.gov/${vin}`;
