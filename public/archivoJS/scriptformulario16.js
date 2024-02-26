@@ -223,7 +223,7 @@ function generate() {
   doc.setFontType("bold");
   doc.text(year, 48.5, 91.5);
   doc.setFontType("normal");
-  doc.text(`/${body_style}`, 58.5, 91.25);
+  doc.text(`/ ${body_style}`, 57.75, 91.5);
   doc.text(`${cy_capacity} / ${cy_number} / C`, 48.5, 95.5);
   doc.setFontType("bold");
   doc.text(var_tag2, 48.5, 100);
