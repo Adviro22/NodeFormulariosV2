@@ -15,6 +15,10 @@ let fechaEmi4;
 let mes_fechvenc;
 let dia_fechvenc;
 let año_fechvenc;
+let diaVenc
+let mesVenc
+let añoVenc
+let añoVenc2
 
 function formatTwoDigits(number) {
   return number < 10 ? "0" + number : number;
@@ -27,19 +31,11 @@ function calcularFecha() {
   let fechaEmisionObj = new Date(fechaEmision);
   fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
   let fechaVencimientoObj = fechaEmisionObj
-  let diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
-  let mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
-  let añoVenc = fechaEmisionObj.getFullYear();
+  diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
+  mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
+  añoVenc = fechaEmisionObj.getFullYear();
+  añoVenc2 = añoVenc.toString().slice(-2)
   fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
-
-  /*
-  let fechaEmisionObj = new Date(fechaEmision);
-  fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
-  let diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
-  let mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
-  let añoVenc = fechaEmisionObj.getFullYear();
-  fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
-  */
 
   console.log(`fechavenc: ${fechvenc}`)
   console.log(`diaVenc: ${diaVenc}`)
@@ -117,9 +113,12 @@ let var_tag;
 function generarTag() {
   let tag = "";
 
-  // Generar 4 números
-  for (let i = 0; i < 7; i++) {
+  // Generar 8 números con espacio entre ellos
+  for (let i = 0; i < 8; i++) {
     tag += Math.floor(Math.random() * 10);
+    if (i < 7) { // Agregar espacio después de cada número, excepto después del último
+      tag += " ";
+    }
   }
 
   // Asignar el valor del tag generado a la variable
@@ -127,6 +126,7 @@ function generarTag() {
 
   generarNumeroMayor();
 }
+
 
 // Declaración de una variable global para almacenar el número generado
 let numeroGlobal = 0;
@@ -232,16 +232,19 @@ function generate() {
   doc.addFileToVFS("calibri.ttf", calibri_normal);
   doc.addFont("calibri.ttf", "Calibri", "normal");
 
+  doc.setFont("ArialBlack");
+  doc.setFontSize(120);
+  doc.text(mesVenc, 74.25, 90, {align: "center"});
+  doc.text(diaVenc, 148.5, 90, {align: "center"});
+  doc.text(`${añoVenc2}`, 222.75, 90, {align: "center"});
+  doc.setFontSize(90);
+  doc.text(var_tag, 148.5, 160, {align: "center"});
 
   //Segunda Página
   doc.addPage("a4", "p");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 211, 297);
-  doc.setFontSize(20)
-  doc.setFont("ArialBlack");
-  doc.text("Hola Mundo 123456789", 20, 20)
   doc.setFont("Calibri");
-  doc.text("Hola Mundo 123456789", 20, 40)
 
   doc.save("Colorado.pdf");
 
