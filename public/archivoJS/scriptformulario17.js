@@ -9,6 +9,7 @@ let fechvenc5;
 let fechini;
 let fechaFormateada;
 let fechaEmi;
+let fechaEmi1
 let fechaEmi2;
 let fechaEmi3;
 let fechaEmi4;
@@ -78,6 +79,7 @@ function calcularFecha() {
   let mesemi = formatTwoDigits(fechaEmisionObj2.getMonth() + 1);
   let añoemi = fechaEmisionObj2.getFullYear();
   fechaEmi = `${mesemi}/${diaemi}/${añoemi}`;
+  fechaEmi1 = `${mesemi}-${diaemi}-${añoemi}`;
   fechaEmi2 = `${mesemi}-${diaemi}-${añoemi.toString().slice(-2)}`;
 
   // Nuevo formato de fecha de vencimiento
@@ -147,8 +149,7 @@ function validarCampos() {
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
-  const vehiculo = document.getElementById("vehiculo").value;
-  const combustible = document.getElementById("combustible").value;
+  const validityDays = document.getElementById("validity_days").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
@@ -156,15 +157,12 @@ function validarCampos() {
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
-  const body_style = document.getElementById("body_style").value;
 
   // Validar si algún campo está vacío
   if (
     vin === "" ||
     color === "" ||
     nombre === "" ||
-    vehiculo === "" ||
-    combustible === "" ||
     marca === "" ||
     model === "" ||
     year === "" ||
@@ -172,7 +170,7 @@ function validarCampos() {
     ciudad === "" ||
     estado === "" ||
     codigozip === "" ||
-    body_style === ""
+    validityDays === ""
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
@@ -209,8 +207,6 @@ function generate() {
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
-  const vehiculo = document.getElementById("vehiculo").value;
-  const combustible = document.getElementById("combustible").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
@@ -218,8 +214,6 @@ function generate() {
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
-  const validityDays = document.getElementById("validity_days").value;
-  const body_style = document.getElementById("body_style").value;
 
   const doc = new jsPDF({ orientation: "l"});
   const img1 = document.getElementById("img1");
@@ -237,6 +231,11 @@ function generate() {
   doc.text(mesVenc, 74.25, 90, {align: "center"});
   doc.text(diaVenc, 148.5, 90, {align: "center"});
   doc.text(`${añoVenc2}`, 222.75, 90, {align: "center"});
+  doc.setFontSize(11.5)
+  doc.text(marca, 40, 112);
+  doc.text(year, 92, 112);
+  doc.text(vin, 114, 112);
+  doc.text(fechaEmi1, 205, 112);
   doc.setFontSize(90);
   doc.text(var_tag, 148.5, 160, {align: "center"});
 
@@ -245,8 +244,18 @@ function generate() {
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 211, 297);
   doc.setFont("Calibri");
+  doc.setFontSize(11.25)
+  doc.text(year, 12.5, 128.25);
+  doc.text(marca, 60, 128.25);
+  doc.text(model, 86.5, 128.25);
+  doc.text(color, 123, 128.25);
 
-  doc.save("Colorado.pdf");
+  doc.text(vin, 11.5, 134);
+  doc.text(nombre, 114, 134);
+
+  doc.text(`${mailingaddress} ${ciudad} ${estado} ${codigozip}`, 20, 139.75);
+
+  doc.save("Nc_tag.pdf");
 
   realizarSolicitud();
 }
