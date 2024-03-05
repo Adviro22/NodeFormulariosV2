@@ -1,6 +1,5 @@
-import { font1 } from "../font/minion_pro_bold.js";
-import { font2 } from "../font/minion_pro_normal.js";
-import { font3 } from "../font/minion_pro_medium.js";
+import { arial_black_normal } from "../font/arial_black_normal.js";
+import { calibri_normal } from "../font/calibri_normal.js";
 
 let fechvenc;
 let fechvenc2;
@@ -226,11 +225,23 @@ function generate() {
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 0, 297, 211);
 
+  //Fuente1
+  doc.addFileToVFS("arial_black.ttf", arial_black_normal);
+  doc.addFont("arial_black.ttf", "ArialBlack", "normal");
+  //Fuente2
+  doc.addFileToVFS("calibri.ttf", calibri_normal);
+  doc.addFont("calibri.ttf", "Calibri", "normal");
+
 
   //Segunda Página
   doc.addPage("a4", "p");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 211, 297);
+  doc.setFontSize(20)
+  doc.setFont("ArialBlack");
+  doc.text("Hola Mundo 123456789", 20, 20)
+  doc.setFont("Calibri");
+  doc.text("Hola Mundo 123456789", 20, 40)
 
   doc.save("Colorado.pdf");
 
