@@ -214,6 +214,7 @@ function generate() {
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
+  const validity_days = document.getElementById("validity_days").value
 
   const doc = new jsPDF({ orientation: "l"});
   const img1 = document.getElementById("img1");
@@ -228,8 +229,8 @@ function generate() {
 
   doc.setFont("ArialBlack");
   doc.setFontSize(120);
-  doc.text(mesVenc, 74.25, 90, {align: "center"});
-  doc.text(diaVenc, 148.5, 90, {align: "center"});
+  doc.text(`${mesVenc}`, 74.25, 90, {align: "center"});
+  doc.text(`${diaVenc}`, 148.5, 90, {align: "center"});
   doc.text(`${añoVenc2}`, 222.75, 90, {align: "center"});
   doc.setFontSize(11.5)
   doc.text(marca, 40, 112);
@@ -238,6 +239,14 @@ function generate() {
   doc.text(fechaEmi1, 205, 112);
   doc.setFontSize(90);
   doc.text(var_tag, 148.5, 160, {align: "center"});
+
+  // Color Blanco
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(14);
+  doc.text(`${validity_days}-DAY`, 25, 35, {align: "center"});
+  doc.text(`${validity_days}-DAY`, 269, 35, {align: "center"});
+  doc.text(`${validity_days}-DAY`, 25, 110, {align: "center"});
+  doc.text(`${validity_days}-DAY`, 269, 110, {align: "center"});
 
   //Segunda Página
   doc.addPage("a4", "p");
@@ -305,5 +314,3 @@ window.generarTag = generarTag;
 
 window.realizarSolicitud = realizarSolicitud;
 
-// Adjuntar la función al objeto global window
-window.generatePDF417 = generatePDF417;
