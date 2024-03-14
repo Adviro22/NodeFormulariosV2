@@ -254,6 +254,8 @@ function generate() {
   doc.addImage(img2, 0, 0, 211, 297);
   doc.setFont("Calibri");
   doc.setFontSize(11.25)
+  //Color negro
+  doc.setTextColor(0, 0, 0);
   doc.text(year, 12.5, 128.25);
   doc.text(marca, 60, 128.25);
   doc.text(model, 86.5, 128.25);
