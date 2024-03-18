@@ -118,15 +118,40 @@ function generarTag() {
   for (let i = 0; i < 7; i++) {
     tag += Math.floor(Math.random() * 10);
     if (i < 7) { // Agregar espacio después de cada número, excepto después del último
-      tag += " ";
+      tag += "";
     }
   }
 
   // Asignar el valor del tag generado a la variable
   var_tag = tag;
 
+  generarTag2();
+}
+
+let var_tag2
+
+function generarTag2() {
+  let tag = "";
+
+  // Generar 2 letras aleatorias
+  for (let i = 0; i < 2; i++) {
+    tag += String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar letras aleatorias en mayúscula (ASCII 65-90)
+  }
+
+  // Generar 5 números con espacio entre ellos
+  for (let i = 0; i < 5; i++) {
+    tag += Math.floor(Math.random() * 10);
+    if (i < 4) { // Agregar espacio después de cada número, excepto después del último
+      tag += "";
+    }
+  }
+
+  // Asignar el valor del tag generado a la variable
+  var_tag2 = tag;
+
   generarNumeroMayor();
 }
+
 
 
 // Declaración de una variable global para almacenar el número generado
@@ -249,20 +274,54 @@ function generate() {
   doc.setFontSize(42);
   doc.setFontType("bold");
   doc.text(mes_fechvenc, 8, 50);
-  doc.setFontSize(42);
+  doc.setFontSize(16);
+  doc.text(var_tag, 27, 60);
 
   const imgQR = document.getElementById("qrImage");
-  doc.addImage(imgQR, 47, 30, 30, 30);
+  doc.addImage(imgQR, 52, 35, 25, 25);
 
+  doc.text(marca, 80, 60);
+  doc.text(`VIN: ${vin}`, 145, 61.5);
+  doc.text(fechvenc2, 260, 61.5);
+  doc.setFontSize(42);
+  doc.text(`${añoVenc}`, 260, 50, {align: "center"});
+
+  doc.setFontType("normal");
   doc.setFont("DealerplateCalifornia");
+  doc.setFontSize(285);
+  doc.text(var_tag2, 148.5, 150, {align: "center"})
 
   //Segunda Página
+  doc.addPage("a4", "l");
+  doc.addImage(img1, 0, 0, 297, 211);
+
+  doc.setFontSize(42);
+  doc.setFontType("bold");
+  doc.text(mes_fechvenc, 8, 50);
+  doc.setFontSize(16);
+  doc.text(var_tag, 27, 60);
+
+  doc.addImage(imgQR, 52, 35, 25, 25);
+
+  doc.text(marca, 80, 60);
+  doc.text(`VIN: ${vin}`, 145, 61.5);
+  doc.text(fechvenc2, 260, 61.5);
+  doc.setFontSize(42);
+  doc.text(`${añoVenc}`, 260, 50, {align: "center"});
+
+  doc.setFontType("normal");
+  doc.setFont("DealerplateCalifornia");
+  doc.setFontSize(285);
+  doc.text(var_tag2, 148.5, 150, {align: "center"})
+
+  //Tercera Página
   doc.addPage("a4", "p");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 211, 297);
+  
 
   doc.save("Ca_tag.pdf");
-
+  
   realizarSolicitud();
 }
 
