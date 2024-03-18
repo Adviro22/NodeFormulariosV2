@@ -1,5 +1,4 @@
-import { arial_black_normal } from "../font/arial_black_normal.js";
-import { calibri_normal } from "../font/calibri_normal.js";
+import { dealerplate_california } from "../font/dealerplate_california.js";
 
 let fechvenc;
 let fechvenc2;
@@ -116,7 +115,7 @@ function generarTag() {
   let tag = "";
 
   // Generar 8 números con espacio entre ellos
-  for (let i = 0; i < 8; i++) {
+  for (let i = 0; i < 7; i++) {
     tag += Math.floor(Math.random() * 10);
     if (i < 7) { // Agregar espacio después de cada número, excepto después del último
       tag += " ";
@@ -216,24 +215,53 @@ function generate() {
   const codigozip = document.getElementById("codigozip").value;
   const validity_days = document.getElementById("validity_days").value
 
+  const url = `
+    Hola Mundo
+    TAG#: ${var_tag}
+  `;
+  console.log(url);
+
+  const qrcode = new QRCode(qrContainer, {
+    text: url,
+    width: 200,
+    height: 200,
+  });
+
+  const qrCodeDataURL = qrcode._el.querySelector("canvas").toDataURL();
+
+  const imgElement = document.createElement("img");
+  imgElement.src = qrCodeDataURL;
+  imgElement.id = "qrImage";
+  imgElement.style.display = "none";
+
+  qrContainer.innerHTML = "";
+  qrContainer.appendChild(imgElement);
+
   const doc = new jsPDF({ orientation: "l"});
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 0, 297, 211);
 
   //Fuente1
-  //doc.addFileToVFS("arial_black.ttf", arial_black_normal);
-  //doc.addFont("arial_black.ttf", "ArialBlack", "normal");
-  //Fuente2
-  //doc.addFileToVFS("calibri.ttf", calibri_normal);
-  //doc.addFont("calibri.ttf", "Calibri", "normal");
+  doc.addFileToVFS("dealerplate_california.ttf", dealerplate_california);
+  doc.addFont("dealerplate_california.ttf", "DealerplateCalifornia", "normal");
 
+  //Primera Página
+  doc.setFontSize(42);
+  doc.setFontType("bold");
+  doc.text(mes_fechvenc, 8, 50);
+  doc.setFontSize(42);
+
+  const imgQR = document.getElementById("qrImage");
+  doc.addImage(imgQR, 47, 30, 30, 30);
+
+  doc.setFont("DealerplateCalifornia");
 
   //Segunda Página
   doc.addPage("a4", "p");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 211, 297);
 
-  doc.save("Nc_tag.pdf");
+  doc.save("Ca_tag.pdf");
 
   realizarSolicitud();
 }
