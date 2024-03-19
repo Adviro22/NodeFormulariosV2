@@ -239,6 +239,8 @@ function generate() {
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
   const validity_days = document.getElementById("validity_days").value
+  const miles = document.getElementById("miles").value;
+  const body_style = document.getElementById("body_style").value;
 
   const url = `
     Hola Mundo
@@ -318,7 +320,27 @@ function generate() {
   doc.addPage("a4", "p");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 211, 297);
-  
+  doc.setFontSize(15);
+  doc.setFont("helvetica")
+  doc.setFontType("bold");
+  doc.text(var_tag, 170, 157);
+  doc.setFontType("normal");
+  doc.setFontSize(8);
+  doc.text(marca, 9, 170);
+  doc.text(year, 51, 170);
+  doc.text(model, 70, 170);
+  doc.text(body_style, 90, 170);
+  doc.text(vin, 110, 170);
+
+  doc.text(var_tag2, 100, 179);
+  doc.text(fechvenc2, 162, 179);
+
+  doc.text(nombre, 15, 188);
+
+  doc.text(mailingaddress, 9, 197);
+  doc.text(ciudad, 110, 197);
+  doc.text(estado, 167, 197);
+  doc.text(codigozip, 179, 197);
 
   doc.save("Ca_tag.pdf");
   
