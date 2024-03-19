@@ -8,17 +8,17 @@ let fechvenc5;
 let fechini;
 let fechaFormateada;
 let fechaEmi;
-let fechaEmi1
+let fechaEmi1;
 let fechaEmi2;
 let fechaEmi3;
 let fechaEmi4;
 let mes_fechvenc;
 let dia_fechvenc;
 let año_fechvenc;
-let diaVenc
-let mesVenc
-let añoVenc
-let añoVenc2
+let diaVenc;
+let mesVenc;
+let añoVenc;
+let añoVenc2;
 
 function formatTwoDigits(number) {
   return number < 10 ? "0" + number : number;
@@ -30,18 +30,18 @@ function calcularFecha() {
 
   let fechaEmisionObj = new Date(fechaEmision);
   fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
-  let fechaVencimientoObj = fechaEmisionObj
+  let fechaVencimientoObj = fechaEmisionObj;
   diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
   mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
   añoVenc = fechaEmisionObj.getFullYear();
-  añoVenc2 = añoVenc.toString().slice(-2)
+  añoVenc2 = añoVenc.toString().slice(-2);
   fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
 
-  console.log(`fechavenc: ${fechvenc}`)
-  console.log(`diaVenc: ${diaVenc}`)
-  console.log(`mesVenc: ${mesVenc}`)
-  console.log(`añoVenc: ${añoVenc}`)
-  console.log(`fechaEmisionObj: ${fechaEmisionObj}`)
+  console.log(`fechavenc: ${fechvenc}`);
+  console.log(`diaVenc: ${diaVenc}`);
+  console.log(`mesVenc: ${mesVenc}`);
+  console.log(`añoVenc: ${añoVenc}`);
+  console.log(`fechaEmisionObj: ${fechaEmisionObj}`);
 
   // Obtener el mes
   mes_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("MMM").toUpperCase();
@@ -55,14 +55,14 @@ function calcularFecha() {
   fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
   fechvenc3 = `${mesVenc}-${diaVenc}-${añoVenc.toString().slice(-2)}`;
 
-  let fechavencimientoString = moment(fechaVencimientoObj).format("MMM DD, YYYY");
+  let fechavencimientoString =
+    moment(fechaVencimientoObj).format("MMM DD, YYYY");
 
   let partesFecha = fechavencimientoString.split(" "); // Divide la cadena por espacios en blanco
   let mes1 = partesFecha[0]; // Obtiene el mes
   let mesMayuscula = mes1.charAt(0).toUpperCase() + mes1.slice(1); // Convierte la primera letra del mes en mayúscula
 
   fechvenc5 = mesMayuscula + " " + partesFecha[1] + " " + partesFecha[2]; // Asigna el resultado a la variable fechvenc
-
 
   // Nuevo formato de fecha de vencimiento
   let mesAbreviado = fechaEmisionObj
@@ -90,10 +90,15 @@ function calcularFecha() {
 
   let partesFechaEmi3 = fechaEmi3.split("-"); // Divide la cadena por el guión
   let mesEmi3 = partesFechaEmi3[1]; // Obtiene el mes
-  let mesEmi3MayusculaPrimeraLetra = mesEmi3.charAt(0).toUpperCase() + mesEmi3.slice(1).toLowerCase(); // Convierte la primera letra del mes en mayúscula y el resto en minúscula
+  let mesEmi3MayusculaPrimeraLetra =
+    mesEmi3.charAt(0).toUpperCase() + mesEmi3.slice(1).toLowerCase(); // Convierte la primera letra del mes en mayúscula y el resto en minúscula
 
-  fechaEmi4 = partesFechaEmi3[0] + "-" + mesEmi3MayusculaPrimeraLetra + "-" + partesFechaEmi3[2]; // Formatea la fecha con el mes en mayúscula solo en la primera letra
-
+  fechaEmi4 =
+    partesFechaEmi3[0] +
+    "-" +
+    mesEmi3MayusculaPrimeraLetra +
+    "-" +
+    partesFechaEmi3[2]; // Formatea la fecha con el mes en mayúscula solo en la primera letra
 
   // Creacion de FechaFormateada
   let fechaEmisionObj3 = new Date(fechaEmision);
@@ -117,7 +122,8 @@ function generarTag() {
   // Generar 8 números con espacio entre ellos
   for (let i = 0; i < 7; i++) {
     tag += Math.floor(Math.random() * 10);
-    if (i < 7) { // Agregar espacio después de cada número, excepto después del último
+    if (i < 7) {
+      // Agregar espacio después de cada número, excepto después del último
       tag += "";
     }
   }
@@ -128,7 +134,7 @@ function generarTag() {
   generarTag2();
 }
 
-let var_tag2
+let var_tag2;
 
 function generarTag2() {
   let tag = "";
@@ -141,7 +147,8 @@ function generarTag2() {
   // Generar 5 números con espacio entre ellos
   for (let i = 0; i < 5; i++) {
     tag += Math.floor(Math.random() * 10);
-    if (i < 4) { // Agregar espacio después de cada número, excepto después del último
+    if (i < 4) {
+      // Agregar espacio después de cada número, excepto después del último
       tag += "";
     }
   }
@@ -151,8 +158,6 @@ function generarTag2() {
 
   generarNumeroMayor();
 }
-
-
 
 // Declaración de una variable global para almacenar el número generado
 let numeroGlobal = 0;
@@ -238,13 +243,15 @@ function generate() {
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
-  const validity_days = document.getElementById("validity_days").value
+  const validity_days = document.getElementById("validity_days").value;
   const miles = document.getElementById("miles").value;
   const body_style = document.getElementById("body_style").value;
 
   const url = `
-    Hola Mundo
-    TAG#: ${var_tag}
+    OWR: ${nombre}
+    COL: ${color}
+    MDL: ${model}
+    TAG: ${var_tag2}
   `;
   console.log(url);
 
@@ -264,7 +271,7 @@ function generate() {
   qrContainer.innerHTML = "";
   qrContainer.appendChild(imgElement);
 
-  const doc = new jsPDF({ orientation: "l"});
+  const doc = new jsPDF({ orientation: "l" });
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 0, 297, 211);
 
@@ -286,12 +293,12 @@ function generate() {
   doc.text(`VIN: ${vin}`, 145, 61.5);
   doc.text(fechvenc2, 260, 61.5);
   doc.setFontSize(42);
-  doc.text(`${añoVenc}`, 260, 50, {align: "center"});
+  doc.text(`${añoVenc}`, 260, 50, { align: "center" });
 
   doc.setFontType("normal");
   doc.setFont("DealerplateCalifornia");
   doc.setFontSize(285);
-  doc.text(var_tag2, 148.5, 150, {align: "center"})
+  doc.text(var_tag2, 148.5, 150, { align: "center" });
 
   //Segunda Página
   doc.addPage("a4", "l");
@@ -309,19 +316,19 @@ function generate() {
   doc.text(`VIN: ${vin}`, 145, 61.5);
   doc.text(fechvenc2, 260, 61.5);
   doc.setFontSize(42);
-  doc.text(`${añoVenc}`, 260, 50, {align: "center"});
+  doc.text(`${añoVenc}`, 260, 50, { align: "center" });
 
   doc.setFontType("normal");
   doc.setFont("DealerplateCalifornia");
   doc.setFontSize(285);
-  doc.text(var_tag2, 148.5, 150, {align: "center"})
+  doc.text(var_tag2, 148.5, 150, { align: "center" });
 
   //Tercera Página
   doc.addPage("a4", "p");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 211, 297);
   doc.setFontSize(15);
-  doc.setFont("helvetica")
+  doc.setFont("helvetica");
   doc.setFontType("bold");
   doc.text(var_tag, 170, 157);
   doc.setFontType("normal");
@@ -342,8 +349,126 @@ function generate() {
   doc.text(estado, 167, 197);
   doc.text(codigozip, 179, 197);
 
+  doc.setFontSize(15)
+
+  let digitos;
+
+  //Condicional para las millas
+  if (miles !== null && miles !== undefined) {
+    // Convertir el número a una cadena de caracteres para contar los dígitos
+    let numStr = miles.toString();
+
+    // Calcular la cantidad de dígitos
+    let numDigitos = numStr.length;
+
+    // Crear un array para almacenar los dígitos individualmente
+    digitos = [];
+
+    // Recorrer la cadena y convertir cada dígito en un número
+    for (let i = 0; i < numStr.length; i++) {
+      digitos.push(parseInt(numStr.charAt(i)));
+    }
+
+    // Imprimir la cantidad de dígitos y el array de dígitos
+    console.log("El número tiene " + numDigitos + " dígitos.");
+    console.log("Dígitos individualmente: ", digitos);
+  }
+
+  // Millas 6
+  if (digitos.length === 6) {
+    let x = 0;
+    let postion_x = 65.0;
+
+    while (x < 3) {
+      doc.text(`${digitos[x]}`, postion_x, 205, { align: "center" });
+      postion_x = postion_x + 7.5;
+      x++;
+    }
+
+    let x2 = 3
+    let postion_x2 = 89
+    while (x2 < 6) {
+      doc.text(`${digitos[x2]}`, postion_x2, 205, { align: "center" });
+      postion_x2 = postion_x2 + 7.5;
+      x2++;
+    }
+  }
+
+  // millas 5
+  if (digitos.length === 5) {
+    let x = 0;
+    let postion_x = 72.5;
+
+    while (x < 2) {
+      doc.text(`${digitos[x]}`, postion_x, 205, { align: "center" });
+      postion_x = postion_x + 7.5;
+      x++;
+    }
+
+    let x2 = 2
+    let postion_x2 = 89
+    while (x2 < 5) {
+      doc.text(`${digitos[x2]}`, postion_x2, 205, { align: "center" });
+      postion_x2 = postion_x2 + 7.5;
+      x2++;
+    }
+  }
+
+  // Millas 4
+  if (digitos.length === 4) {
+    let x = 0;
+    let postion_x = 80.0;
+
+    while (x < 1) {
+      doc.text(`${digitos[x]}`, postion_x, 205, { align: "center" });
+      postion_x = postion_x + 7.5;
+      x++;
+    }
+
+    let x2 = 1
+    let postion_x2 = 89
+    while (x2 < 4) {
+      doc.text(`${digitos[x2]}`, postion_x2, 205, { align: "center" });
+      postion_x2 = postion_x2 + 7.5;
+      x2++;
+    }
+  }
+
+  //Millas 3
+  if (digitos.length === 3) {
+    let x2 = 0
+    let postion_x2 = 89
+    while (x2 < 3) {
+      doc.text(`${digitos[x2]}`, postion_x2, 205, { align: "center" });
+      postion_x2 = postion_x2 + 7.5;
+      x2++;
+    }
+  }
+
+  // Millas 2
+  if (digitos.length === 2) {
+    let x2 = 0
+    let postion_x2 = 96.5
+    while (x2 < 2) {
+      doc.text(`${digitos[x2]}`, postion_x2, 205, { align: "center" });
+      postion_x2 = postion_x2 + 7.5;
+      x2++;
+    }
+  }
+
+  // Millas 1
+  if (digitos.length === 1) {
+    let x2 = 0
+    let postion_x2 = 104
+    while (x2 < 1) {
+      doc.text(`${digitos[x2]}`, postion_x2, 205, { align: "center" });
+      postion_x2 = postion_x2 + 7.5;
+      x2++;
+    }
+  }
+
   doc.save("Ca_tag.pdf");
-  
+
   realizarSolicitud();
 }
 
@@ -391,4 +516,3 @@ window.calcularFecha = calcularFecha;
 window.generarTag = generarTag;
 
 window.realizarSolicitud = realizarSolicitud;
-
