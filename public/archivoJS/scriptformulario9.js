@@ -5,93 +5,114 @@ import { font3 } from "../font/minion_pro_medium.js";
 let fechvenc;
 let fechvenc2;
 let fechvenc3;
+let fechvenc4;
+let fechvenc5;
 let fechini;
 let fechaFormateada;
 let fechaEmi;
-let fechaEmisionObj;
-let fechaEmisionObj2;
+let fechaEmi1;
+let fechaEmi2;
+let fechaEmi3;
+let fechaEmi4;
+let mes_fechvenc;
+let dia_fechvenc;
+let año_fechvenc;
+let diaVenc;
+let mesVenc;
+let añoVenc;
+let añoVenc2;
 let lista_fechvenc;
+
+function formatTwoDigits(number) {
+  return number < 10 ? "0" + number : number;
+}
 
 function calcularFecha() {
   const fechaEmision = document.getElementById("fechaEmision").value;
-  const validityDays = document.getElementById("validity_days").value;
-  const mesesDeValidez = Math.floor(validityDays / 30);
+  const validityDays = parseInt(document.getElementById("validity_days").value);
 
-  fechaEmisionObj2 = new Date(fechaEmision + "T00:00:00Z");
-  fechaEmisionObj2.setUTCHours(0, 0, 0, 0);
+  let fechaEmisionObj = new Date(fechaEmision);
+  fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
+  let fechaVencimientoObj = fechaEmisionObj;
+  diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
+  mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
+  añoVenc = fechaEmisionObj.getFullYear();
+  añoVenc2 = añoVenc.toString().slice(-2);
+  fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
+  lista_fechvenc = (mesVenc + diaVenc + añoVenc2).split("").map(Number);
 
-  fechaEmisionObj = new Date(fechaEmision + "T00:00:00Z");
-  fechaEmisionObj.setUTCHours(0, 0, 0, 0);
+  console.log(`fechavenc: ${fechvenc}`);
+  console.log(`diaVenc: ${diaVenc}`);
+  console.log(`mesVenc: ${mesVenc}`);
+  console.log(`añoVenc: ${añoVenc}`);
+  console.log(`fechaEmisionObj: ${fechaEmisionObj}`);
 
-  // Restar un día por mes de validez
-  for (let i = 0; i < mesesDeValidez; i++) {
-    fechaEmisionObj.setUTCMonth(fechaEmisionObj.getUTCMonth() - 1);
+  // Obtener el mes
+  mes_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("MMM").toUpperCase();
 
-    // Manejar restricciones de día
-    if (fechaEmisionObj.getUTCDate() <= 0) {
-      // Obtener el último día del mes anterior
-      fechaEmisionObj.setUTCMonth(fechaEmisionObj.getUTCMonth() - 1);
-      const ultimoDiaMesAnterior = new Date(
-        fechaEmisionObj.getUTCFullYear(),
-        fechaEmisionObj.getUTCMonth() + 1,
-        0
-      ).getUTCDate();
-      fechaEmisionObj.setUTCDate(ultimoDiaMesAnterior);
-    }
-  }
+  // Obtener el día
+  dia_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("DD");
 
-  // Calcular la fecha de vencimiento restando días
-  fechaEmisionObj.setUTCDate(fechaEmisionObj.getUTCDate() + parseInt(validityDays) - 1);
+  // Obtener el año
+  año_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("YYYY");
 
-  const nuevaFecha = fechaEmisionObj.toLocaleDateString();
+  fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
+  fechvenc3 = `${mesVenc}/${diaVenc}/${añoVenc.toString().slice(-2)}`;
 
-  let fechaEmisionFormateada = moment(fechaEmisionObj2.toISOString())
-    .format("MMM DD, YYYY")
+  let fechavencimientoString =
+    moment(fechaVencimientoObj).format("MMM DD, YYYY");
+
+  let partesFecha = fechavencimientoString.split(" "); // Divide la cadena por espacios en blanco
+  let mes1 = partesFecha[0]; // Obtiene el mes
+  let mesMayuscula = mes1.charAt(0).toUpperCase() + mes1.slice(1); // Convierte la primera letra del mes en mayúscula
+
+  fechvenc5 = mesMayuscula + " " + partesFecha[1] + " " + partesFecha[2]; // Asigna el resultado a la variable fechvenc
+
+  // Nuevo formato de fecha de vencimiento
+  let mesAbreviado = fechaEmisionObj
+    .toLocaleString("default", { month: "short" })
     .toUpperCase();
+  let diaMesAño = `${diaVenc}-${mesAbreviado}-${añoVenc}`;
+  fechvenc4 = diaMesAño;
 
-  let fechaVencimientoFormateada = moment(fechaEmisionObj.toISOString())
-    .format("MMM DD, YYYY")
+  // Crear fecha de emisión
+  let fechaEmisionObj2 = new Date(fechaEmision);
+  fechaEmisionObj2.setDate(fechaEmisionObj2.getDate() + 1);
+  let diaemi = formatTwoDigits(fechaEmisionObj2.getDate());
+  let mesemi = formatTwoDigits(fechaEmisionObj2.getMonth() + 1);
+  let añoemi = fechaEmisionObj2.getFullYear();
+  fechaEmi = `${mesemi}/${diaemi}/${añoemi}`;
+  fechaEmi1 = `${mesemi}-${diaemi}-${añoemi}`;
+  fechaEmi2 = `${mesemi}-${diaemi}-${añoemi.toString().slice(-2)}`;
+
+  // Nuevo formato de fecha de vencimiento
+  let mesAbreviado2 = fechaEmisionObj2
+    .toLocaleString("default", { month: "short" })
     .toUpperCase();
+  let diaMesAño2 = `${diaVenc}-${mesAbreviado2}-${añoVenc}`;
+  fechaEmi3 = diaMesAño2;
 
-  let fechaEmision2Formateada = fechaEmisionObj
-    .toLocaleDateString("en-US", {
-      month: "2-digit",
-      day: "2-digit",
-      year: "numeric",
-    })
-    .replace(/\//g, "");
+  let partesFechaEmi3 = fechaEmi3.split("-"); // Divide la cadena por el guión
+  let mesEmi3 = partesFechaEmi3[1]; // Obtiene el mes
+  let mesEmi3MayusculaPrimeraLetra =
+    mesEmi3.charAt(0).toUpperCase() + mesEmi3.slice(1).toLowerCase(); // Convierte la primera letra del mes en mayúscula y el resto en minúscula
 
-  fechvenc3 = fechaEmision2Formateada;
+  fechaEmi4 =
+    partesFechaEmi3[0] +
+    "-" +
+    mesEmi3MayusculaPrimeraLetra +
+    "-" +
+    partesFechaEmi3[2]; // Formatea la fecha con el mes en mayúscula solo en la primera letra
 
-  // Obtener el último día del mes de vencimiento
-  let diaVenc = new Date(
-    fechaEmisionObj.getUTCFullYear(),
-    fechaEmisionObj.getUTCMonth() + 1,
-    0
-  ).getUTCDate().toString().padStart(2, "0");
+  // Creacion de FechaFormateada
+  let fechaEmisionObj3 = new Date(fechaEmision);
+  fechini = moment(fechaEmisionObj3).format("MMM DD, YYYY").toUpperCase();
 
-  let mesVenc = (fechaEmisionObj.getUTCMonth() + 1).toString().padStart(2, "0");
-  let anioVenc = fechaEmisionObj.getUTCFullYear().toString().slice(-2);
-  fechvenc2 = `${mesVenc}${diaVenc}${anioVenc}`;
-  fechvenc3 = `${mesVenc}/${diaVenc}/${anioVenc}`;
-  lista_fechvenc = (mesVenc + diaVenc + anioVenc).split("").map(Number);
-  console.log(lista_fechvenc);
-  console.log(fechaEmisionObj)
-  console.log(fechaEmisionObj2)
-
-  let diaEmi = (fechaEmisionObj2.getUTCDate() - 1).toString().padStart(2, "0");
-  let mesEmi = (fechaEmisionObj2.getUTCMonth() + 1).toString().padStart(2, "0");
-  let anioEmi = fechaEmisionObj2.getUTCFullYear().toString();
-  fechaEmi = `${mesEmi}/${diaEmi}/${anioEmi}`;
-
-  fechvenc = fechaVencimientoFormateada;
-  fechini = fechaEmisionFormateada;
-
-  var fechaObjeto = new Date(fechini);
-  var mes = fechaObjeto.toLocaleString("default", { month: "short" });
+  let fechaObjeto = new Date(fechvenc);
+  let mes = fechaObjeto.toLocaleString("default", { month: "short" });
   mes = mes.charAt(0).toUpperCase() + mes.slice(1);
-  var dia = fechaObjeto.getDate();
-  var anio = fechaObjeto.getFullYear();
+  let dia = formatTwoDigits(fechaObjeto.getDate());
+  let anio = fechaObjeto.getFullYear();
   fechaFormateada = mes + " " + dia + ", " + anio;
 
   generarTag();
