@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Ohio</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="resources/css/style_formulario2.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
+	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bwip-js/4.1.1/bwip-js-min.js"></script>
+</head>
+<body>
+	<div class="container" id ="prueba">
+		<h1>Ohio</h1>
+		<form>	
+			<label for="VIN">VIN:</label>
+			<input type="text" id="VIN" name="VIN" placeholder="VIN" maxlength="17" onkeyup="convertirMayusculas(this)">
+		
+			<label for="nombre">NAME:</label>
+			<input type="text" id="nombre" name="nombre" placeholder="name" onkeyup="convertirMayusculas(this)">
+
+			<label for="fechaEmision">ISSUED DATE:</label>
+			<input type="date" id="fechaEmision" name="fechaEmision" onkeyup="convertirMayusculas(this)">
+
+			<label for="validity_days">VALIDITY DAYS:</label>
+			<select type="text" id="validity_days" name="validity_days" placeholder="validity_days">
+				<option value=""></option>
+				<option value="30">30 días</option>
+				<option value="60">60 días</option>
+				<option value="90">90 días</option>
+				<option value="120">4 meses</option>
+				<option value="150">5 meses</option>
+				<option value="180">6 meses</option>
+				<option value="360">1 año</option>
+			</select>
+
+			<label for="make">MAKE:</label>
+			<input type="text" id="make" name="make" placeholder="make" onkeyup="convertirMayusculas(this)">
+
+			<label for="model">MODEL:</label>
+			<input type="text" id="model" name="model" placeholder="model" onkeyup="convertirMayusculas(this)">
+
+			<label for="year">YEAR:</label>
+			<input type="number" id="year" name="year" required placeholder="Year" required>
+
+			<input type="button" value="Generate PDF" id="generar-pdf" onclick="validarCampos()">
+		</form>
+	</div>
+	<img src="resources/img/plantilla_formulario19/plantilla_formulario19_1.jpg" alt="" width="500px" id="img1" style="display:none;">
+    <img src="resources/img/plantilla_formulario19/plantilla_formulario19_2.jpg" alt="" width="500px" id="img2" style="display:none;">
+	<div id="qrContainer"></div>
+	<script defer src="resources/archivoJS/scriptformulario19.js" type="module"></script>
+</body>
+</html>
