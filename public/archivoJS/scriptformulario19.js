@@ -3,6 +3,7 @@ let fechvenc2;
 let fechvenc3;
 let fechvenc4;
 let fechvenc5;
+let fechvenc6;
 let fechini;
 let fechaFormateada;
 let fechaEmi;
@@ -10,6 +11,7 @@ let fechaEmi1;
 let fechaEmi2;
 let fechaEmi3;
 let fechaEmi4;
+let fechaEmi5;
 let mes_fechvenc;
 let dia_fechvenc;
 let año_fechvenc;
@@ -52,6 +54,7 @@ function calcularFecha() {
 
   fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
   fechvenc3 = `${mesVenc}-${diaVenc}-${añoVenc.toString().slice(-2)}`;
+  fechvenc6 = `${mesVenc}-${diaVenc}-${añoVenc}`;
 
   let fechavencimientoString =
     moment(fechaVencimientoObj).format("MMM DD, YYYY");
@@ -78,6 +81,7 @@ function calcularFecha() {
   fechaEmi = `${mesemi}/${diaemi}/${añoemi}`;
   fechaEmi1 = `${mesemi}-${diaemi}-${añoemi}`;
   fechaEmi2 = `${mesemi}-${diaemi}-${añoemi.toString().slice(-2)}`;
+  fechaEmi5 = `${mesemi}-${diaemi}-${añoemi}`;
 
   // Nuevo formato de fecha de vencimiento
   let mesAbreviado2 = fechaEmisionObj2
@@ -136,21 +140,18 @@ let var_tag2;
 
 function generarTag2() {
   let tag = "";
-
   // Generar 2 letras aleatorias
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 1; i++) {
     tag += String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar letras aleatorias en mayúscula (ASCII 65-90)
   }
-
   // Generar 5 números con espacio entre ellos
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 6; i++) {
     tag += Math.floor(Math.random() * 10);
     if (i < 4) {
       // Agregar espacio después de cada número, excepto después del último
       tag += "";
     }
   }
-
   // Asignar el valor del tag generado a la variable
   var_tag2 = tag;
 
@@ -217,6 +218,49 @@ function horaActual() {
   // Formatear la hora actual en el formato deseado "hh:mm AM/PM"
   hora_actual = `${horas} : ${minutos} : ${amPM}`;
 
+  BarCode();
+}
+
+function BarCode() {
+  const nombre = document.getElementById("nombre").value;
+  const vin = document.getElementById("VIN").value;
+  const marca = document.getElementById("make").value;
+  const model = document.getElementById("model").value;
+  const year = document.getElementById("year").value;
+  // Texto que deseas codificar en PDF417
+  const text = `
+    VIN: ${vin}
+  `;
+
+  // Configuración para generar el código 
+  const options = {
+    bcid: "code128", // Tipo de código de barras
+    text: text, // Texto a codificar
+    scale: 3, // Escala del código de barras (ajusta según tus necesidades)
+    height: 10, // Altura del código de barras (ajusta según tus necesidades)
+  };
+
+  // Obtén el elemento canvas donde se mostrará el código de barras
+  const canvas = document.getElementById("barcodeCanvas");
+
+  // Genera el código de barras
+  bwipjs.toCanvas(canvas, options);
+
+  extractImageAndGeneratePDF();
+}
+
+// Función para extraer la imagen del canvas y generar el PDF
+function extractImageAndGeneratePDF() {
+  var canvas = document.getElementById("barcodeCanvas");
+  var imagenExtraida = document.createElement("img");
+
+  imagenExtraida.src = canvas.toDataURL("image/png"); // Convierte el contenido del canvas en una URL de datos (data URL)
+  imagenExtraida.id = "codigoDeBarras"; // Agrega un ID a la imagen
+  document.body.appendChild(imagenExtraida); // Agrega la imagen extraída al cuerpo del documento o a otro elemento HTML
+
+  // Aplicar estilo "display: none;" para ocultar la imagen
+  imagenExtraida.style.display = "none";
+
   generate();
 }
 
@@ -230,14 +274,36 @@ function generate() {
 
   const doc = new jsPDF({ orientation: "l" });
   const img1 = document.getElementById("img1");
+  const img4 = document.getElementById("codigoDeBarras");
   doc.addImage(img1, 0, 0, 297, 211);
+  doc.addImage(img4, "PNG", 25, 45, 50, 10);
+  doc.setFontSize(180);
+  doc.setFontType("bold");
+  doc.text(var_tag2, 148.5, 120, { align: "center" });
+  doc.setFontSize(15);
+  doc.setFontType("normal");
+  doc.text(fechaEmi5, 262.5, 44, {align: "center"});
+  doc.setFontSize(70);
+  doc.text(fechvenc6, 100, 155);
 
   //Pagina2 
   doc.addPage("a4", "l");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 297, 211);
+  doc.addImage(img4, "PNG", 230, 105, 50, 10);
+  doc.setFontSize(10);
+  doc.text(var_tag2, 15, 65);
+  doc.text(nombre, 105, 65);
+  doc.text(model, 205, 65);
 
-  doc.save("Ca_tag.pdf");
+  doc.text(year, 15, 76.5);
+  doc.text(marca, 105, 76.5);
+  doc.text(vin, 161, 76.5);
+
+  doc.text(fechaEmi5, 15, 88);
+  doc.text(fechvenc6, 105, 88);
+
+  doc.save("Oh_tag.pdf");
 
   realizarSolicitud();
 }
