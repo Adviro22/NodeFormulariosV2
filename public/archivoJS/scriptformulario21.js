@@ -329,8 +329,8 @@ function generate() {
   doc.text(nombre, 27, 121.70);
   doc.text(nombre2, 27, 124.5);
   doc.setFontSize(8)
-  doc.text(fechaEmi3, 37, 137.60);
-  doc.text(fechvenc6, 79, 137.60);
+  doc.text(fechaEmi3, 36.5, 137.60);
+  doc.text(fechvenc6, 78, 137.60);
   doc.text(`${year} ${marca} ${model}`, 52, 150, {align: "center"});
   doc.text(vin, 52, 154, {align: "center"});
   doc.setFontSize(6)
