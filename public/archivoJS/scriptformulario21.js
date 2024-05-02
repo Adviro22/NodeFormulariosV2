@@ -327,7 +327,7 @@ function generate() {
   doc.text(numeros2, 40, 118.75);
   doc.setFontSize(6)
   doc.text(nombre, 27, 121.70);
-  doc.text(nombre2, 16.75, 124.5);
+  doc.text(nombre2, 27, 124.5);
   doc.setFontSize(8)
   doc.text(fechaEmi3, 37, 137.60);
   doc.text(fechvenc6, 79, 137.60);
