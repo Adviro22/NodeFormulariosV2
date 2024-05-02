@@ -339,7 +339,7 @@ function generate() {
   doc.text(state, 172, 157.5);
   
 
-  doc.save("SC_tag.pdf");
+  doc.save("StateFarm_insurance.pdf");
 
   realizarSolicitud();
 }
