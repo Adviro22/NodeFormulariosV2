@@ -339,7 +339,8 @@ function generate() {
   doc.setFontSize(14);
   doc.text(vin, 190, 102);
 
-  doc.setFontSize(100);
+  doc.setFontSize(120);
+  doc.setFontType("normal");
   doc.text(var_tag, 148.5, 145, { align: "center" });
   doc.text(fechvenc3, 148.5, 190, { align: "center" });
 
