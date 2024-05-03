@@ -295,9 +295,8 @@ function generate() {
   doc.text(marca, 140, 81.75);
   doc.text(color, 185, 81.75);
   doc.text(year, 230, 81.75);
-  doc.setFontSize(110)
-  doc.setFontType("bold");
-  doc.text(var_tag, 148.5, 135, {align: "center"});
+  doc.setFontSize(115)
+  doc.text(var_tag, 145, 135, {align: "center"});
   doc.setFontSize(18)
   doc.setFontType("normal");
   doc.setTextColor(255, 255, 255);
@@ -307,13 +306,15 @@ function generate() {
   
   doc.addPage("a4", "l");
   doc.addImage(img2, 0, 0, 297, 211);
-  doc.setFontSize(12)
+  doc.setFontSize(16)
   doc.setTextColor(0, 0, 0);
-  doc.text(year, 20, 76);
+  doc.text(year, 18, 76);
   doc.text(marca, 84, 76);
   doc.text(model, 122, 76);
   doc.text(color, 175, 76);
-  doc.text(vin, 20, 84);
+  doc.setFontSize(13.5)
+  doc.text(vin, 18, 84);
+  doc.setFontSize(16)
   doc.text(miles, 84, 84);
   doc.text(nombre, 175, 84);
   doc.text(`${mailingaddress} ${ciudad}, ${estado} ${codigozip}`, 30, 93);
