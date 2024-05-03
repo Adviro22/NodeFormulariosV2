@@ -161,7 +161,6 @@ function validarCampos() {
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
   const body_style = document.getElementById("body_style").value;
-  const miles = document.getElementById("miles").value;
 
   // Validar si algún campo está vacío
   if (
@@ -175,8 +174,7 @@ function validarCampos() {
     ciudad === "" ||
     estado === "" ||
     codigozip === "" ||
-    body_style === "" ||
-    miles === ""
+    body_style === ""
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
