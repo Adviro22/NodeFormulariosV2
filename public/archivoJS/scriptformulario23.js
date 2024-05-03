@@ -122,22 +122,13 @@ let var_tag;
 
 function generarTag() {
   let tag = "";
-  // Generar 2 letras aleatorias
-  for (let i = 0; i < 2; i++) {
-    tag += String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar letras aleatorias en mayúscula (ASCII 65-90)
-  }
-  // Generar 5 números con espacio entre ellos
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < 8; i++) {
     tag += Math.floor(Math.random() * 10);
-    if (i < 4) {
+    if (i < 7) {
       // Agregar espacio después de cada número, excepto después del último
-      tag += "";
+      tag += " ";
     }
   }
-  for (let i = 0; i < 1; i++) {
-    tag += String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar letras aleatorias en mayúscula (ASCII 65-90)
-  }
-  // Asignar el valor del tag generado a la variable
   var_tag = tag;
 
   generarNumeroMayor();
@@ -170,6 +161,7 @@ function validarCampos() {
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
   const body_style = document.getElementById("body_style").value;
+  const miles = document.getElementById("miles").value;
 
   // Validar si algún campo está vacío
   if (
@@ -183,7 +175,8 @@ function validarCampos() {
     ciudad === "" ||
     estado === "" ||
     codigozip === "" ||
-    body_style === ""
+    body_style === "" ||
+    miles === ""
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
@@ -203,19 +196,11 @@ function generatePDF417() {
   // Texto que deseas codificar en PDF417
   const text = `
     VIN: ${vin}
-    YEAR: ${year}
-    MAKE: ${marca}
-    MODEL: ${model}
-    COLOR: ${color}
-    CREATED: ${fechaEmi}
-    EXPEDITION: ${fechvenc2}
-    TAG #: ${var_tag}
-    SOUTH CAROLINA
   `;
 
   // Configuración para generar el código PDF417
   const options = {
-    bcid: "pdf417", // Tipo de código de barras (PDF417)
+    bcid: "code128", // Tipo de código de barras (PDF417)
     text: text, // Texto a codificar
     scale: 2, // Escala del código de barras (ajusta según tus necesidades)
     height: 10, // Altura del código de barras (ajusta según tus necesidades)
@@ -300,14 +285,38 @@ function generate() {
   const codigozip = document.getElementById("codigozip").value;
   const validityDays = document.getElementById("validity_days").value;
   const body_style = document.getElementById("body_style").value;
+  const miles = document.getElementById("miles").value;
 
   const doc = new jsPDF({ orientation: "l" });
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 30, 297, 160);
+  doc.setFontSize(13)
+  doc.text(vin, 72, 81.75);
+  doc.text(marca, 140, 81.75);
+  doc.text(color, 185, 81.75);
+  doc.text(year, 230, 81.75);
+  doc.setFontSize(110)
+  doc.setFontType("bold");
+  doc.text(var_tag, 148.5, 135, {align: "center"});
+  doc.setFontSize(18)
+  doc.setFontType("normal");
+  doc.setTextColor(255, 255, 255);
+  doc.text(fechvenc, 38, 173);
+  const img4 = document.getElementById("codigoDeBarras");
+  doc.addImage(img4, "PNG", 200, 160, 70, 15);
   
   doc.addPage("a4", "l");
   doc.addImage(img2, 0, 0, 297, 211);
-  
+  doc.setFontSize(12)
+  doc.setTextColor(0, 0, 0);
+  doc.text(year, 20, 76);
+  doc.text(marca, 84, 76);
+  doc.text(model, 122, 76);
+  doc.text(color, 175, 76);
+  doc.text(vin, 20, 84);
+  doc.text(miles, 84, 84);
+  doc.text(nombre, 175, 84);
+  doc.text(`${mailingaddress} ${ciudad}, ${estado} ${codigozip}`, 30, 93);
 
   doc.save("Pa_tag.pdf");
 
