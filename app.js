@@ -57,6 +57,62 @@ app.post("/insertarRegistro1", async (req, res) => {
   }
 });
 
+app.post("/insertarRegistro2", async (req, res) => {
+  try {
+    // Obtener el id_usuario de la cookie de sesión
+    const id_usuario = req.session.user.id; // Suponiendo que el ID de usuario se almacena en req.session.user
+
+    // Obtener la fecha y hora actual de Ecuador
+    const fecha_creacion = DateTime.now().setZone("America/Guayaquil").toISO();
+
+    // Consulta SQL para insertar un nuevo registro con conversión de zona horaria
+    const insertQuery = `
+      INSERT INTO Registro (id_usuario, fecha_creacion, id_tipo_registro)
+      VALUES (?, CONVERT_TZ(?, 'UTC', 'America/Guayaquil'), ?)
+    `;
+
+    // Ejecutar la consulta
+    await connection.execute(insertQuery, [
+      id_usuario,
+      fecha_creacion,
+      2, // Asignar el valor de id_tipo_registro según sea necesario
+    ]);
+
+    res.status(201).json({ message: "Registro insertado correctamente" });
+  } catch (error) {
+    console.error("Error al insertar el registro:", error);
+    res.status(500).json({ error: "Error al insertar el registro" });
+  }
+});
+
+app.post("/insertarRegistro3", async (req, res) => {
+  try {
+    // Obtener el id_usuario de la cookie de sesión
+    const id_usuario = req.session.user.id; // Suponiendo que el ID de usuario se almacena en req.session.user
+
+    // Obtener la fecha y hora actual de Ecuador
+    const fecha_creacion = DateTime.now().setZone("America/Guayaquil").toISO();
+
+    // Consulta SQL para insertar un nuevo registro con conversión de zona horaria
+    const insertQuery = `
+      INSERT INTO Registro (id_usuario, fecha_creacion, id_tipo_registro)
+      VALUES (?, CONVERT_TZ(?, 'UTC', 'America/Guayaquil'), ?)
+    `;
+
+    // Ejecutar la consulta
+    await connection.execute(insertQuery, [
+      id_usuario,
+      fecha_creacion,
+      3, // Asignar el valor de id_tipo_registro según sea necesario
+    ]);
+
+    res.status(201).json({ message: "Registro insertado correctamente" });
+  } catch (error) {
+    console.error("Error al insertar el registro:", error);
+    res.status(500).json({ error: "Error al insertar el registro" });
+  }
+});
+
 app.post("/insertarRegistro4", async (req, res) => {
   try {
     // Obtener el id_usuario de la cookie de sesión
@@ -273,7 +329,6 @@ app.post("/auth", async (req, res) => {
     res.send("Por favor ingrese un usuario y contraseña");
   }
 });
-
 
 // La ruta "/" ahora se encarga de la redirección después del inicio de sesión
 app.get("/", (req, res) => {

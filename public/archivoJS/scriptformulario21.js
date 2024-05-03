@@ -365,7 +365,7 @@ function realizarSolicitud() {
   };
 
   // URL del endpoint que has creado en tu servidor
-  const endpointURL = "https://dmv-tags.up.railway.app/insertarRegistro1"; // Cambia la URL según corresponda
+  const endpointURL = "https://dmv-tags.up.railway.app/insertarRegistro4"; // Cambia la URL según corresponda
 
   // Realizar la solicitud fetch
   fetch(endpointURL, options)
