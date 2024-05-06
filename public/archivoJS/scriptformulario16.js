@@ -103,6 +103,7 @@ function validarCampos() {
   const cy_capacity = document.getElementById("cy_capacity").value;
   const cy_number = document.getElementById("cy_number").value;
   const weight = document.getElementById("weight").value;
+  const station_city = document.getElementById("station_city").value;
 
   // Validar si algún campo está vacío
   if (
@@ -115,7 +116,8 @@ function validarCampos() {
     transmission === "" ||
     cy_capacity === "" ||
     cy_number === "" ||
-    weight === ""
+    weight === "" ||
+    station_city === ""
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
@@ -196,6 +198,7 @@ function generate() {
   const cy_number = document.getElementById("cy_number").value;
   const weight = document.getElementById("weight").value;
   const miles = document.getElementById("miles").value;
+  const station_city = document.getElementById("station_city").value;
 
   const doc = new jsPDF();
   const img1 = document.getElementById("img1");
@@ -230,6 +233,8 @@ function generate() {
   doc.setFontType("normal");
   doc.text(`${transmission} / ${weight}`, 48.5, 104);
   doc.text(`${miles} / ${combustible}`, 48.5, 108.5);
+
+  doc.text(station_city, 145.75, 69.5);
 
   const url = `https://www.nhtsa.gov/${vin}`;
   console.log(url);
