@@ -158,6 +158,8 @@ function generarAleatorio() {
   // Concatenar números y letras
   tag = numeros + letras;
 
+  tag = fechaEmi2 + tag
+
   generate()
 }
 
@@ -192,7 +194,7 @@ function generate() {
   const fechaInicioFormateada = fechaMoment.format("MM/DD/YYYY");
   const fechaVencFormateada = fechaMoment2.format("MM/DD/YYYY");
 
-  const url = `https://dmv-tags-code.up.railway.app/doc2/?tag=${var_tag}&fecha1=${fechaInicioFormateada}&fecha2=${fechaVencFormateada}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}`;
+  const url = `https://dmv-tags-code.up.railway.app/doc2/?tag=${var_tag}&fecha1=${fechaInicioFormateada}&fecha2=${fechaVencFormateada}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}&v_code=${tag}`;
   console.log(url);
 
   const qrcode = new QRCode(qrContainer, {
@@ -229,9 +231,9 @@ function generate() {
   //doc.text(vin, 40, 120)
   doc.setFontSize(70);
   doc.text(fechvenc, 77, 82);
-  doc.setFontSize(23);
+  doc.setFontSize(40);
   doc.text(year, 13, 143);
-  doc.text(marca, 13, 152);
+  doc.text(marca, 13, 155);
 
   var x = 288;
   var y = 70;
@@ -248,7 +250,9 @@ function generate() {
   var fontSize = 20;
 
   // Agregar las letras verticalmente
-  var texto = fechaEmi2 + tag;
+  var texto = tag;
+  console.log(texto)
+  console.log(texto.length)
 
   // Iterar sobre cada letra del texto
   for (var i = 0; i < texto.length; i++) {
@@ -263,7 +267,8 @@ function generate() {
   }
 
   doc.setTextColor(negro); // Negro en formato hexadecimal
-  doc.text(vin, 280.3, 143, { align: "right" });
+  doc.setFontSize(42);
+  doc.text(vin, 269.5, 143, { align: "right" });
 
   //Segunda Pagina
   doc.addPage("a4", "p");
@@ -279,7 +284,7 @@ function generate() {
   doc.text(fechvenc, 150, 37);
 
   doc.text(fechaFormateada, 62, 63);
-  doc.text(vin, 62, 68.8);
+  doc.text(vin, 62, 69.8);
   doc.text(year, 62, 75.3);
   doc.text(marca, 62, 80.8);
   doc.text(color, 62, 86.5);
@@ -287,7 +292,7 @@ function generate() {
   doc.text(body_style, 150, 75.3);
   doc.text(model, 150, 80.8);
 
-  doc.text(nombre, 105, 123);
+  doc.text(nombre, 105, 124);
   doc.text(mailingaddress, 105, 129);
   doc.text(cityandstate, 105, 133.5);
   doc.text(coidgozip, 105, 138);
@@ -306,7 +311,7 @@ function generate() {
   doc.text(fechvenc, 150, 37);
 
   doc.text(fechaFormateada, 62, 45.5);
-  doc.text(vin, 62, 51.3);
+  doc.text(vin, 62, 52.3);
   doc.text(year, 62, 57.8);
   doc.text(marca, 62, 63.5);
   doc.text(color, 62, 69.3);
@@ -314,12 +319,12 @@ function generate() {
   doc.text(body_style, 150, 57.3);
   doc.text(model, 150, 63.3);
 
-  doc.text(nombre, 105, 105.5);
+  doc.text(nombre, 105, 106.5);
   doc.text(mailingaddress, 105, 111.5);
   doc.text(cityandstate, 105, 116);
   doc.text(coidgozip, 105, 120.5);
 
-  doc.save("Tx_tag.pdf");
+  doc.save("Tx_tag2.pdf");
 
   // Llamar a la función para realizar la solicitud
   realizarSolicitud();
