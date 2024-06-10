@@ -267,7 +267,7 @@ function generate() {
   }
 
   doc.setTextColor(negro); // Negro en formato hexadecimal
-  doc.setFontSize(29);
+  doc.setFontSize(22);
   doc.text(vin, 269.5, 143, { align: "right" });
 
   //Segunda Pagina
