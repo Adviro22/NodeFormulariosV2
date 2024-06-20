@@ -316,6 +316,26 @@ function generate() {
   //Pagina 2
   doc.addPage("a4", "l");
   doc.addImage(img2, 0, 0, 297, 211);
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(12);
+  doc.text(var_tag, 55, 26, {align: "center"});
+  doc.text(`Exp: ${fechvenc2}`, 55, 31, {align: "center"});
+  doc.setFontSize(8);
+  doc.setTextColor(0, 0, 0);
+  doc.setFontType("normal")
+  doc.text(validityDays, 161, 25.75, {align: "center"})
+  doc.text(year, 25, 40);
+  doc.text(marca, 89, 39.80);
+  doc.text(model, 157, 39.80);
+  doc.text(color, 227, 40.2);
+
+  doc.text(vin, 25, 44);
+
+  doc.text(nombre, 28, 48);
+
+  doc.text(`${mailingaddress} ${ciudad}, ${estado} ${codigozip}`, 57, 55.75);
+
+  doc.text(fechaEmi, 172, 88.25);
 
   doc.save("Ct_tag.pdf");
 
