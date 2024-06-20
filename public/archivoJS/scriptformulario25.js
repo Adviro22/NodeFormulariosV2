@@ -161,7 +161,6 @@ function validarCampos() {
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
-  const body_style = document.getElementById("body_style").value;
 
   // Validar si algún campo está vacío
   if (
@@ -174,8 +173,7 @@ function validarCampos() {
     mailingaddress === "" ||
     ciudad === "" ||
     estado === "" ||
-    codigozip === "" ||
-    body_style === ""
+    codigozip === ""
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
@@ -297,7 +295,6 @@ function generate() {
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
   const validityDays = document.getElementById("validity_days").value;
-  const body_style = document.getElementById("body_style").value;
   const miles = document.getElementById("miles").value;
 
   const doc = new jsPDF({ orientation: "l" });
@@ -330,6 +327,7 @@ function generate() {
   doc.text(color, 227, 40.2);
 
   doc.text(vin, 25, 44);
+  doc.text(miles, 98, 44);
 
   doc.text(nombre, 28, 48);
 
