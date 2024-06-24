@@ -162,8 +162,6 @@ function validarCampos() {
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
-  const vehiculo = document.getElementById("vehiculo").value;
-  const combustible = document.getElementById("combustible").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
@@ -178,8 +176,6 @@ function validarCampos() {
     vin === "" ||
     color === "" ||
     nombre === "" ||
-    vehiculo === "" ||
-    combustible === "" ||
     marca === "" ||
     model === "" ||
     year === "" ||
@@ -197,13 +193,11 @@ function validarCampos() {
 }
 
 function generatePDF417() {
-  const nombre = document.getElementById("nombre").value;
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
-  const mailingaddress = document.getElementById("mailingaddress").value;
   // Texto que deseas codificar en PDF417
   const text = `
     VIN: ${vin}
@@ -293,10 +287,7 @@ function generarNumerosAleatorios() {
 
 function generate() {
   const vin = document.getElementById("VIN").value;
-  const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
-  const vehiculo = document.getElementById("vehiculo").value;
-  const combustible = document.getElementById("combustible").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
@@ -304,7 +295,6 @@ function generate() {
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
-  const validityDays = document.getElementById("validity_days").value;
   const body_style = document.getElementById("body_style").value;
 
   const doc = new jsPDF({ orientation: "l" });
