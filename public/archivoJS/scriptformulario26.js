@@ -120,13 +120,13 @@ function generarTag() {
   let tag = "";
 
   // Generar 2 letras
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 1; i++) {
     let letra = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar letras mayúsculas A-Z
     tag += letra;
   }
 
   // Generar 5 números
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 7; i++) {
     tag += Math.floor(Math.random() * 10);
   }
 
@@ -300,10 +300,37 @@ function generate() {
   const doc = new jsPDF({ orientation: "l" });
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 20, 297, 171);
+  doc.setFontSize(20);
+  doc.text(validityDays, 121, 64.75, { align: "center" });
+  doc.setFontSize(170);
+  doc.setFontType("bold");
+  doc.text(var_tag, 148.5, 120, { align: "center" });
+  doc.setFontSize(50);
+  doc.setFontType("bold");
+  doc.text(fechvenc5, 138, 156.75);
+  doc.setFontSize(22);
+  doc.setFontType("normal");
+  doc.text(vin, 22, 165.5);
+  doc.text(`${year} ${marca} ${model}`, 8, 180);
 
   //Pagina 2
   doc.addPage("a4", "p");
   doc.addImage(img2, 0, 25, 211, 247);
+  doc.setFontSize(12);
+  doc.text(year, 14, 130.5);
+  doc.text(marca, 60, 130.5);
+  doc.text(model, 90, 130.5);
+  doc.text(color, 124, 130.5);
+
+  doc.setFontSize(10);
+  doc.text(vin, 10.5, 137);
+  doc.setFontSize(12);
+  doc.text(miles, 60, 137);
+  doc.text(nombre, 124, 137);
+
+  doc.text(`${mailingaddress} ${ciudad}, ${estado} ${codigozip}`, 20, 143.5);
+
+  doc.text(fechaEmi, 95, 189.25);
 
   doc.save("Mi_tag.pdf");
 
