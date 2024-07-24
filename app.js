@@ -269,6 +269,10 @@ app.get("/formulario26", auth, (req, res) => {
   res.render("formulario26");
 });
 
+app.get("/formulario27", auth, (req, res) => {
+  res.render("formulario27");
+});
+
 //Ver Datos del usuario logeado
 app.get("/user_data", auth, (req, res) => {
   const userId = req.session.userId;
