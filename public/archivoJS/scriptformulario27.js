@@ -343,8 +343,8 @@ function generate() {
   doc.addPage("a4", "p");
   doc.addImage(img2, 0, 25, 211, 247);
   doc.setFontType("normal");
-  doc.setFontSize(6);
-  doc.text(validityDays, 113.75, 184, {align: "center"});
+  doc.setFontSize(9);
+  doc.text(validityDays, 115.25, 184.25, {align: "center"});
   doc.setFontSize(9);
   doc.text(year, 18, 201);
   doc.text(marca, 65, 201);
