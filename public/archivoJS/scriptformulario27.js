@@ -31,7 +31,7 @@ function calcularFecha() {
   diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
   mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
   añoVenc = fechaEmisionObj.getFullYear();
-  añoVenc2 = añoVenc.toString().slice(-2)
+  añoVenc2 = añoVenc.toString().slice(-2);
   fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
 
   /*
@@ -125,17 +125,32 @@ function generarTag() {
   let tag = "";
 
   // Generar 2 letras
-  for (let i = 0; i < 1; i++) {
+  for (let i = 0; i < 2; i++) {
     let letra = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar letras mayúsculas A-Z
     tag += letra;
   }
 
   // Generar 5 números
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 5; i++) {
     tag += Math.floor(Math.random() * 10);
   }
 
   var_tag = tag;
+
+  generarTag2();
+}
+
+let var_tag2;
+
+function generarTag2() {
+  let tag = "";
+
+  // Generar 5 números
+  for (let i = 0; i < 5; i++) {
+    tag += Math.floor(Math.random() * 10);
+  }
+
+  var_tag2 = tag;
 
   generarNumeroMayor();
 }
@@ -308,16 +323,38 @@ function generate() {
   doc.setTextColor(62, 111, 81);
   doc.setFontType("bold");
   doc.setFontSize(27);
-  doc.text(validityDays, 130, 41.5, { align: "center" });
+  doc.text(validityDays, 129, 41.5, { align: "center" });
   doc.setTextColor(0, 0, 0);
   doc.setFontSize(150);
   doc.text(`${mesVenc}`, 52, 92, { align: "center", charSpace: "10" });
   doc.text(`${diaVenc}`, 143, 92, { align: "center", charSpace: "10" });
   doc.text(`${añoVenc2}`, 233, 92, { align: "center", charSpace: "10" });
+  doc.setFontSize(45);
+  doc.text(var_tag, 10, 140, { charSpace: "0" });
+  doc.setFontSize(60);
+  doc.text(var_tag2, 190, 140, { charSpace: "0" });
+  doc.setFontSize(17);
+  doc.text(year, 90, 158, {align: "center"});
+  doc.text(marca, 135, 158, {align: "center"});
+  doc.text(model, 188, 158, {align: "center"});
+  doc.text(nombre, 75, 175);
 
   //Pagina 2
   doc.addPage("a4", "p");
   doc.addImage(img2, 0, 25, 211, 247);
+  doc.setFontType("normal");
+  doc.setFontSize(6);
+  doc.text(validityDays, 113.75, 184, {align: "center"});
+  doc.setFontSize(9);
+  doc.text(year, 18, 201);
+  doc.text(marca, 65, 201);
+  doc.text(model, 112, 201);
+  doc.text(color, 162, 201);
+  doc.text(vin, 18, 205.5);
+  doc.text(miles, 69, 205.25);
+  doc.text(nombre, 20, 209.75);
+  doc.text(`${mailingaddress} ${ciudad}, ${estado} ${codigozip}`, 40, 219);
+  doc.text(fechaEmi, 122, 257);
 
   doc.save("Ok_tag.pdf");
 
