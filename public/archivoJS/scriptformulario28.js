@@ -332,6 +332,7 @@ function generate() {
   doc.text(nombre, 286, 72, {angle: "270", charSpace: "0"});
   doc.text(marca, 266, 72, {angle: "270", charSpace: "0"});
   doc.text(model, 266, 125, {angle: "270", charSpace: "0"});
+  doc.text(year, 275.5, 157, {angle: "270", charSpace: "0", align: "right"});
   doc.text(vin, 246.5, 75, {angle: "270", charSpace: "0"});
   doc.setFontSize(110);
   doc.text(var_tag2, 148.5, 160, {align: "center"});
