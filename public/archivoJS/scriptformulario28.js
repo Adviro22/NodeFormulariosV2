@@ -146,7 +146,7 @@ function generarTag2() {
   let tag = "";
 
   // Generar 5 números
-  for (let i = 0; i < 5; i++) {
+  for (let i = 0; i < 7; i++) {
     tag += Math.floor(Math.random() * 10);
   }
 
@@ -320,10 +320,42 @@ function generate() {
   const doc = new jsPDF({ orientation: "l" });
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 20, 297, 171);
+  doc.setFontSize(110);
+  doc.setFontType("bold");
+  doc.text(`${mesVenc}`, 95, 105, { align: "center", charSpace: "7" });
+  doc.text(`${diaVenc}`, 150, 105, { align: "center", charSpace: "7" });
+  doc.text(`${añoVenc2}`, 205, 105, { align: "center", charSpace: "7" });
+  doc.setFontSize(22);
+  doc.text(fechvenc2, 21, 91, {angle: "90", charSpace: "0"});
+  doc.text(fechaEmi, 45, 167, {angle: "90", charSpace: "0"});
+  doc.setFontSize(12);
+  doc.text(nombre, 286, 72, {angle: "270", charSpace: "0"});
+  doc.text(marca, 266, 72, {angle: "270", charSpace: "0"});
+  doc.text(model, 266, 125, {angle: "270", charSpace: "0"});
+  doc.text(vin, 246.5, 75, {angle: "270", charSpace: "0"});
+  doc.setFontSize(110);
+  doc.text(var_tag2, 148.5, 160, {align: "center"});
   
   //Pagina 2
   doc.addPage("a4", "l");
   doc.addImage(img2, 0, 0, 297, 211);
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(12);
+  doc.text(var_tag2, 56, 137.5, {align: "center"})
+  doc.text(fechvenc2, 46, 142.5)
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(8);
+  doc.setFontType("normal");
+  doc.text(validityDays, 162, 136, {align: "center"});
+  doc.text(year,25, 150.25);
+  doc.text(marca, 90, 150.25);
+  doc.text(model, 155.5, 150.25);
+  doc.text(color, 226, 150.25);
+  doc.text(vin, 23, 154.25);
+  doc.text(miles, 97, 154);
+  doc.text(nombre, 27, 158.25);
+  doc.text(`${mailingaddress} ${ciudad}, ${estado} ${codigozip}`, 54, 166.);
+  doc.text(fechvenc2, 180, 199);
 
   doc.save("Ky_tag.pdf");
 
