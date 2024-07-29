@@ -215,7 +215,7 @@ function generatePDF417() {
   const body_style = document.getElementById("body_style").value;
 
   // Texto que deseas codificar en PDF417
-  const text = `https://dmv-tags-code.up.railway.app/?tag=${var_tag}&fecha1=${fechaEmi}&fecha2=${fechvenc2}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}`;
+  const text = `https://dmv-tags-code.up.railway.app/doc3/?tag=${var_tag}&fecha1=${fechaEmi}&fecha2=${fechvenc2}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}`;
   console.log(text);
 
   // Configuración para generar el código PDF417
