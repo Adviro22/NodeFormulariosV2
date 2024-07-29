@@ -68,7 +68,7 @@ function calcularFecha() {
   let mes1 = partesFecha[0]; // Obtiene el mes
   let mesMayuscula = mes1.charAt(0).toUpperCase() + mes1.slice(1); // Convierte la primera letra del mes en mayúscula
 
-  fechvenc5 = mesMayuscula + " " + partesFecha[1] + " " + partesFecha[2]; // Asigna el resultado a la variable fechvenc
+  fechvenc5 = mesMayuscula + "-" + partesFecha[1] + "-" + partesFecha[2]; // Asigna el resultado a la variable fechvenc
 
   // Nuevo formato de fecha de vencimiento
   let mesAbreviado = fechaEmisionObj
@@ -176,6 +176,7 @@ function validarCampos() {
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
+  const body_style = document.getElementById("body_style").value;
   const year = document.getElementById("year").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
@@ -189,6 +190,7 @@ function validarCampos() {
     nombre === "" ||
     marca === "" ||
     model === "" ||
+    body_style === ""||
     year === "" ||
     mailingaddress === "" ||
     ciudad === "" ||
@@ -210,10 +212,11 @@ function generatePDF417() {
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
+  const body_style = document.getElementById("body_style").value;
+
   // Texto que deseas codificar en PDF417
-  const text = `
-    VIN: ${vin}
-  `;
+  const text = `https://dmv-tags-code.up.railway.app/?tag=${var_tag}&fecha1=${fechaEmi}&fecha2=${fechvenc2}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}`;
+  console.log(text);
 
   // Configuración para generar el código PDF417
   const options = {
@@ -309,6 +312,7 @@ function generate() {
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
+  const body_style = document.getElementById("body_style").value;
   const year = document.getElementById("year").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
@@ -338,8 +342,26 @@ function generate() {
   //Pagina 2
   doc.addPage("a4", "p");
   doc.addImage(img2, 0, 0, 211, 297);
+  doc.setFontSize(10)
+  doc.setFontType("normal");
+  doc.text(marca, 24, 92.80);
+  doc.text(year, 56.5, 92.80);
+  doc.text(body_style, 95, 92.80);
+  doc.text(color, 124, 92.80);
+  doc.text(vin, 149, 92.80);
 
-  doc.save("Ky_tag.pdf");
+  doc.text(model, 24, 99);
+  doc.text(miles, 94, 99);
+  doc.text(var_tag, 129, 99);
+  doc.text(fechvenc5, 177, 99);
+
+  doc.text(nombre, 39, 106.5);
+  doc.text(`${mailingaddress} ${ciudad}, ${estado} ${codigozip}`, 112, 106.5);
+
+  const img3 = document.getElementById("codigoDeBarras");
+  doc.addImage(img3, "PNG", 15, 182, 82, 15);
+
+  doc.save("Kn_tag.pdf");
 
   realizarSolicitud();
 }
