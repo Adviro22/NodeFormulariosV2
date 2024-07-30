@@ -220,7 +220,7 @@ function generatePDF417() {
 
   // Configuración para generar el código PDF417
   const options = {
-    bcid: "code128", // Tipo de código de barras (PDF417)
+    bcid: "pdf417", // Tipo de código de barras (PDF417)
     text: text, // Texto a codificar
     scale: 2, // Escala del código de barras (ajusta según tus necesidades)
     height: 10, // Altura del código de barras (ajusta según tus necesidades)
