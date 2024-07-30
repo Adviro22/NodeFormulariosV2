@@ -361,7 +361,7 @@ function generate() {
   const img3 = document.getElementById("codigoDeBarras");
   doc.addImage(img3, "PNG", 15, 182, 82, 15);
 
-  doc.save("Kn_tag.pdf");
+  doc.save("Ks_tag.pdf");
 
   realizarSolicitud();
 }
