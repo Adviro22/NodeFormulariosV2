@@ -174,28 +174,34 @@ function validarCampos() {
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
+  const apellido = document.getElementById("apellido").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
+  const plate = document.getElementById("plate").value;
   const body_style = document.getElementById("body_style").value;
   const year = document.getElementById("year").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
+  const condado = document.getElementById("county").value;
 
   // Validar si algún campo está vacío
   if (
     vin === "" ||
     color === "" ||
     nombre === "" ||
+    apellido === "" ||
     marca === "" ||
     model === "" ||
+    plate === "" ||
     body_style === ""||
     year === "" ||
     mailingaddress === "" ||
     ciudad === "" ||
     estado === "" ||
-    codigozip === ""
+    codigozip === "" ||
+    condado === ""
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
@@ -312,25 +318,73 @@ function generate() {
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
+  const plate = document.getElementById("plate").value;
+  const license_plate = document.getElementById("license_plate").value;
+  const title_document = document.getElementById("title_document").value;
   const body_style = document.getElementById("body_style").value;
   const year = document.getElementById("year").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
+  const condado = document.getElementById("county").value;
   const codigozip = document.getElementById("codigozip").value;
   const validityDays = document.getElementById("validity_days").value;
   const miles = document.getElementById("miles").value;
+  const email = document.getElementById("email").value;
+  const phone = document.getElementById("phone").value;
+  const apellido = document.getElementById("apellido").value;
+  const last8Vin = vin.slice(-8);
 
   const doc = new jsPDF({ orientation: "l" });
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 20, 297, 171);
   const img3 = document.getElementById("codigoDeBarras");
-  doc.addImage(img3, "PNG", 100, 60, 150, 25);
+  doc.addImage(img3, "PNG", 100, 60, 150, 20);
+  doc.setFontSize(25);
+  doc.text(plate, 40, 62);
+  doc.text(last8Vin, 40, 78);
+  doc.setFontSize(150);
+  doc.setFontType("bold")
+  doc.text(`${mesVenc}`, 80, 130, {align: "center"});
+  doc.text(`${añoVenc2}`, 210, 130, {align: "center"});
+  doc.setFontSize(40);
+  doc.setFontType("normal")
+  doc.text(condado, 40, 150);
+  doc.text(estado, 190, 150);
   
   //Pagina 2
   doc.addPage("a4", "p");
   doc.addImage(img2, 0, 0, 211, 297);
-  
+  doc.setFontSize(10);
+  doc.text(apellido, 19, 63);
+  doc.text(nombre, 96.25, 63);
+  doc.text(mailingaddress, 19, 75);
+  doc.text(ciudad, 115.25, 75);
+  doc.text(estado, 169, 75);
+  doc.text(condado, 19, 87);
+  doc.text(codigozip, 155.75, 87);
+  doc.text(email, 19, 99);
+  doc.text(phone, 135, 99);
+
+  doc.text(year, 19, 117);
+  doc.text(marca, 51.25, 117);
+  doc.text(body_style, 106.75, 117);
+  doc.text(license_plate, 153.5, 117);
+  doc.text(vin, 19, 129);
+  doc.text(title_document, 106.75, 129);
+
+  doc.text(mailingaddress, 19, 147);
+  doc.text(ciudad, 19, 159);
+  doc.text(estado, 115.25, 159);
+  doc.text(codigozip, 155.75, 159);
+
+  doc.text(nombre, 19, 177);
+  doc.text(mailingaddress, 107.5, 177);
+  doc.text(ciudad, 19, 189);
+  doc.text(estado, 115.25, 189);
+  doc.text(codigozip, 155.75, 189);
+
+  doc.text(fechaEmi, 128, 211);
 
   doc.save("Wi_tag.pdf");
 
