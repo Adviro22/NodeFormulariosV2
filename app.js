@@ -165,6 +165,10 @@ app.get("/aseguranzas_formularios", auth, (req, res) => {
   res.render("aseguranzas_formularios");
 });
 
+app.get("/stickers_formularios", auth, (req, res) => {
+  res.render("stickers_formularios");
+});
+
 app.get("/formulario1", auth, (req, res) => {
   res.render("formulario1");
 });

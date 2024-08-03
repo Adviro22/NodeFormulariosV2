@@ -177,7 +177,6 @@ function validarCampos() {
   const apellido = document.getElementById("apellido").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
-  const plate = document.getElementById("plate").value;
   const body_style = document.getElementById("body_style").value;
   const year = document.getElementById("year").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
@@ -194,7 +193,6 @@ function validarCampos() {
     apellido === "" ||
     marca === "" ||
     model === "" ||
-    plate === "" ||
     body_style === ""||
     year === "" ||
     mailingaddress === "" ||
@@ -221,7 +219,7 @@ function generatePDF417() {
   const body_style = document.getElementById("body_style").value;
 
   // Texto que deseas codificar en PDF417
-  const text = `https://dmv-tags-code.up.railway.app/doc3/?tag=${var_tag}&fecha1=${fechaEmi}&fecha2=${fechvenc2}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}`;
+  const text = `${vin}`;
   console.log(text);
 
   // Configuración para generar el código PDF417
@@ -318,7 +316,6 @@ function generate() {
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
-  const plate = document.getElementById("plate").value;
   const license_plate = document.getElementById("license_plate").value;
   const title_document = document.getElementById("title_document").value;
   const body_style = document.getElementById("body_style").value;
@@ -340,14 +337,14 @@ function generate() {
   doc.addImage(img1, 0, 20, 297, 171);
   const img3 = document.getElementById("codigoDeBarras");
   doc.addImage(img3, "PNG", 100, 60, 150, 20);
-  doc.setFontSize(25);
-  doc.text(plate, 40, 62);
-  doc.text(last8Vin, 40, 78);
-  doc.setFontSize(150);
+  doc.setFontSize(30);
+  doc.text(license_plate, 43, 62);
+  doc.text(last8Vin, 43, 78);
+  doc.setFontSize(170);
   doc.setFontType("bold")
   doc.text(`${mesVenc}`, 80, 130, {align: "center"});
   doc.text(`${añoVenc2}`, 210, 130, {align: "center"});
-  doc.setFontSize(40);
+  doc.setFontSize(35);
   doc.setFontType("normal")
   doc.text(condado, 40, 150);
   doc.text(estado, 190, 150);
@@ -386,7 +383,7 @@ function generate() {
 
   doc.text(fechaEmi, 128, 211);
 
-  doc.save("Wi_tag.pdf");
+  doc.save("Tx_Sticker.pdf");
 
   realizarSolicitud();
 }
