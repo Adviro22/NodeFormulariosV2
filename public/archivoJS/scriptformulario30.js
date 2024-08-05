@@ -23,7 +23,7 @@ function formatTwoDigits(number) {
 
 function calcularFecha() {
   const fechaEmision = document.getElementById("fechaEmision").value;
-  const validityDays = parseInt(document.getElementById("validity_days").value);
+  const validityDays = "365"
 
   let fechaEmisionObj = new Date(fechaEmision);
   fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
@@ -172,7 +172,6 @@ function generarNumeroMayor() {
 function validarCampos() {
   // Obtener los valores de los campos del formulario
   const vin = document.getElementById("VIN").value;
-  const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
   const apellido = document.getElementById("apellido").value;
   const marca = document.getElementById("make").value;
@@ -188,7 +187,6 @@ function validarCampos() {
   // Validar si algún campo está vacío
   if (
     vin === "" ||
-    color === "" ||
     nombre === "" ||
     apellido === "" ||
     marca === "" ||
@@ -211,7 +209,6 @@ function validarCampos() {
 function generatePDF417() {
   const nombre = document.getElementById("nombre").value;
   const vin = document.getElementById("VIN").value;
-  const color = document.getElementById("color").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
@@ -312,7 +309,6 @@ function generarCodigo() {
 
 function generate() {
   const vin = document.getElementById("VIN").value;
-  const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
@@ -325,8 +321,6 @@ function generate() {
   const estado = document.getElementById("estado").value;
   const condado = document.getElementById("county").value;
   const codigozip = document.getElementById("codigozip").value;
-  const validityDays = document.getElementById("validity_days").value;
-  const miles = document.getElementById("miles").value;
   const email = document.getElementById("email").value;
   const phone = document.getElementById("phone").value;
   const apellido = document.getElementById("apellido").value;
@@ -340,11 +334,11 @@ function generate() {
   doc.setFontSize(30);
   doc.text(license_plate, 43, 62);
   doc.text(last8Vin, 43, 78);
-  doc.setFontSize(170);
+  doc.setFontSize(180);
   doc.setFontType("bold")
   doc.text(`${mesVenc}`, 80, 130, {align: "center"});
   doc.text(`${añoVenc2}`, 210, 130, {align: "center"});
-  doc.setFontSize(35);
+  doc.setFontSize(25);
   doc.setFontType("normal")
   doc.text(condado, 40, 150);
   doc.text(estado, 190, 150);
