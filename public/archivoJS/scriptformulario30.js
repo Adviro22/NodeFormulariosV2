@@ -176,6 +176,7 @@ function validarCampos() {
   const apellido = document.getElementById("apellido").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
+  const fechaEmision = document.getElementById("fechaEmision").value;
   const body_style = document.getElementById("body_style").value;
   const year = document.getElementById("year").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
@@ -191,6 +192,7 @@ function validarCampos() {
     apellido === "" ||
     marca === "" ||
     model === "" ||
+    fechaEmision === "" ||
     body_style === ""||
     year === "" ||
     mailingaddress === "" ||
