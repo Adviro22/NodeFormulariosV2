@@ -23,7 +23,7 @@ function formatTwoDigits(number) {
 
 function calcularFecha() {
   const fechaEmision = document.getElementById("fechaEmision").value;
-  const validityDays = "365"
+  const validityDays = 365
 
   let fechaEmisionObj = new Date(fechaEmision);
   fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
