@@ -1,7 +1,3 @@
-import { font1 } from "../font/minion_pro_bold.js";
-import { font2 } from "../font/minion_pro_normal.js";
-import { font3 } from "../font/minion_pro_medium.js";
-
 let fechvenc;
 let fechvenc2;
 let fechvenc3;
@@ -16,6 +12,10 @@ let fechaEmi4;
 let mes_fechvenc;
 let dia_fechvenc;
 let año_fechvenc;
+let diaVenc;
+let mesVenc;
+let añoVenc;
+let añoVenc2;
 
 function formatTwoDigits(number) {
   return number < 10 ? "0" + number : number;
@@ -23,14 +23,15 @@ function formatTwoDigits(number) {
 
 function calcularFecha() {
   const fechaEmision = document.getElementById("fechaEmision").value;
-  const validityDays = parseInt(document.getElementById("validity_days").value);
+  const validityDays = 365
 
   let fechaEmisionObj = new Date(fechaEmision);
   fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
   let fechaVencimientoObj = fechaEmisionObj;
-  let diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
-  let mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
-  let añoVenc = fechaEmisionObj.getFullYear();
+  diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
+  mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
+  añoVenc = fechaEmisionObj.getFullYear();
+  añoVenc2 = añoVenc.toString().slice(-2);
   fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
 
   /*
@@ -58,7 +59,7 @@ function calcularFecha() {
   año_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("YYYY");
 
   fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
-  fechvenc3 = `${mesVenc}-${diaVenc}-${añoVenc.toString().slice(-2)}`;
+  fechvenc3 = `${mesVenc}-${diaVenc}-${añoVenc}`;
 
   let fechavencimientoString =
     moment(fechaVencimientoObj).format("MMM DD, YYYY");
@@ -67,7 +68,7 @@ function calcularFecha() {
   let mes1 = partesFecha[0]; // Obtiene el mes
   let mesMayuscula = mes1.charAt(0).toUpperCase() + mes1.slice(1); // Convierte la primera letra del mes en mayúscula
 
-  fechvenc5 = mesMayuscula + " " + partesFecha[1] + " " + partesFecha[2]; // Asigna el resultado a la variable fechvenc
+  fechvenc5 = mesMayuscula + "-" + partesFecha[1] + "-" + partesFecha[2]; // Asigna el resultado a la variable fechvenc
 
   // Nuevo formato de fecha de vencimiento
   let mesAbreviado = fechaEmisionObj
@@ -122,23 +123,34 @@ let var_tag;
 
 function generarTag() {
   let tag = "";
-  // Generar 2 letras aleatorias
-  for (let i = 0; i < 2; i++) {
-    tag += String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar letras aleatorias en mayúscula (ASCII 65-90)
-  }
-  // Generar 5 números con espacio entre ellos
-  for (let i = 0; i < 4; i++) {
-    tag += Math.floor(Math.random() * 10);
-    if (i < 4) {
-      // Agregar espacio después de cada número, excepto después del último
-      tag += "";
-    }
-  }
+
+  // Generar 2 letras
   for (let i = 0; i < 1; i++) {
-    tag += String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar letras aleatorias en mayúscula (ASCII 65-90)
+    let letra = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar letras mayúsculas A-Z
+    tag += letra;
   }
-  // Asignar el valor del tag generado a la variable
+
+  // Generar 5 números
+  for (let i = 0; i < 6; i++) {
+    tag += Math.floor(Math.random() * 10);
+  }
+
   var_tag = tag;
+
+  generarTag2();
+}
+
+let var_tag2;
+
+function generarTag2() {
+  let tag = "";
+
+  // Generar 5 números
+  for (let i = 0; i < 7; i++) {
+    tag += Math.floor(Math.random() * 10);
+  }
+
+  var_tag2 = tag;
 
   generarNumeroMayor();
 }
@@ -160,30 +172,34 @@ function generarNumeroMayor() {
 function validarCampos() {
   // Obtener los valores de los campos del formulario
   const vin = document.getElementById("VIN").value;
-  const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
+  const apellido = document.getElementById("apellido").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
+  const fechaEmision = document.getElementById("fechaEmision").value;
+  const body_style = document.getElementById("body_style").value;
   const year = document.getElementById("year").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
-  const body_style = document.getElementById("body_style").value;
+  const condado = document.getElementById("county").value;
 
   // Validar si algún campo está vacío
   if (
     vin === "" ||
-    color === "" ||
     nombre === "" ||
+    apellido === "" ||
     marca === "" ||
     model === "" ||
+    fechaEmision === "" ||
+    body_style === ""||
     year === "" ||
     mailingaddress === "" ||
     ciudad === "" ||
     estado === "" ||
     codigozip === "" ||
-    body_style === ""
+    condado === ""
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
@@ -193,23 +209,17 @@ function validarCampos() {
 }
 
 function generatePDF417() {
+  const nombre = document.getElementById("nombre").value;
   const vin = document.getElementById("VIN").value;
-  const color = document.getElementById("color").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
+  const mailingaddress = document.getElementById("mailingaddress").value;
+  const body_style = document.getElementById("body_style").value;
+
   // Texto que deseas codificar en PDF417
-  const text = `
-    VIN: ${vin}
-    YEAR: ${year}
-    MAKE: ${marca}
-    MODEL: ${model}
-    COLOR: ${color}
-    CREATED: ${fechaEmi}
-    EXPEDITION: ${fechvenc2}
-    TAG #: ${var_tag}
-    SOUTH CAROLINA
-  `;
+  const text = `${vin}`;
+  console.log(text);
 
   // Configuración para generar el código PDF417
   const options = {
@@ -281,8 +291,22 @@ function generarNumerosAleatorios() {
   }
   numeros = tag;
 
-  generate();
+  generarCodigo();
+}
 
+let codigo;
+
+function generarCodigo() {
+  // Generar 5 números aleatorios
+  let numeros = "";
+  for (let i = 0; i < 5; i++) {
+    numeros += Math.floor(Math.random() * 10); // Genera un número aleatorio entre 0 y 9
+  }
+
+  // Concatenar el código final
+  codigo = "*" + numeros + "*";
+
+  generate();
 }
 
 function generate() {
@@ -290,45 +314,72 @@ function generate() {
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
+  const license_plate = document.getElementById("license_plate").value;
+  const title_document = document.getElementById("title_document").value;
+  const body_style = document.getElementById("body_style").value;
   const year = document.getElementById("year").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
+  const condado = document.getElementById("county").value;
   const codigozip = document.getElementById("codigozip").value;
-  const body_style = document.getElementById("body_style").value;
+  const email = document.getElementById("email").value;
+  const phone = document.getElementById("phone").value;
+  const apellido = document.getElementById("apellido").value;
+  const last8Vin = vin.slice(-8);
 
   const doc = new jsPDF({ orientation: "l" });
   const img1 = document.getElementById("img1");
-  doc.addImage(img1, 0, 0, 297, 211);
-  doc.setFontSize(8);
-  doc.text(var_tag, 187, 27.4);
-  doc.text(fechaEmi, 187, 31.32);
-  doc.text(fechvenc2, 187, 35.24);
-  doc.text(vin, 187, 39.16);
-  doc.text(year, 187, 43.08);
-  doc.text(marca, 187, 47);
-  doc.text(model, 187, 50.92);
-  doc.text(body_style, 187, 54.84);
+  doc.addImage(img1, 0, 20, 297, 171);
+  const img3 = document.getElementById("codigoDeBarras");
+  doc.addImage(img3, "PNG", 100, 60, 150, 20);
+  doc.setFontSize(30);
+  doc.text(license_plate, 43, 62);
+  doc.text(last8Vin, 43, 78);
+  doc.setFontSize(180);
+  doc.setFontType("bold")
+  doc.text(`${mesVenc}`, 80, 130, {align: "center"});
+  doc.text(`${añoVenc2}`, 210, 130, {align: "center"});
+  doc.setFontSize(25);
+  doc.setFontType("normal")
+  doc.text(condado, 40, 150);
+  doc.text(estado, 190, 150);
+  
+  //Pagina 2
+  doc.addPage("a4", "p");
+  doc.addImage(img2, 0, 0, 211, 297);
+  doc.setFontSize(10);
+  doc.text(apellido, 19, 63);
+  doc.text(nombre, 96.25, 63);
+  doc.text(mailingaddress, 19, 75);
+  doc.text(ciudad, 115.25, 75);
+  doc.text(estado, 169, 75);
+  doc.text(condado, 19, 87);
+  doc.text(codigozip, 155.75, 87);
+  doc.text(email, 19, 99);
+  doc.text(phone, 135, 99);
 
-  doc.setFontType("bold");
-  doc.text(nombre, 161.3, 58.5);
-  doc.text(mailingaddress, 161.3, 61.5);
-  doc.text(`${ciudad}, ${estado} ${codigozip}`, 161.3, 64.5);
+  doc.text(year, 19, 117);
+  doc.text(marca, 51.25, 117);
+  doc.text(body_style, 106.75, 117);
+  doc.text(license_plate, 153.5, 117);
+  doc.text(vin, 19, 129);
+  doc.text(title_document, 106.75, 129);
 
-  const img4 = document.getElementById("codigoDeBarras");
-  doc.addImage(img4, "PNG", 232, 45, 50, 10);
-  doc.text(`${numeros}`, 266, 59.25);
+  doc.text(mailingaddress, 19, 147);
+  doc.text(ciudad, 19, 159);
+  doc.text(estado, 115.25, 159);
+  doc.text(codigozip, 155.75, 159);
 
-  doc.setFontSize(140);
-  doc.text(var_tag, 148.5, 165, { align: "center" });
+  doc.text(nombre, 19, 177);
+  doc.text(mailingaddress, 107.5, 177);
+  doc.text(ciudad, 19, 189);
+  doc.text(estado, 115.25, 189);
+  doc.text(codigozip, 155.75, 189);
 
-  doc.setFontSize(20);
-  doc.text(`${numeros}`, 240, 200);
+  doc.text(fechaEmi, 128, 211);
 
-  doc.setFontSize(40);
-  doc.text(año_fechvenc, 280, 165, null, 90);
-
-  doc.save("SC_tag.pdf");
+  doc.save("Tx_Sticker.pdf");
 
   realizarSolicitud();
 }

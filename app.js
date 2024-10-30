@@ -165,6 +165,10 @@ app.get("/aseguranzas_formularios", auth, (req, res) => {
   res.render("aseguranzas_formularios");
 });
 
+app.get("/stickers_formularios", auth, (req, res) => {
+  res.render("stickers_formularios");
+});
+
 app.get("/formulario1", auth, (req, res) => {
   res.render("formulario1");
 });
@@ -255,6 +259,34 @@ app.get("/formulario22", auth, (req, res) => {
 
 app.get("/formulario23", auth, (req, res) => {
   res.render("formulario23");
+});
+
+app.get("/formulario24", auth, (req, res) => {
+  res.render("formulario24");
+});
+
+app.get("/formulario25", auth, (req, res) => {
+  res.render("formulario25");
+});
+
+app.get("/formulario26", auth, (req, res) => {
+  res.render("formulario26");
+});
+
+app.get("/formulario27", auth, (req, res) => {
+  res.render("formulario27");
+});
+
+app.get("/formulario28", auth, (req, res) => {
+  res.render("formulario28");
+});
+
+app.get("/formulario29", auth, (req, res) => {
+  res.render("formulario29");
+});
+
+app.get("/formulario30", auth, (req, res) => {
+  res.render("formulario30");
 });
 
 //Ver Datos del usuario logeado

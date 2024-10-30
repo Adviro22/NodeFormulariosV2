@@ -1,7 +1,3 @@
-import { font1 } from "../font/minion_pro_bold.js";
-import { font2 } from "../font/minion_pro_normal.js";
-import { font3 } from "../font/minion_pro_medium.js";
-
 let fechvenc;
 let fechvenc2;
 let fechvenc3;
@@ -58,7 +54,7 @@ function calcularFecha() {
   año_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("YYYY");
 
   fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
-  fechvenc3 = `${mesVenc}-${diaVenc}-${añoVenc.toString().slice(-2)}`;
+  fechvenc3 = `${mesVenc} - ${diaVenc} - ${añoVenc}`;
 
   let fechavencimientoString =
     moment(fechaVencimientoObj).format("MMM DD, YYYY");
@@ -122,22 +118,18 @@ let var_tag;
 
 function generarTag() {
   let tag = "";
-  // Generar 2 letras aleatorias
+
+  // Generar 2 letras
   for (let i = 0; i < 2; i++) {
-    tag += String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar letras aleatorias en mayúscula (ASCII 65-90)
+    let letra = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar letras mayúsculas A-Z
+    tag += letra;
   }
-  // Generar 5 números con espacio entre ellos
-  for (let i = 0; i < 4; i++) {
+
+  // Generar 5 números
+  for (let i = 0; i < 5; i++) {
     tag += Math.floor(Math.random() * 10);
-    if (i < 4) {
-      // Agregar espacio después de cada número, excepto después del último
-      tag += "";
-    }
   }
-  for (let i = 0; i < 1; i++) {
-    tag += String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar letras aleatorias en mayúscula (ASCII 65-90)
-  }
-  // Asignar el valor del tag generado a la variable
+
   var_tag = tag;
 
   generarNumeroMayor();
@@ -169,7 +161,6 @@ function validarCampos() {
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
-  const body_style = document.getElementById("body_style").value;
 
   // Validar si algún campo está vacío
   if (
@@ -182,8 +173,7 @@ function validarCampos() {
     mailingaddress === "" ||
     ciudad === "" ||
     estado === "" ||
-    codigozip === "" ||
-    body_style === ""
+    codigozip === ""
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
@@ -193,27 +183,21 @@ function validarCampos() {
 }
 
 function generatePDF417() {
+  const nombre = document.getElementById("nombre").value;
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const year = document.getElementById("year").value;
+  const mailingaddress = document.getElementById("mailingaddress").value;
   // Texto que deseas codificar en PDF417
   const text = `
     VIN: ${vin}
-    YEAR: ${year}
-    MAKE: ${marca}
-    MODEL: ${model}
-    COLOR: ${color}
-    CREATED: ${fechaEmi}
-    EXPEDITION: ${fechvenc2}
-    TAG #: ${var_tag}
-    SOUTH CAROLINA
   `;
 
   // Configuración para generar el código PDF417
   const options = {
-    bcid: "pdf417", // Tipo de código de barras (PDF417)
+    bcid: "code128", // Tipo de código de barras (PDF417)
     text: text, // Texto a codificar
     scale: 2, // Escala del código de barras (ajusta según tus necesidades)
     height: 10, // Altura del código de barras (ajusta según tus necesidades)
@@ -281,12 +265,27 @@ function generarNumerosAleatorios() {
   }
   numeros = tag;
 
-  generate();
+  generarCodigo();
+}
 
+let codigo;
+
+function generarCodigo() {
+  // Generar 5 números aleatorios
+  let numeros = "";
+  for (let i = 0; i < 5; i++) {
+    numeros += Math.floor(Math.random() * 10); // Genera un número aleatorio entre 0 y 9
+  }
+
+  // Concatenar el código final
+  codigo = "*" + numeros + "*";
+
+  generate();
 }
 
 function generate() {
   const vin = document.getElementById("VIN").value;
+  const color = document.getElementById("color").value;
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
@@ -295,40 +294,48 @@ function generate() {
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
-  const body_style = document.getElementById("body_style").value;
+  const validityDays = document.getElementById("validity_days").value;
+  const miles = document.getElementById("miles").value;
 
   const doc = new jsPDF({ orientation: "l" });
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 0, 297, 211);
-  doc.setFontSize(8);
-  doc.text(var_tag, 187, 27.4);
-  doc.text(fechaEmi, 187, 31.32);
-  doc.text(fechvenc2, 187, 35.24);
-  doc.text(vin, 187, 39.16);
-  doc.text(year, 187, 43.08);
-  doc.text(marca, 187, 47);
-  doc.text(model, 187, 50.92);
-  doc.text(body_style, 187, 54.84);
-
-  doc.setFontType("bold");
-  doc.text(nombre, 161.3, 58.5);
-  doc.text(mailingaddress, 161.3, 61.5);
-  doc.text(`${ciudad}, ${estado} ${codigozip}`, 161.3, 64.5);
-
   const img4 = document.getElementById("codigoDeBarras");
-  doc.addImage(img4, "PNG", 232, 45, 50, 10);
-  doc.text(`${numeros}`, 266, 59.25);
+  doc.addImage(img4, "PNG", 25, 18, 46.67, 10);
+  doc.setFontSize(8);
+  doc.text(`${codigo}`, 48, 33, { align: "center" });
+  doc.setFontSize(170);
+  doc.setFontType("bold")
+  doc.text(var_tag, 148.5, 100, { align: "center" });
+  doc.setFontSize(100);
+  doc.text(fechvenc3, 170, 190, { align: "center" })
 
-  doc.setFontSize(140);
-  doc.text(var_tag, 148.5, 165, { align: "center" });
+  //Pagina 2
+  doc.addPage("a4", "l");
+  doc.addImage(img2, 0, 0, 297, 211);
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(12);
+  doc.text(var_tag, 55, 26, {align: "center"});
+  doc.text(`Exp: ${fechvenc2}`, 55, 31, {align: "center"});
+  doc.setFontSize(8);
+  doc.setTextColor(0, 0, 0);
+  doc.setFontType("normal")
+  doc.text(validityDays, 161, 25.75, {align: "center"})
+  doc.text(year, 25, 40);
+  doc.text(marca, 89, 39.80);
+  doc.text(model, 157, 39.80);
+  doc.text(color, 227, 40.2);
 
-  doc.setFontSize(20);
-  doc.text(`${numeros}`, 240, 200);
+  doc.text(vin, 25, 44);
+  doc.text(miles, 98, 44);
 
-  doc.setFontSize(40);
-  doc.text(año_fechvenc, 280, 165, null, 90);
+  doc.text(nombre, 28, 48);
 
-  doc.save("SC_tag.pdf");
+  doc.text(`${mailingaddress} ${ciudad}, ${estado} ${codigozip}`, 57, 55.75);
+
+  doc.text(fechaEmi, 172, 88.25);
+
+  doc.save("Ct_tag.pdf");
 
   realizarSolicitud();
 }
