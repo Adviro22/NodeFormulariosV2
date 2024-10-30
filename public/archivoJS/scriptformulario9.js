@@ -39,7 +39,23 @@ function calcularFecha() {
   añoVenc = fechaEmisionObj.getFullYear();
   añoVenc2 = añoVenc.toString().slice(-2);
   fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
-  lista_fechvenc = (mesVenc + diaVenc + añoVenc2).split("").map(Number);
+  lista_fechvenc = [];
+
+
+  while (mesVenc > 0) {
+    lista_fechvenc.unshift(mesVenc % 10); // Obtiene el último dígito y lo agrega al inicio del array
+    mesVenc = Math.floor(mesVenc / 10); // Elimina el último dígito
+  }
+
+  while (diaVenc > 0) {
+    lista_fechvenc.unshift(diaVenc % 10); // Obtiene el último dígito y lo agrega al inicio del array
+    diaVenc = Math.floor(diaVenc / 10); // Elimina el último dígito
+  }
+
+  lista_fechvenc.push(añoVenc2[0]);
+  lista_fechvenc.push(añoVenc2[1]);
+  console.log(fechvenc);
+  console.log(lista_fechvenc);
 
   console.log(`fechavenc: ${fechvenc}`);
   console.log(`diaVenc: ${diaVenc}`);
@@ -280,6 +296,7 @@ function generate() {
   doc.setFontStyle("bold");
   doc.setFontSize(83);
   // Fecha de Expiración
+  console.log(lista_fechvenc);
   doc.text(lista_fechvenc[0].toString(), 178, 50, { align: "right" });
   doc.text(lista_fechvenc[1].toString(), 197, 50, { align: "right" });
   doc.text(lista_fechvenc[2].toString(), 216, 50, { align: "right" });
