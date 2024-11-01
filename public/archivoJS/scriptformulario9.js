@@ -39,6 +39,7 @@ function calcularFecha() {
   añoVenc = fechaEmisionObj.getFullYear();
   añoVenc2 = añoVenc.toString().slice(-2);
   fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
+  fechvenc3 = `${mesVenc}/${diaVenc}/${añoVenc.toString().slice(-2)}`;
   lista_fechvenc = [];
 
 
@@ -73,7 +74,6 @@ function calcularFecha() {
   año_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("YYYY");
 
   fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
-  fechvenc3 = `${mesVenc}/${diaVenc}/${añoVenc.toString().slice(-2)}`;
 
   let fechavencimientoString =
     moment(fechaVencimientoObj).format("MMM DD, YYYY");
@@ -297,10 +297,10 @@ function generate() {
   doc.setFontSize(83);
   // Fecha de Expiración
   console.log(lista_fechvenc);
-  doc.text(lista_fechvenc[0].toString(), 178, 50, { align: "right" });
-  doc.text(lista_fechvenc[1].toString(), 197, 50, { align: "right" });
-  doc.text(lista_fechvenc[2].toString(), 216, 50, { align: "right" });
-  doc.text(lista_fechvenc[3].toString(), 235, 50, { align: "right" });
+  doc.text(lista_fechvenc[2].toString(), 178, 50, { align: "right" });
+  doc.text(lista_fechvenc[3].toString(), 197, 50, { align: "right" });
+  doc.text(lista_fechvenc[0].toString(), 216, 50, { align: "right" });
+  doc.text(lista_fechvenc[1].toString(), 235, 50, { align: "right" });
   doc.text(lista_fechvenc[4].toString(), 254, 50, { align: "right" });
   doc.text(lista_fechvenc[5].toString(), 273, 50, { align: "right" });
 
@@ -329,6 +329,7 @@ function generate() {
   doc.setFontStyle("bold");
   doc.text(var_tag, 53, 75, { align: "center" });
   doc.text(`Exp:${fechvenc3}`, 53, 83, { align: "center" });
+  console.log(fechvenc3)
   doc.setFontStyle("normal");
   doc.setFontSize(15);
   doc.setTextColor(0, 0, 0);
