@@ -143,17 +143,29 @@ function generarTag() {
 let var_tag2;
 
 function generarTag2() {
-  let tag = "";
-
-  // Generar 5 números
-  for (let i = 0; i < 7; i++) {
+    let tag = "";
+  
+    // Generar 2 números
     tag += Math.floor(Math.random() * 10);
+    tag += Math.floor(Math.random() * 10);
+  
+    // Generar 1 letra en mayúscula
+    const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    tag += letras.charAt(Math.floor(Math.random() * letras.length));
+  
+    // Agregar un guión medio
+    tag += "-";
+  
+    // Generar 6 números
+    for (let i = 0; i < 6; i++) {
+      tag += Math.floor(Math.random() * 10);
+    }
+  
+    var_tag2 = tag;
+  
+    generarNumeroMayor();
   }
-
-  var_tag2 = tag;
-
-  generarNumeroMayor();
-}
+  
 
 // Declaración de una variable global para almacenar el número generado
 let numeroGlobal = 0;
@@ -325,7 +337,43 @@ function generate() {
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 0, 297, 211);
 
-  doc.save("Ks_tag.pdf");
+  doc.setFontSize(19);
+  doc.text(year, 170, 33.25);
+  doc.text(marca, 212, 33.25);
+
+  doc.setFontSize(78);
+  doc.text(var_tag2, 165, 65, {align: "center"})
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(47);
+  doc.text(fechvenc2, 112, 92);
+
+  doc.setTextColor(0, 0, 0);
+  doc.setFontSize(18);
+  doc.text(fechaEmi, 142, 109);
+
+  doc.setFontSize(8);
+  doc.text(color, 197, 119);
+  doc.text(vin, 194, 122.75);
+  doc.text(model, 197, 126.5);
+
+  doc.text(var_tag2, 33, 158);
+  doc.text(fechaEmi, 57, 158);
+  doc.text(fechvenc2, 88, 158);
+  doc.text(vin, 119, 158);
+  doc.text(year, 167, 158);
+  doc.text(marca, 194, 158);
+  doc.text(body_style, 215, 158);
+
+  doc.text(mailingaddress, 33, 180);
+  doc.text(ciudad, 100, 180);
+  doc.text(estado, 128, 180);
+  doc.text(codigozip, 148, 180);
+
+  doc.text(fechvenc2, 148, 183.2);
+  doc.text(fechaEmi, 200, 183.2);
+
+  doc.save("NM_tag.pdf");
 
   realizarSolicitud();
 }
