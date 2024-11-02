@@ -215,7 +215,6 @@ function validarCampos() {
 }
 
 function generatePDF417() {
-  const nombre = document.getElementById("nombre").value;
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
   const marca = document.getElementById("make").value;
