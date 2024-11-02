@@ -185,7 +185,6 @@ function validarCampos() {
   // Obtener los valores de los campos del formulario
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
-  const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const body_style = document.getElementById("body_style").value;
@@ -199,7 +198,6 @@ function validarCampos() {
   if (
     vin === "" ||
     color === "" ||
-    nombre === "" ||
     marca === "" ||
     model === "" ||
     body_style === ""||
@@ -321,7 +319,6 @@ function generarCodigo() {
 function generate() {
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
-  const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const body_style = document.getElementById("body_style").value;
@@ -331,7 +328,6 @@ function generate() {
   const estado = document.getElementById("estado").value;
   const codigozip = document.getElementById("codigozip").value;
   const validityDays = document.getElementById("validity_days").value;
-  const miles = document.getElementById("miles").value;
 
   const doc = new jsPDF({ orientation: "l" });
   const img1 = document.getElementById("img1");
