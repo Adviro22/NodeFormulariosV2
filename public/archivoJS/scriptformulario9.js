@@ -42,22 +42,6 @@ function calcularFecha() {
   fechvenc3 = `${mesVenc}/${diaVenc}/${añoVenc.toString().slice(-2)}`;
   lista_fechvenc = [];
 
-
-  while (mesVenc > 0) {
-    lista_fechvenc.unshift(mesVenc % 10); // Obtiene el último dígito y lo agrega al inicio del array
-    mesVenc = Math.floor(mesVenc / 10); // Elimina el último dígito
-  }
-
-  while (diaVenc > 0) {
-    lista_fechvenc.unshift(diaVenc % 10); // Obtiene el último dígito y lo agrega al inicio del array
-    diaVenc = Math.floor(diaVenc / 10); // Elimina el último dígito
-  }
-
-  lista_fechvenc.push(añoVenc2[0]);
-  lista_fechvenc.push(añoVenc2[1]);
-  console.log(fechvenc);
-  console.log(lista_fechvenc);
-
   console.log(`fechavenc: ${fechvenc}`);
   console.log(`diaVenc: ${diaVenc}`);
   console.log(`mesVenc: ${mesVenc}`);
@@ -74,6 +58,12 @@ function calcularFecha() {
   año_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("YYYY");
 
   fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
+
+  lista_fechvenc = fechvenc2.replace(/\//g, "").split("");
+
+  console.log(`fechavenc2: ${fechvenc2}`);
+
+  console.log("Lista de números de fechvenc2:", lista_fechvenc);
 
   let fechavencimientoString =
     moment(fechaVencimientoObj).format("MMM DD, YYYY");
@@ -297,12 +287,12 @@ function generate() {
   doc.setFontSize(83);
   // Fecha de Expiración
   console.log(lista_fechvenc);
-  doc.text(lista_fechvenc[2].toString(), 178, 50, { align: "right" });
-  doc.text(lista_fechvenc[3].toString(), 197, 50, { align: "right" });
-  doc.text(lista_fechvenc[0].toString(), 216, 50, { align: "right" });
-  doc.text(lista_fechvenc[1].toString(), 235, 50, { align: "right" });
-  doc.text(lista_fechvenc[4].toString(), 254, 50, { align: "right" });
-  doc.text(lista_fechvenc[5].toString(), 273, 50, { align: "right" });
+  doc.text(lista_fechvenc[0].toString(), 178, 50, { align: "right" });
+  doc.text(lista_fechvenc[1].toString(), 197, 50, { align: "right" });
+  doc.text(lista_fechvenc[2].toString(), 216, 50, { align: "right" });
+  doc.text(lista_fechvenc[3].toString(), 235, 50, { align: "right" });
+  doc.text(lista_fechvenc[6].toString(), 254, 50, { align: "right" });
+  doc.text(lista_fechvenc[7].toString(), 273, 50, { align: "right" });
 
   doc.setFontSize(15);
   doc.setFontStyle("normal");
