@@ -3,12 +3,14 @@ let fechvenc2;
 let fechvenc3;
 let fechvenc4;
 let fechvenc5;
+let fechvenc6;
 let fechini;
 let fechaFormateada;
 let fechaEmi;
 let fechaEmi2;
 let fechaEmi3;
 let fechaEmi4;
+let fechaEmi5;
 let mes_fechvenc;
 let dia_fechvenc;
 let año_fechvenc;
@@ -33,6 +35,7 @@ function calcularFecha() {
   añoVenc = fechaEmisionObj.getFullYear();
   añoVenc2 = añoVenc.toString().slice(-2);
   fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
+  fechvenc6 = moment(fechaEmisionObj).format("MMM-DD-YYYY").toUpperCase();
 
   /*
   let fechaEmisionObj = new Date(fechaEmision);
@@ -85,6 +88,7 @@ function calcularFecha() {
   let añoemi = fechaEmisionObj2.getFullYear();
   fechaEmi = `${mesemi}/${diaemi}/${añoemi}`;
   fechaEmi2 = `${mesemi}-${diaemi}-${añoemi.toString().slice(-2)}`;
+  fechaEmi5 = `${mesemi}-${diaemi}-${añoemi.toString().slice()}`;
 
   // Nuevo formato de fecha de vencimiento
   let mesAbreviado2 = fechaEmisionObj2
@@ -143,21 +147,24 @@ function generarTag() {
 let var_tag2;
 
 function generarTag2() {
-    let tag = "";
-  
-    // Generar 2 números
-    tag += Math.floor(Math.random() * 10);
-    tag += Math.floor(Math.random() * 10);
-  
-    // Generar 1 letra en mayúscula
+    // Generar las 2 primeras letras en mayúscula
     const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let tag = letras.charAt(Math.floor(Math.random() * letras.length));
     tag += letras.charAt(Math.floor(Math.random() * letras.length));
   
-    // Agregar un guión medio
+    // Agregar el primer guión
     tag += "-";
   
-    // Generar 6 números
-    for (let i = 0; i < 6; i++) {
+    // Generar los 3 primeros números
+    for (let i = 0; i < 3; i++) {
+      tag += Math.floor(Math.random() * 10);
+    }
+  
+    // Agregar el segundo guión
+    tag += "-";
+  
+    // Generar los 3 últimos números
+    for (let i = 0; i < 3; i++) {
       tag += Math.floor(Math.random() * 10);
     }
   
@@ -224,12 +231,12 @@ function generatePDF417() {
   const body_style = document.getElementById("body_style").value;
 
   // Texto que deseas codificar en PDF417
-  const text = `https://dmv-tags-code.up.railway.app/doc3/?tag=${var_tag}&fecha1=${fechaEmi}&fecha2=${fechvenc2}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}`;
+  const text = `${vin}`;
   console.log(text);
 
   // Configuración para generar el código PDF417
   const options = {
-    bcid: "pdf417", // Tipo de código de barras (PDF417)
+    bcid: "code128", // Tipo de código de barras (PDF417)
     text: text, // Texto a codificar
     scale: 2, // Escala del código de barras (ajusta según tus necesidades)
     height: 10, // Altura del código de barras (ajusta según tus necesidades)
@@ -332,7 +339,52 @@ function generate() {
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 0, 297, 211);
 
-  doc.setFontSize(19);
+  const img3 = document.getElementById("codigoDeBarras");
+  doc.addImage(img3, "PNG", 220, 120, 50, 8, {align: "right"});
+
+  doc.setFontSize(100);
+  doc.setFontType("bold")
+  doc.text(fechvenc6, 150, 85, {align: "center"})
+
+  doc.setFontSize(15);
+  doc.setFontType("normal")
+  doc.text(marca, 82, 115, {align: "center"})
+  doc.text(model, 137, 115, {align: "center"})
+  doc.text(year, 214, 115, {align: "center"})
+  doc.text(vin, 26, 132,)
+  doc.text(fechaEmi5, 142, 138, {align: "center"})
+  doc.setFontSize(18);
+  doc.text(var_tag2, 255, 141, {align: "center"})
+  doc.setFontSize(27);
+  doc.text(fechvenc2, 240, 165, {align: "center"})
+  doc.setFontSize(27);
+  doc.text(var_tag2, 240, 190, {align: "center"})
+
+  doc.setFontSize(70);
+  doc.setFontType("normal")
+  doc.text(fechvenc6, 115, 180, {align: "center"})
+
+  doc.addPage([198, 842], "l");
+  const img2 = document.getElementById("img2");
+  doc.addImage(img2, 0, 0, 297, 70.34);
+  doc.setFontSize(12);
+  doc.text(var_tag2, 30, 21)
+  doc.text(fechaEmi5, 30, 29)
+  doc.text(fechvenc2, 30, 37)
+  //
+  doc.text(vin, 95, 21)
+  doc.text(year, 95, 29)
+  doc.text(marca, 95, 37)
+  doc.text(model, 95, 45)
+  //
+  doc.text(var_tag2, 180, 21)
+  doc.text(fechaEmi5, 180, 29)
+  doc.text(fechvenc2, 180, 37)
+  //
+  doc.text(vin, 240, 21)
+  doc.text(year, 240, 29)
+  doc.text(marca, 240, 37)
+  doc.text(model, 240, 45)
 
   doc.save("Ar_tag.pdf");
 
