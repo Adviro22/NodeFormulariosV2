@@ -325,6 +325,7 @@ function generarCodigo() {
 function generate() {
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
+  const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
   const body_style = document.getElementById("body_style").value;
@@ -371,7 +372,11 @@ function generate() {
   doc.text(var_tag2, 30, 21)
   doc.text(fechaEmi5, 30, 29)
   doc.text(fechvenc2, 30, 37)
+  doc.setFontType("bold")
+  doc.text(nombre, 30, 61.5)
+  doc.text(`${mailingaddress} ${ciudad}, ${estado} ${codigozip}`,9, 67)
   //
+  doc.setFontType("normal")
   doc.text(vin, 95, 21)
   doc.text(year, 95, 29)
   doc.text(marca, 95, 37)
