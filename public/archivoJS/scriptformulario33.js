@@ -4,6 +4,7 @@ let fechvenc3;
 let fechvenc4;
 let fechvenc5;
 let fechvenc6;
+let fechvenc7;
 let fechini;
 let fechaFormateada;
 let fechaEmi;
@@ -62,7 +63,8 @@ function calcularFecha() {
   año_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("YYYY");
 
   fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
-  fechvenc3 = `${mesVenc}-${diaVenc}-${añoVenc}`;
+  fechvenc3 = `${mesVenc} - ${diaVenc} - ${añoVenc}`;
+  fechvenc7 = `${mesVenc}-${diaVenc}-${añoVenc}`;
 
   let fechavencimientoString =
     moment(fechaVencimientoObj).format("MMM DD, YYYY");
@@ -128,14 +130,8 @@ let var_tag;
 function generarTag() {
   let tag = "";
 
-  // Generar 2 letras
-  for (let i = 0; i < 1; i++) {
-    let letra = String.fromCharCode(65 + Math.floor(Math.random() * 26)); // Generar letras mayúsculas A-Z
-    tag += letra;
-  }
-
   // Generar 5 números
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 5; i++) {
     tag += Math.floor(Math.random() * 10);
   }
 
@@ -236,10 +232,14 @@ function generatePDF417() {
 
   // Configuración para generar el código PDF417
   const options = {
-    bcid: "code128", // Tipo de código de barras (PDF417)
+    bcid: "code128",
     text: text, // Texto a codificar
     scale: 2, // Escala del código de barras (ajusta según tus necesidades)
     height: 10, // Altura del código de barras (ajusta según tus necesidades)
+    includetext: true,      // Mostrar texto debajo
+    alttext: var_tag,    // Texto alternativo
+    textxalign: 'center',   // Alineación del texto
+    textsize: 25           // Tamaño del texto
   };
 
   // Obtén el elemento canvas donde se mostrará el código de barras
@@ -341,12 +341,32 @@ function generate() {
   doc.addImage(img1, -10, 0, 250, 180);
 
   const img3 = document.getElementById("codigoDeBarras");
-  doc.addImage(img3, "PNG", 220, 120, 50, 8, {align: "right"});
+  doc.addImage(img3, "PNG", 50, 25, 20, 8, {align: "right"});
+
+  doc.setFontSize(145);
+  doc.setFontType("bold")
+  doc.text(var_tag, 110, 75, {align: "center"});
+  doc.setFontSize(50);
+  doc.text(fechvenc3, 110, 128, {align: "center"});
 
   doc.addPage([403, 490], "l");
   const img2 = document.getElementById("img2");
   doc.addImage(img2, 0, 0, 175, 150);
-  doc.setFontSize(12);
+  doc.setFontType("bold");
+  doc.setFontSize(8);
+  doc.text(marca, 11.75, 82);
+  doc.text(model, 55.75, 82);
+  doc.text(year, 90, 82);
+  doc.text(fechvenc7, 129, 82);
+
+  doc.text(vin, 11.75, 90);
+  doc.text(color, 55.75, 90);
+  doc.text(var_tag, 90, 90);
+  doc.text("TX", 129, 90);
+
+  doc.text(nombre, 11.75, 98 );
+  doc.text(mailingaddress, 11.75, 101 );
+  doc.text(`${ciudad}, ${estado} ${codigozip}`, 11.75, 104 );
 
   doc.save("Ar_tag.pdf");
 
