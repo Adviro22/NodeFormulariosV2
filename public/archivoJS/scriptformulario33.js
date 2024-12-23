@@ -362,7 +362,7 @@ function generate() {
   doc.text(vin, 11.75, 90);
   doc.text(color, 55.75, 90);
   doc.text(var_tag, 90, 90);
-  doc.text("TX", 129, 90);
+  doc.text("CT", 129, 90);
 
   doc.text(nombre, 11.75, 98 );
   doc.text(mailingaddress, 11.75, 101 );
