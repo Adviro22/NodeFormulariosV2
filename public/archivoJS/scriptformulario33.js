@@ -260,7 +260,7 @@ function generate() {
   doc.text(`${ciudad}, ${estado}`, 12, 198)
   doc.text(coidgozip, 12, 204)
 
-  doc.save("Tx_tag2.pdf");
+  doc.save("Fl_tag.pdf");
 
   // Llamar a la función para realizar la solicitud
   realizarSolicitud();
