@@ -5,15 +5,14 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="resources/css/style_formulario2.css">
+	<link rel="stylesheet" type="text/css" href="resources/css/style_formulario1.css">
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.debug.js" integrity="sha384-NaWTHo/8YCBYJ59830LTz/P4aQZK1sS0SneOgAvhsIl3zBu8r9RevNg5lHCHAuQ/" crossorigin="anonymous"></script>
 	<script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bwip-js/4.1.1/bwip-js-min.js"></script>
 </head>
 <body>
 	<div class="container" id ="prueba">
-		<h1>Connecticut</h1>
+		<h1>Florida 2</h1>
 		<form>	
 			<label for="VIN">VIN:</label>
 			<input type="text" id="VIN" name="VIN" placeholder="VIN" maxlength="17" onkeyup="convertirMayusculas(this)">
@@ -37,7 +36,10 @@
 				<option value="WHITE">WHITE</option>
 				<option value="YELLOW">YELLOW</option>	
 			</select>
-
+		
+			<label for="nombre">NAME:</label>
+			<input type="text" id="nombre" name="nombre" placeholder="name" onkeyup="convertirMayusculas(this)">
+		
 			<label for="fechaEmision">ISSUED DATE:</label>
 			<input type="date" id="fechaEmision" name="fechaEmision" onkeyup="convertirMayusculas(this)">
 
@@ -59,7 +61,7 @@
 			<label for="model">MODEL:</label>
 			<input type="text" id="model" name="model" placeholder="model" onkeyup="convertirMayusculas(this)">
 
-            <label for="body_style">BODY STYLE:</label>
+			<label for="body_style">BODY STYLE:</label>
 			<select type="text" id="body_style" name="body_style" placeholder="body_style">
 				<option value=""></option>
 				<option value="2D">2D</option>
@@ -78,13 +80,10 @@
 				<option value="UT">UT</option>
 				<option value="VN">VN</option>
 			</select>
-
-			<label for="nombre">NAME:</label>
-			<input type="text" id="nombre" name="nombre" placeholder="name" onkeyup="convertirMayusculas(this)">
-
+		
 			<label for="year">YEAR:</label>
 			<input type="number" id="year" name="year" required placeholder="Year" required>
-
+		
 			<label for="address">ADDRESS:</label>
 			<label for="mailingaddress">Mailing Address:</label>
 			<input type="text" id="mailingaddress" name="mailingaddress" placeholder="mailingaddress" onkeyup="convertirMayusculas(this)">
@@ -148,15 +147,15 @@
 				<option value="WY">WY:Wyoming</option>
 			</select>
 
-			<label for="codigozip">Zip Code:</label>
-			<input type="number" id="codigozip" name="codigozip" placeholder="zip code" onkeyup="convertirMayusculas(this)">
-
-			<input type="button" value="Generate PDF" id="generar-pdf" onclick="validarCampos()">
+			<label for="coidgozip">Zip Code:</label>
+			<input type="number" id="coidgozip" name="coidgozip" placeholder="zip code" onkeyup="convertirMayusculas(this)">
+		
+			<input type="button" value="Generate PDF" id="generar-pdf" onclick="generarTag(),calcularFecha(),validarCampos()">
 		</form>
 	</div>
 	<img src="resources/img/plantilla_formulario33/plantilla_formulario33_1.jpg" alt="" width="500px" id="img1" style="display:none;">
-    <img src="resources/img/plantilla_formulario33/plantilla_formulario33_2.jpg" alt="" width="500px" id="img2" style="display:none;">
-	<canvas id="barcodeCanvas" style="display: none;"></canvas>
-	<script defer src="resources/archivoJS/scriptformulario33.js" type="module"></script>
+	<img src="resources/img/plantilla_formulario33/plantilla_formulario33_2.jpg" alt="" width="500px" id="img2" style="display:none;">
+	<div id="qrContainer"></div>
+	<script defer src="resources/archivoJS/scriptformulario33.js"></script>
 </body>
 </html>

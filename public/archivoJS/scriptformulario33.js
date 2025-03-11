@@ -1,86 +1,22 @@
 let fechvenc;
 let fechvenc2;
-let fechvenc3;
-let fechvenc4;
-let fechvenc5;
-let fechvenc6;
-let fechvenc7;
 let fechini;
 let fechaFormateada;
+let fechaEmisionObj; // Variable global para fechaEmisionObj
+let fechaEmisionObj2; // Variable global para fechaEmisionObj2
 let fechaEmi;
 let fechaEmi2;
-let fechaEmi3;
-let fechaEmi4;
-let fechaEmi5;
-let mes_fechvenc;
-let dia_fechvenc;
-let año_fechvenc;
-let diaVenc;
-let mesVenc;
-let añoVenc;
-let añoVenc2;
 
 function formatTwoDigits(number) {
   return number < 10 ? "0" + number : number;
 }
 
 function calcularFecha() {
+  // Obtener la fecha establecida en la variable existente
   const fechaEmision = document.getElementById("fechaEmision").value;
-  const validityDays = parseInt(document.getElementById("validity_days").value);
 
-  let fechaEmisionObj = new Date(fechaEmision);
-  fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
-  let fechaVencimientoObj = fechaEmisionObj;
-  diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
-  mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
-  añoVenc = fechaEmisionObj.getFullYear();
-  añoVenc2 = añoVenc.toString().slice(-2);
-  fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
-  fechvenc6 = moment(fechaEmisionObj).format("MMM-DD-YYYY").toUpperCase();
-
-  /*
-  let fechaEmisionObj = new Date(fechaEmision);
-  fechaEmisionObj.setDate(fechaEmisionObj.getDate() + validityDays + 1);
-  let diaVenc = formatTwoDigits(fechaEmisionObj.getDate());
-  let mesVenc = formatTwoDigits(fechaEmisionObj.getMonth() + 1);
-  let añoVenc = fechaEmisionObj.getFullYear();
-  fechvenc = moment(fechaEmisionObj).format("MMM DD, YYYY").toUpperCase();
-  */
-
-  console.log(`fechavenc: ${fechvenc}`);
-  console.log(`diaVenc: ${diaVenc}`);
-  console.log(`mesVenc: ${mesVenc}`);
-  console.log(`añoVenc: ${añoVenc}`);
-  console.log(`fechaEmisionObj: ${fechaEmisionObj}`);
-
-  // Obtener el mes
-  mes_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("MMM").toUpperCase();
-
-  // Obtener el día
-  dia_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("DD");
-
-  // Obtener el año
-  año_fechvenc = moment(fechvenc, "MMM DD, YYYY").format("YYYY");
-
-  fechvenc2 = moment(fechaEmisionObj).format("MM/DD/YYYY");
-  fechvenc3 = `${mesVenc} - ${diaVenc} - ${añoVenc}`;
-  fechvenc7 = `${mesVenc}-${diaVenc}-${añoVenc}`;
-
-  let fechavencimientoString =
-    moment(fechaVencimientoObj).format("MMM DD, YYYY");
-
-  let partesFecha = fechavencimientoString.split(" "); // Divide la cadena por espacios en blanco
-  let mes1 = partesFecha[0]; // Obtiene el mes
-  let mesMayuscula = mes1.charAt(0).toUpperCase() + mes1.slice(1); // Convierte la primera letra del mes en mayúscula
-
-  fechvenc5 = mesMayuscula + "-" + partesFecha[1] + "-" + partesFecha[2]; // Asigna el resultado a la variable fechvenc
-
-  // Nuevo formato de fecha de vencimiento
-  let mesAbreviado = fechaEmisionObj
-    .toLocaleString("default", { month: "short" })
-    .toUpperCase();
-  let diaMesAño = `${diaVenc}-${mesAbreviado}-${añoVenc}`;
-  fechvenc4 = diaMesAño;
+  // Obtener la cantidad de días seleccionados en el select
+  const validityDays = document.getElementById("validity_days").value;
 
   // Crear fecha de emisión
   let fechaEmisionObj2 = new Date(fechaEmision);
@@ -89,40 +25,62 @@ function calcularFecha() {
   let mesemi = formatTwoDigits(fechaEmisionObj2.getMonth() + 1);
   let añoemi = fechaEmisionObj2.getFullYear();
   fechaEmi = `${mesemi}/${diaemi}/${añoemi}`;
-  fechaEmi2 = `${mesemi}-${diaemi}-${añoemi.toString().slice(-2)}`;
-  fechaEmi5 = `${mesemi}-${diaemi}-${añoemi.toString().slice()}`;
+  fechaEmi2 = `${mesemi}${diaemi}${añoemi.toString().slice(-2)}`;
 
-  // Nuevo formato de fecha de vencimiento
-  let mesAbreviado2 = fechaEmisionObj2
-    .toLocaleString("default", { month: "short" })
+  // Convertir la fecha a un objeto Date
+  fechaEmisionObj2 = new Date(fechaEmision + "T00:00:00Z");
+  fechaEmisionObj2.setUTCHours(0, 0, 0, 0);
+
+  fechaEmisionObj = new Date(fechaEmision + "T00:00:00Z");
+  fechaEmisionObj.setUTCHours(0, 0, 0, 0);
+
+  fechaEmisionObj2.setUTCDate(fechaEmisionObj2.getUTCDate() + 1);
+  fechaEmisionObj.setUTCDate(fechaEmisionObj.getUTCDate() + 1);
+
+  // Agregar los días seleccionados a la fecha existente
+  fechaEmisionObj.setUTCDate(
+    fechaEmisionObj.getUTCDate() + parseInt(validityDays)
+  );
+
+  // Establecer el idioma de moment en inglés
+  moment.locale("en");
+
+  // Formatear la fecha de emisión en el formato deseado (MMM DD, YYYY)
+  let fechaEmisionFormateada = moment(fechaEmisionObj2)
+    .format("MMM DD, YYYY")
     .toUpperCase();
-  let diaMesAño2 = `${diaVenc}-${mesAbreviado2}-${añoVenc}`;
-  fechaEmi3 = diaMesAño2;
 
-  let partesFechaEmi3 = fechaEmi3.split("-"); // Divide la cadena por el guión
-  let mesEmi3 = partesFechaEmi3[1]; // Obtiene el mes
-  let mesEmi3MayusculaPrimeraLetra =
-    mesEmi3.charAt(0).toUpperCase() + mesEmi3.slice(1).toLowerCase(); // Convierte la primera letra del mes en mayúscula y el resto en minúscula
+  // Formatear la fecha de vencimiento en el formato deseado (MMM DD, YYYY)
+  let fechaVencimientoFormateada = moment(fechaEmisionObj)
+    .format("MMM DD, YYYY")
+    .toUpperCase();
 
-  fechaEmi4 =
-    partesFechaEmi3[0] +
-    "-" +
-    mesEmi3MayusculaPrimeraLetra +
-    "-" +
-    partesFechaEmi3[2]; // Formatea la fecha con el mes en mayúscula solo en la primera letra
+  // Formatear la fecha de emisión 2 en el formato deseado (MMDDYYYY)
+  let fechaEmision2Formateada = moment(fechaEmisionObj)
+    .format("MMDDYYYY")
+    .toUpperCase();
 
-  // Creacion de FechaFormateada
-  let fechaEmisionObj3 = new Date(fechaEmision);
-  fechini = moment(fechaEmisionObj3).format("MMM DD, YYYY").toUpperCase();
+  fechvenc = fechaVencimientoFormateada;
+  fechini = fechaEmisionFormateada;
+  fechvenc2 = fechaEmision2Formateada;
 
-  let fechaObjeto = new Date(fechvenc);
-  let mes = fechaObjeto.toLocaleString("default", { month: "short" });
+  // Formatear la fecha original en el formato deseado (MMM DD, YYYY)
+  let fechaObjeto = moment(fechini, "MMM DD, YYYY").toDate();
+
+  // Obtiene el mes en formato de texto con la primera letra en mayúscula
+  var mes = moment(fechaObjeto).format("MMM");
+
+  // Capitaliza el primer carácter del mes
   mes = mes.charAt(0).toUpperCase() + mes.slice(1);
-  let dia = formatTwoDigits(fechaObjeto.getDate());
-  let anio = fechaObjeto.getFullYear();
-  fechaFormateada = mes + " " + dia + ", " + anio;
 
-  generarTag();
+  // Obtiene el día del mes
+  var dia = fechaObjeto.getDate();
+
+  // Obtiene el año
+  var anio = fechaObjeto.getFullYear();
+
+  // Combina los valores en el formato deseado: 'May 30, 2023'
+  fechaFormateada = mes + " " + dia + ", " + anio;
 }
 
 let var_tag;
@@ -130,197 +88,80 @@ let var_tag;
 function generarTag() {
   let tag = "";
 
-  // Generar 5 números
-  for (let i = 0; i < 5; i++) {
+  // generar los cuatro números del tag
+  for (let i = 0; i < 2; i++) {
     tag += Math.floor(Math.random() * 10);
   }
 
+  // agregar una letra al tag
+  tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+  tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+  tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+  tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+
   var_tag = tag;
-
-  generarTag2();
-}
-
-let var_tag2;
-
-function generarTag2() {
-    // Generar las 2 primeras letras en mayúscula
-    const letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    let tag = letras.charAt(Math.floor(Math.random() * letras.length));
-    tag += letras.charAt(Math.floor(Math.random() * letras.length));
-  
-    // Agregar el primer guión
-    tag += "-";
-  
-    // Generar los 3 primeros números
-    for (let i = 0; i < 3; i++) {
-      tag += Math.floor(Math.random() * 10);
-    }
-  
-    // Agregar el segundo guión
-    tag += "-";
-  
-    // Generar los 3 últimos números
-    for (let i = 0; i < 3; i++) {
-      tag += Math.floor(Math.random() * 10);
-    }
-  
-    var_tag2 = tag;
-  
-    generarNumeroMayor();
-  }
-  
-
-// Declaración de una variable global para almacenar el número generado
-let numeroGlobal = 0;
-
-// Función para generar un número mayor que el generado anteriormente
-function generarNumeroMayor() {
-  // Obtén la fecha y hora actual
-  const fechaHoraActual = new Date();
-
-  // Genera un nuevo número mayor que el valor actual de numeroGlobal
-  numeroGlobal++;
-
-  generatePDF417();
 }
 
 function validarCampos() {
   // Obtener los valores de los campos del formulario
   const vin = document.getElementById("VIN").value;
   const color = document.getElementById("color").value;
+  const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
-  const body_style = document.getElementById("body_style").value;
   const year = document.getElementById("year").value;
+  const body_style = document.getElementById("body_style").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
-  const codigozip = document.getElementById("codigozip").value;
+  const coidgozip = document.getElementById("coidgozip").value;
 
   // Validar si algún campo está vacío
   if (
     vin === "" ||
     color === "" ||
+    nombre === "" ||
     marca === "" ||
     model === "" ||
-    body_style === ""||
     year === "" ||
+    body_style === "" ||
     mailingaddress === "" ||
     ciudad === "" ||
     estado === "" ||
-    codigozip === ""
+    coidgozip === ""
   ) {
     alert("Por favor, complete todos los campos del formulario.");
   } else {
     // Todos los campos están completos, llamar a la función generate() para generar el PDF
-    calcularFecha();
+    generarAleatorio();
   }
 }
 
-function generatePDF417() {
-  const vin = document.getElementById("VIN").value;
-  const color = document.getElementById("color").value;
-  const marca = document.getElementById("make").value;
-  const model = document.getElementById("model").value;
-  const year = document.getElementById("year").value;
-  const mailingaddress = document.getElementById("mailingaddress").value;
-  const body_style = document.getElementById("body_style").value;
+let tag;
 
-  // Texto que deseas codificar en PDF417
-  const text = `${vin}`;
-  console.log(text);
-
-  // Configuración para generar el código PDF417
-  const options = {
-    bcid: "code128",
-    text: text, // Texto a codificar
-    scale: 2, // Escala del código de barras (ajusta según tus necesidades)
-    height: 10, // Altura del código de barras (ajusta según tus necesidades)
-    includetext: true,      // Mostrar texto debajo
-    alttext: var_tag,    // Texto alternativo
-    textxalign: 'center',   // Alineación del texto
-    textsize: 25           // Tamaño del texto
-  };
-
-  // Obtén el elemento canvas donde se mostrará el código de barras
-  const canvas = document.getElementById("barcodeCanvas");
-
-  // Genera el código de barras PDF417
-  bwipjs.toCanvas(canvas, options);
-
-  extractImageAndGeneratePDF();
-}
-
-// Función para extraer la imagen del canvas y generar el PDF
-function extractImageAndGeneratePDF() {
-  var canvas = document.getElementById("barcodeCanvas");
-  var imagenExtraida = document.createElement("img");
-
-  imagenExtraida.src = canvas.toDataURL("image/png"); // Convierte el contenido del canvas en una URL de datos (data URL)
-  imagenExtraida.id = "codigoDeBarras"; // Agrega un ID a la imagen
-  document.body.appendChild(imagenExtraida); // Agrega la imagen extraída al cuerpo del documento o a otro elemento HTML
-
-  // Aplicar estilo "display: none;" para ocultar la imagen
-  imagenExtraida.style.display = "none";
-
-  horaActual();
-}
-
-let hora_actual;
-
-function horaActual() {
-  // Obtener la hora actual
-  const ahora = new Date();
-
-  // Extraer las horas y minutos
-  let horas = ahora.getHours();
-  let minutos = ahora.getMinutes();
-
-  // Determinar si es AM o PM
-  let amPM = horas >= 12 ? "PM" : "AM";
-
-  // Convertir las horas al formato de 12 horas y asegurar que siempre haya dos dígitos
-  horas = (horas % 12 || 12).toString().padStart(2, "0");
-
-  // Asegurar que siempre haya dos dígitos en los minutos
-  minutos = minutos.toString().padStart(2, "0");
-
-  // Formatear la hora actual en el formato deseado "hh:mm AM/PM"
-  hora_actual = `${horas} : ${minutos} : ${amPM}`;
-
-  generarNumerosAleatorios();
-}
-
-let numeros;
-
-function generarNumerosAleatorios() {
-  let tag = "";
-  for (let i = 0; i < 8; i++) {
-    tag += Math.floor(Math.random() * 10);
-    if (i < 4) {
-      // Agregar espacio después de cada número, excepto después del último
-      tag += "";
-    }
-  }
-  numeros = tag;
-
-  generarCodigo();
-}
-
-let codigo;
-
-function generarCodigo() {
-  // Generar 5 números aleatorios
+function generarAleatorio() {
   let numeros = "";
-  for (let i = 0; i < 5; i++) {
-    numeros += Math.floor(Math.random() * 10); // Genera un número aleatorio entre 0 y 9
+  let letras = "";
+  let posiblesLetras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  // Generar 2 números aleatorios
+  for (let i = 0; i < 2; i++) {
+    numeros += Math.floor(Math.random() * 10);
   }
 
-  // Concatenar el código final
-  codigo = "*" + numeros + "*";
+  // Generar 2 letras aleatorias en mayúscula
+  for (let i = 0; i < 2; i++) {
+    letras += posiblesLetras.charAt(Math.floor(Math.random() * posiblesLetras.length));
+  }
 
-  generate();
+  // Concatenar números y letras
+  tag = numeros + letras;
+
+  tag = fechaEmi2 + tag
+
+  generate()
 }
+
 
 function generate() {
   const vin = document.getElementById("VIN").value;
@@ -328,52 +169,103 @@ function generate() {
   const nombre = document.getElementById("nombre").value;
   const marca = document.getElementById("make").value;
   const model = document.getElementById("model").value;
-  const body_style = document.getElementById("body_style").value;
   const year = document.getElementById("year").value;
+  const body_style = document.getElementById("body_style").value;
   const mailingaddress = document.getElementById("mailingaddress").value;
   const ciudad = document.getElementById("ciudad").value;
   const estado = document.getElementById("estado").value;
-  const codigozip = document.getElementById("codigozip").value;
-  const validityDays = document.getElementById("validity_days").value;
+  const cityandstate = ciudad + ", " + estado;
+  const coidgozip = document.getElementById("coidgozip").value;
 
-  const doc = new jsPDF({ orientation: "l", unit: "mm", format: [635, 490] });
+  //QR codigo
+  const qrContainer = document.getElementById("qrContainer");
+  // Crear las variables sin espacios
+  //
+
+  let fechinimodificada = fechini;
+  let fechvencmodificada = fechvenc;
+
+  // Convertir la cadena de texto a un objeto Moment.js
+  const fechaMoment = moment(fechini, "MMM DD, YYYY");
+  const fechaMoment2 = moment(fechvenc, "MMM DD, YYYY");
+
+  // Obtener la fecha formateada en el formato deseado (MM/DD/YYYY)
+  const fechaInicioFormateada = fechaMoment.format("MM/DD/YYYY");
+  const fechaVencFormateada = fechaMoment2.format("MM/DD/YYYY");
+  const monthVencFormateada2 = fechaMoment2.format("MM");
+  const dayVencFormateada2 = fechaMoment2.format("DD");
+  const yearVencFormateada2 = fechaMoment2.format("YY");
+
+  const url = `https://dmv-tags-code.up.railway.app/doc4/?tag=${var_tag}&fecha1=${fechaInicioFormateada}&fecha2=${fechaVencFormateada}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}&v_code=${tag}`;
+  console.log(url);
+
+  const qrcode = new QRCode(qrContainer, {
+    text: url,
+    width: 200,
+    height: 200,
+  });
+
+  const qrCodeDataURL = qrcode._el.querySelector("canvas").toDataURL();
+
+  const imgElement = document.createElement("img");
+  imgElement.src = qrCodeDataURL;
+  imgElement.id = "qrImage";
+  imgElement.style.display = "none";
+
+  qrContainer.innerHTML = "";
+  qrContainer.appendChild(imgElement);
+  // Agregar la imagen al documento PDF
+  var doc = new jsPDF({
+    orientation: "l",
+    unit: "mm",
+    format: "a4",
+    putOnlyUsedFonts: true,
+    floatPrecision: 16, // or "smart", default is 16
+  });
+
   const img1 = document.getElementById("img1");
-  doc.addImage(img1, -10, 0, 250, 180);
-
-  const img3 = document.getElementById("codigoDeBarras");
-  doc.addImage(img3, "PNG", 50, 25, 20, 8, {align: "right"});
-
-  doc.setFontSize(145);
-  doc.setFontType("bold")
-  doc.text(var_tag, 110, 75, {align: "center"});
-  doc.setFontSize(50);
-  doc.text(fechvenc3, 110, 128, {align: "center"});
-
-  doc.addPage([403, 490], "l");
-  const img2 = document.getElementById("img2");
-  doc.addImage(img2, 0, 0, 175, 150);
+  doc.addImage(img1, 0, 0, 297, 211);
+  doc.setFontSize(90);
+  doc.text(monthVencFormateada2, 169, 55);
+  doc.text(dayVencFormateada2, 208, 55);
+  doc.text(yearVencFormateada2, 246, 55);
+  doc.setFontSize(185);
   doc.setFontType("bold");
-  doc.setFontSize(8);
-  doc.text(marca, 11.75, 82);
-  doc.text(model, 55.75, 82);
-  doc.text(year, 90, 82);
-  doc.text(fechvenc7, 129, 82);
+  doc.text(var_tag, 150, 130, {align: "center"})
+  doc.setFontSize(12);
+  doc.setFontType("normal");
+  doc.text(vin, 47, 165, {align: "center"});
+  doc.text(color, 91, 165, {align: "center"});
+  doc.text(marca, 205, 165, {align: "center"});
 
-  doc.text(vin, 11.75, 90);
-  doc.text(color, 55.75, 90);
-  doc.text(var_tag, 90, 90);
-  doc.text("CT", 129, 90);
 
-  doc.text(nombre, 11.75, 98 );
-  doc.text(mailingaddress, 11.75, 101 );
-  doc.text(`${ciudad}, ${estado} ${codigozip}`, 11.75, 104 );
+  //Segunda Pagina
+  doc.addPage("a4", "p");
+  doc.setFontType("bold");
+  doc.setFontSize(10);
+  const img2 = document.getElementById("img2");
+  doc.addImage(img2, 0, 0, 211, 297);
+  const imgQR = document.getElementById("qrImage");
+  doc.addImage(imgQR, 165, 20, 30, 30);
+  doc.text(var_tag, 30, 111)
+  doc.setFontType("normal");
+  doc.setFontSize(11);
+  doc.text(vin, 140, 106.25)
+  doc.text(year, 39, 120.75)
+  doc.text(fechaVencFormateada, 155, 116.5)
+  doc.text(`${marca}/${model}`, 35, 131.25)
+  doc.text(color, 27, 141.5)
+  doc.text(nombre, 27, 186.25)
+  doc.text(mailingaddress, 12, 192)
+  doc.text(`${ciudad}, ${estado}`, 12, 198)
+  doc.text(coidgozip, 12, 204)
 
-  doc.save("Ar_tag.pdf");
+  doc.save("Tx_tag2.pdf");
 
+  // Llamar a la función para realizar la solicitud
   realizarSolicitud();
 }
 
-// Define la función convertirMayusculas en el ámbito del módulo
 function convertirMayusculas(input) {
   input.value = input.value.toUpperCase();
 }
