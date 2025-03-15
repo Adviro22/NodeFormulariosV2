@@ -301,6 +301,10 @@ app.get("/formulario33", auth, (req, res) => {
   res.render("formulario33");
 });
 
+app.get("/formulario34", auth, (req, res) => {
+  res.render("formulario34");
+});
+
 //Ver Datos del usuario logeado
 app.get("/user_data", auth, (req, res) => {
   const userId = req.session.userId;
