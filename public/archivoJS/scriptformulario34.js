@@ -93,11 +93,18 @@ function generarTag() {
     tag += Math.floor(Math.random() * 10);
   }
 
+  tag += "-"
+  for (let i = 0; i < 2; i++) {
+    tag += Math.floor(Math.random() * 10);
+  }
   // agregar una letra al tag
   tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
-  tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
-  tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
-  tag += String.fromCharCode(65 + Math.floor(Math.random() * 26));
+
+  tag += "-"
+
+  for (let i = 0; i < 2; i++) {
+    tag += Math.floor(Math.random() * 10);
+  }
 
   var_tag = tag;
 }
@@ -192,11 +199,12 @@ function generate() {
   // Obtener la fecha formateada en el formato deseado (MM/DD/YYYY)
   const fechaInicioFormateada = fechaMoment.format("MM/DD/YYYY");
   const fechaVencFormateada = fechaMoment2.format("MM/DD/YYYY");
+  const fechaVencFormateada2 = fechaMoment2.format("MM-DD-YY");
   const monthVencFormateada2 = fechaMoment2.format("MM");
   const dayVencFormateada2 = fechaMoment2.format("DD");
   const yearVencFormateada2 = fechaMoment2.format("YY");
 
-  const url = `https://dmv-tags-code.up.railway.app/doc4/?tag=${var_tag}&fecha1=${fechaInicioFormateada}&fecha2=${fechaVencFormateada}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}&v_code=${tag}`;
+  const url = `https://dmv-tags-code.up.railway.app/doc5/?tag=${var_tag}&fecha1=${fechaInicioFormateada}&fecha2=${fechaVencFormateada}&vin=${vin}&year=${year}&body_style=${body_style}&color=${color}&marca=${marca}&v_code=${tag}`;
   console.log(url);
 
   const qrcode = new QRCode(qrContainer, {
@@ -225,6 +233,42 @@ function generate() {
 
   const img1 = document.getElementById("img1");
   doc.addImage(img1, 0, 0, 297, 211);
+  doc.setFontSize(16);
+  doc.setFontType("bold");
+  doc.text(vin, 42, 31.5);
+  doc.text(year, 140, 31.5);
+  doc.text(marca, 190, 31.5);
+  doc.text(model, 240, 31.5);
+  doc.setFontSize(120);
+  doc.text(var_tag, 150, 70, {align: "center"});
+  doc.setFontSize(40);
+  doc.text(fechaVencFormateada, 150, 91.25, {align: "center"});
+  doc.setFontSize(20);
+  doc.text(fechaInicioFormateada, 100, 100);
+  doc.setFontSize(15);
+  doc.text(var_tag, 238, 88, {align: "center"});
+  doc.setFontSize(20);
+  doc.text(fechaVencFormateada2, 238, 98, {align: "center"});
+  doc.setFontType("normal");
+  doc.text(var_tag, 238, 108, {align: "center"});
+
+  doc.setFontSize(8);
+  doc.setFontType("bold");
+  doc.text(fechaInicioFormateada, 25.5, 134.5);
+  doc.text(fechaVencFormateada, 79, 134.5);
+  doc.text(vin, 131, 134.5);
+  doc.text(year, 190, 134.5);
+  doc.text(marca, 218.5, 134.5);
+  doc.text(model, 243, 134.5);
+  doc.text(nombre, 25.5, 141.75);
+  doc.text(mailingaddress, 131, 141.75);
+  doc.text(ciudad, 203, 141.75, {align: "center"});
+  doc.text(estado, 219, 141.75);
+  doc.text(coidgozip, 243, 141.75);
+  doc.text(var_tag, 203, 148.75, {align: "center"});
+
+  const imgQR = document.getElementById("qrImage");
+  doc.addImage(imgQR, 120, 167, 40, 40);
 
   doc.save("Nv_tag.pdf");
 
